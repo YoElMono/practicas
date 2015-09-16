@@ -1,0 +1,12 @@
+#Archivos que no son necesarios estar pasando al servidor
+/phpmyadmin
+main/db.php
+main/settings.php
+main/templates/complementos/fotos/*
+main/templates/complementos/firmas/*
+main/templates/complementos/apps.json
+main/templates/complementos/fotos_per/*
+main/templates/complementos/fotos_oficios/*
+main/templates/complementos/archivos_oficios/*
+main/templates/complementos/archivos_servicios/*
+*.pdf

@@ -1,0 +1,167 @@
+<br>
+<?php 
+	$per;
+	$mes = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
+?>
+<?php if($_GET['dia'] && $arr):?>
+	<?php if($_GET['mes']< 10 && strlen($_GET['mes']) == 1) $_GET['mes'] = '0'.$_GET['mes'];if($_GET['dia']< 10 && strlen($_GET['dia']) == 1) $_GET['dia'] = '0'.$_GET['dia']; $hoy = $_GET['anio'].$_GET['mes'].$_GET['dia'];$mañana=date('Ymd')?>
+    <?php if($hoy <= date('Ymd')):?>
+    	<?php $hoy=$_GET['dia'].' de '.$mes[$_GET['mes']-1].' de '.$_GET['anio'];$turno = 0;?>
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				[dia]-><?= $_GET['dia']?> de <?=$mes[$_GET['mes']-1]?> de <?=$_GET['anio']?>
+			</div>
+  			<div class="panel-body">
+				<table class="table table-bordered">
+					<form method="POST" action="">
+					<input type="hidden" name="fecha" value="<?=$hoy?>">
+					<?php foreach ($arr as $key => $value):?>
+						<?php if($turno < $value['turno']):?>
+							<tr>
+								<td colspan="6" style="font-weight: bold;color:#73CCD6">[tur<?=($value['turno']-1)?>]</td>
+							</tr>
+							<tr>
+								<td><strong>[nombre]</strong></td>
+								<td><strong>[ent]</strong></td>
+								<td><strong>[not]</strong></td>
+								<td><strong>[sal]</strong></td>
+								<td><strong>[not]</strong></td>
+								<td><strong>[ho]</strong></td>
+							</tr>
+						<?php endif;?>
+					<tr>
+						<td><?=$value['nom']?></td><input type="hidden" value="<?=$value['nom']?>" name="<?=$key?>[nom]">
+						<td><?=$value['horE']?></td><input type="hidden" value="<?=$value['horE']?>" name="<?=$key?>[horEn]">
+						<td><?=$value['notE']?></td><input type="hidden" value="<?=$value['notE']?>" name="<?=$key?>[notE]">
+						<td><?=$value['horS']?></td><input type="hidden" value="<?=$value['horS']?>" name="<?=$key?>[horSa]">
+						<td><?=$value['notS']?></td><input type="hidden" value="<?=$value['noteS']?>" name="<?=$key?>[notS]">
+						<td><?=$value['hor']?></td><input type="hidden" value="<?=$value['hor']?>" name="<?=$key?>[hor]">
+						<input type="hidden" value="<?=$value['turno']?>" name="<?=$key?>[turno]">
+					</tr>
+					<?php $turno = $value['turno']; endforeach;?>
+				</table>
+			</div>
+		</div>
+	<button name="reporte" class="btn btn-info" style="float: left; margin-left:80px; margin-bottom:-50px;" type="submit">[imp]</button>
+	</form><br>
+	<?php else:?>
+	<div class="panel panel-danger">
+		<div class="panel-heading">Aún no se llega esta fecha</div>
+	</div><br>
+	<?php endif;?>
+<?php elseif(!$arr):?>
+	<div class="panel panel-danger">
+		<div class="panel-heading"><h3>No hay información :(</h3></div>
+	</div><br>	
+<?php elseif($_GET['sem'] && $arr):?>
+	<?php $hoy=$_GET['anio'].$_GET['sem'];?>
+	<?php if($hoy<=date('YW')):?>
+		<?php $hoy='Semana '.$_GET['sem'].' de '.$_GET['anio'];?>
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				[Sem]-><?=$_GET['sem']?> de <?=$_GET['anio']?>
+			</div>
+			<div class="panel-body">
+				<table class="table table-bordered">
+					<tr>
+						<td><strong>[nombre]</strong></td>
+						<td><strong>[CH]</strong></td>
+						<td><strong>[ho]</strong></td>
+					</tr>
+					<form method="POST" action="">
+					<input type="hidden" name="fecha" value="<?=$hoy?>">
+					<?php foreach ($arr as $key => $value):?>
+					<tr>
+						<td><?=$value['nom']?></td><input type="hidden" value="<?=$value['nom']?>" name="<?=$key?>[nom]">
+						<td><?=$value['ch']?></td><input type="hidden" value="<?=$value['ch']?>" name="<?=$key?>[ch]">
+						<td><?=$value['hor']?></td><input type="hidden" value="<?=$value['hor']?>" name="<?=$key?>[hor]">
+					</tr>
+					<?php endforeach;?>
+				</table>
+			</div>
+		</div>
+	<button name="reporte" class="btn btn-info" style="float: left; margin-left:80px; margin-bottom:-50px;" type="submit">[imp]</button>
+	</form><br>
+	<?php else:?>
+		<div class="panel panel-danger">
+			<div class="panel-heading">Aún no se llega esta semana</div>
+		</div><br>
+	<?php endif;?>
+<?php elseif ($_GET['mes']):?>
+	<?php for($i=0;$i<count($arr['faltas']);$i++) $faltas[$i] = $arr['faltas'][$i]; unset($arr['faltas']);$turno = 0;?>
+	<?php $i=0; $hoy=$_GET['mes'];if(strlen($hoy)==1)$hoy='0'.$hoy;$hoy=$_GET['anio'].$hoy; ?>
+	<?php if($hoy<=date('Ym')):?>
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				[mes]-><?=$mes[$_GET['mes']-1]?> de <?=$_GET['anio']?>
+			</div>
+  			<div class="panel-body">
+				<table class="table table-bordered">
+				<form method="POST" action="">
+				<input type="hidden" name="fecha" value="<?=$mes[$_GET['mes']-1]?>">
+					<?php foreach($arr as $key => $value):?>
+					<?php if($per != $value['nom']):?>
+						<?php if($key > 0):?>
+							<tr>
+								<td colspan="6">
+									Total de faltas
+								</td>
+								<td>
+									<?= $faltas[$i]?><input type="hidden" value="<?=$faltas[$i]?>" name="faltas[<?=$i?>]">
+ 								</td>
+							</tr>
+							<tr><td style="border:0px;"></td></tr>
+						<?php $i++; endif;?>
+						<?php if($turno < $value['turno']):?>
+							<tr>
+								<td colspan="7" style="font-weight: bold;color:#73CCD6">[tur<?=($value['turno']-1)?>]</td>
+							</tr>
+							<tr>
+								<td><strong>[dia]</strong></td>
+								<td><strong>[nombre]</strong></td>
+								<td><strong>[ent]</strong></td>
+								<td><strong>[not]</strong></td>
+								<td><strong>[sal]</strong></td>
+								<td><strong>[not]</strong></td>
+								<td><strong>[ho]</strong></td>
+							</tr>
+						<?php endif;?>
+					<?php endif;?>
+						<tr>
+							<td><?=$value['dia']?></td><input type="hidden" value="<?=$value['dia']?>" name="<?=$key?>[day]">
+							<td><?=$value['nom']?></td><input type="hidden" value="<?=$value['nom']?>" name="<?=$key?>[nom]">
+							<td><?=$value['ent']?></td><input type="hidden" value="<?=$value['ent']?>" name="<?=$key?>[horEn]">
+							<td><?=$value['notEnt']?></td><input type="hidden" value="<?=$value['notEnt']?>" name="<?=$key?>[notEnt]">
+							<td><?=$value['sal']?></td><input type="hidden" value="<?=$value['sal']?>" name="<?=$key?>[horSa]">
+							<td><?=$value['notSal']?></td><input type="hidden" value="<?=$value['notSal']?>" name="<?=$key?>[notSal]">
+							<td><?=$value['hor']?></td><input type="hidden" value="<?=$value['hor']?>" name="<?=$key?>[hor]">
+							<input type="hidden" value="<?=$value['turno']?>" name="<?=$key?>[turno]">
+						</tr>
+						<?php $per = $value['nom']?>
+					<?php $turno = $value['turno'];endforeach;?>
+					<tr>
+						<td colspan="6">
+							Total de faltas
+						</td>
+						<td>
+							<?= $faltas[$i]?><input type="hidden" value="<?=$faltas[$i]?>" name="faltas[<?=$i?>]">
+						</td>
+					</tr>
+				</table>
+  			</div>
+  		</div>
+	<button name="reporte" class="btn btn-info" style="float: left; margin-left:80px; margin-bottom:-50px;" type="submit">[imp]</button>
+	</form><br>
+  	<?php else:?>
+		<div class="panel panel-danger">
+			<div class="panel-heading">Aún no se llega este mes</div>
+		</div>
+	<?php endif;?>
+<?php else:?>
+	<div class="panel panel-warning">
+		<div class="panel-heading">
+			<h2>En Proceso</h2><br><h5>Lamentamos las molestias</h5>
+		</div>
+	</div>
+<?php endif;?>
+<button class="btn btn-danger" style="margin-bottom:10px; float:left; margin-top:-20px" onclick="window.close()">[close]</button><br>

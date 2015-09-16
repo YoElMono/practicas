@@ -1,0 +1,16 @@
+<table class="table table-striped">
+	<tr>
+  		<td><strong>[cod]</strong></td>
+  		<td><strong>[nombre]</strong></td>
+  		<td><strong>[edit]</strong></td>
+  		<td><strong>[delete]</strong></td>
+	</tr>
+ 	<?php foreach ($arr as $key => $value):?>
+		<tr>
+			<td><?=$value['cod_per']?></td>
+			<td><?=$value['nombre_per']?></td>
+			<td><a href="index.php/admPer/<?=$value['id_per']?>"><span class="label label-success">[edit]</span></a></td>
+			<td><a href="index.php/admPer/delete/<?=$value['id_per']?>"><span class="label label-danger">[delete]</span></a></td>
+		</tr>
+	<?php endforeach;?>
+</table>

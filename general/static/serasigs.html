@@ -1,0 +1,59 @@
+<h3>[servasig]</h3>
+<div class="panel panel-primary sepa">
+	<div class="panel-heading">[sers]</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[tipo]</label>
+			<div class="col-sm-8">
+				<p>[<?= "tSe".$arr['tipo_ser']?>]</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[cod]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['cod_ser']?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[desOb]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['des_ser']?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[depen]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['nombre_depe']?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[us]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['name_user']?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[feandho]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['fecha_ser']." ".$arr['hora_ser']?></p>
+			</div>
+		</div>
+	</div>
+</div>
+<form method="POST" action="">
+	<div class="panel panel-primary sepa">
+		<div class="panel-heading">[asi]</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[adesOb]</label>
+				<div class="col-sm-8">
+					{op}
+					<textarea id="textarea-msn" cols="50" rows="7" name="des" placeholder="[desOb]" value="<?= $arr['des2_ser']?>" class="form-control"><?= $arr['des2_ser']?></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="id" value="<?= $arr['id_ser']?>">
+	<button type="submit" name="btn" class="btn btn-warning" value="1">[proc]</button>
+	<button type="submit" name="btn" class="btn btn-success " value="2">[findo]</button>
+</form>

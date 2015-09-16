@@ -1,0 +1,66 @@
+<h4>[dir]</h4>
+<form ng-app="MyFirseModule" action="index.php/mdir" class="form-horizontal" method="POST">
+	<div ng-controller="ocultar">
+        <div class="btn-group">
+            <label class="btn btn-primary radazul">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="1"> [pD1]
+            </label>
+            <label class="btn btn-primary radrojo">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="2"> [pD2]
+            </label>
+            <label class="btn btn-primary radverde">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="3"> [pD3]
+            </label>
+            <label class="btn btn-primary radama">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="4"> [pD4]
+            </label>
+            <label class="btn btn-primary radnar">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="5"> [pD5]
+            </label>
+            <label class="btn btn-primary radgris">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="6"> [pD6]
+            </label>
+            <label class="btn btn-primary radext">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="7"> [pD7]
+            </label>
+        </div><br><br>
+        <button type="submit" class="{{colors.tono2}}" value="boton" name="boton">[buscar]</button>
+    </div>
+</form>
+<?php if($arr['a'] == TRUE):?>
+    <h5><b>[pD<?= $arr['pes']?>]</b></h5>
+    <?php if($arr['pes'] != 3):?>
+    	<table class="table table-hover">
+    		<tr>
+    			<td><strong>[nombre]</strong></td>
+    			<td><strong>[tel]</strong></td>
+    			<td><strong>[v+]</strong></td>
+    		</tr>
+    		<?php foreach ($arr['m'] as $key => $value):?>
+    			<tr>
+    				<td><?= $value['nom_dir']?></td>
+    				<td><?= $value['tel_dir']?></td>
+    				<td><a href="index.php/mdir/<?= $value['id_dir']?>"><span class="label label-success">[v+]</span></a></td>
+    			</tr>
+    		<?php endforeach;?>
+    	</table>
+    <?php else:?>
+        <table class="table table-hover">
+            <tr>
+                <td><strong>[piso]</strong></td>
+                <td><strong>[dep]</strong></td>
+                <td><strong>[ext]</strong></td>
+                <td><strong>[v+]</strong></td>
+            </tr>
+            <?php foreach ($arr['m'] as $key => $value):?>
+                <tr>
+                <?php if($value['piso_dir'] == '0') $value['piso_dir'] = 'PB';?>
+                    <td><?= $value['piso_dir']?></td>
+                    <td><?= $value['depa_dir']?></td>
+                    <td><?= $value['ex_dir']?></td>
+                    <td><a href="index.php/mdir/<?= $value['id_dir']?>"><span class="label label-success">[v+]</span></a></td>
+                </tr>
+            <?php endforeach;?>
+        </table>
+    <?php endif;?>
+<?php endif;?>

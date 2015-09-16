@@ -1,0 +1,44 @@
+<h2>[Reporte_ofi]</h2>
+<div>
+	<dl class="dl-horizontal">
+		<div>
+			<dt>[no]</dt>
+			<dd><?=$arr['no_ofi']?></dd>
+		</div>
+		<div>
+			<dt>[feandho]</dt>
+			<dd><?=$arr['fecha_ofi'].' '.$arr['hora_ofi']?></dd>
+		</div>
+		<div>
+			<dt>[cap]</dt>
+			<dd><?=$arr['userCap_ofi']?></dd>
+		</div>
+		<div>
+			<dt>[depen]</dt>
+			<dd><?=$arr['nombre_depe']?></dd>
+		</div>
+		<div>
+			<dt>[des]</dt>
+			<dd><?=$arr['des_ofi']?></dd>
+		</div>
+		<div>
+			<dt>[Con]</dt>
+			<dd><?php if($arr['con_ofi'] < 7) echo '[Con'.$arr['con_ofi'].']'; else echo $arr['nomCon_ofi'];?></dd>
+		</div>
+		<?php if($arr['archivo_ofi']){ ?>
+		<div id="pdf">
+			<dt>Ver PDF</dt>
+			<dd><a class="link_blanco"><button class="btn btn-default" onclick="ventana('main/templates/complementos/archivos_oficios/<?=$arr['archivo_ofi']?>')">VER</button></a></dd>
+		</div>
+		<?php } ?>
+	</dl>
+	<a href="javascript:history.back(1)"><button class="btn btn-success">Volver</button></a>
+	<?php if($arr['archivo_ofi'] && $_SESSION['area_user'] == 1){ ?>	
+	<button id="borrar" class="btn btn-default" onclick="return borrarArchivo(<?=$arr['id_ofi']?>);">Borrar Archivo</button>
+	<?php } ?>
+	<?php if($arr['elim']){?>
+	<a href="index.php/Reporte_ofi?borrar=<?=$arr['id_ofi']?>"><button class="btn btn-danger">[delete]</button></a>
+	<?php } ?>
+</div>
+<div id="msj" class="msj-save">
+</div>

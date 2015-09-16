@@ -1,0 +1,25 @@
+<h1>[ipR]</h1>
+<table class="table table-striped">
+	<tr>
+  		<td><strong>[ipD]</strong></td>
+  		<td><strong>[namePC]</strong></td>
+  		<td><strong>[macD]</strong></td>
+  		<td><strong>[areaIp]</strong></td>
+  		<td><strong>[userIp]</strong></td>
+  		<td><strong>[rosetta]</strong></td>
+  		<td><strong>[swIp]</strong></td>
+  		<td><strong>[puertoIp]</strong></td>
+	</tr>
+	<?php foreach ($arr as $key => $value):?>
+		<tr>
+			<td><?= $value['ip1_ip'].".".$value['ip2_ip'].".".$value['ip3_ip'].".".$value['ip4_ip']?></td>
+			<td><?= $value['namePc_ip']?></td>
+			<td><?= $value['mac_ip']?></td>
+			<td><?= utf8_encode($value['name_area'])?></td>
+			<td><?= utf8_encode($value['name_user'])?></td>
+			<td><?= $value['rosetta_ip']?></td>
+			<td><?= $value['sw_ip']?></td>
+			<td><?= $value['puerto_ip']?></td>
+		</tr>
+	<?php endforeach;?>
+</table>

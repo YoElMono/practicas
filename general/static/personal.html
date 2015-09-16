@@ -1,0 +1,294 @@
+<h1>[personal]</h1>
+<form class="form-horizontal" method="POST" action="" enctype="multipart/form-data" name="per" ng-app="MyFirseModule">
+<div class="panel panel-primary sepa" ng-controller="verificacion">
+	<div class="panel-heading">[dl]</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[nombre]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="nom" placeholder="[nombre]" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[cod]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="cod" placeholder="[cod]" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[Email]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="email" value="<?=$arr['per']['email_per']?>" placeholder="[Email]">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[Nom]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="nombra" placeholder="[Nom]">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[ar]</label>
+			<div class="col-sm-8">
+					<select class="form-control" name="area" required>
+						<option></option>
+    					<?php foreach ($arr as $key => $value):?>
+   	    					<option value="<?= $value['id_area']?>"><?= utf8_encode($value['name_area'])?></option>
+   	    				<?php endforeach;?>
+   					</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[TC]</label>
+			<div class="col-sm-8">
+				<select class="form-control" name="tc" id="con">
+					<option></option>
+					<option value="Definitivo">Definitivo</option>
+					<option value="Suplencia">Suplencia</option>
+					<option value="Contrato">Contrato</option>
+					<option value="Temporal">Temporal</option>
+					<option value="SS">S. S.</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" id="per1">
+			<label class="col-sm-4 control-label">[per]</label>
+			<div class="col-sm-8">
+				<section class="row">
+					<article class="col-sm-3">[inicio]</article>
+					<article class="col-sm-3"><input value="<?=$arr['per']['iniPerC_per']?>" class="form-control" name="perInicio1" id="perInicio" onblur="val('perInicio')" onkeyup="guiones('perInicio')"></article>
+					<article class="col-sm-3">[fin]</article>
+					<article class="col-sm-3"><input value="<?=$arr['per']['finPerC_per']?>" class="form-control" name="perFin1" id="perFin" onblur="val('perFin')" onkeyup="guiones('perFin')"></article>
+				</section>
+   			</div>
+		</div>
+		<div class="form-group" id="CH">
+			<label class="col-sm-4 control-label">[CH]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="carHor" placeholder="Horas/semana" onblur="calcular()">
+				<p id="text-alert"></p>
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[estatus]</label>
+			<div class="col-sm-8">
+				<select class="form-control" ng-model="estatus" ng-click="mostrar()" name="carga">
+					<option></option>
+					<option value="1">[licCG]</option>
+					<option value="3">[licSG]</option>
+					<option value="2">[com]</option>
+				</select>
+   			</div>
+		</div>
+		<div class="form-group" ng-show="no.mostrar1">
+			<label class="col-sm-4 control-label">[lic]</label>
+			<div class="col-sm-8">
+				<select class="form-control" ng-model="licencia" ng-click="mostrar()" name="licencia">
+					<option></option>
+					<option value="1">[per]</option>
+					<option value="2">[otroCar]</option>
+				</select>
+   			</div>
+		</div>
+		<div class="form-group" ng-show="no.mostrar2">
+			<label class="col-sm-4 control-label">[per]</label>
+			<div class="col-sm-8">
+				<section class="row">
+					<article class="col-sm-3">[inicio]</article>
+					<article class="col-sm-3"><input class="form-control" name="perInicio" id="perInicio" onblur="val('perInicio')" onkeyup="guiones('perInicio')"></article>
+					<article class="col-sm-3">[fin]</article>
+					<article class="col-sm-3"><input class="form-control" name="perFin" id="perFin" onblur="val('perFin')" onkeyup="guiones('perFin')"></article>
+				</section>
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[tur]</label>
+			<div class="col-sm-8">
+				<select class="form-control" name="turno" required>
+					<option></option>
+					<option value="1">Matutino</option>
+					<option value="2">Vespertino</option>
+					<option value="3">Nocturno</option>
+					<option value="4">Mixto</option>
+					<option value="5">Varios</option>
+   				</select>
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[Hor]</label>
+			<div class="col-sm-8">
+				<section class="row">
+					<article class="col-sm-4"><label>Días</label></article>
+					<article class="col-sm-4"><label>[En]</label></article>
+					<article class="col-sm-4"><label>[sal]</label></article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[d][0]" id="hord"
+						>
+						Domingo	
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" id="hora1" onblur="calcular()" onkeyup="dos_puntos('hora1')" type="time" name="hor[d][1]" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" id="hora2" onblur="calcular()" onkeyup="dos_puntos('hora2')" type="time" name="hor[d][2]" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+								name="hor[l][0]" id="horl"
+						>
+						Lunes
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI"
+								type="time"
+								name="hor[l][1]"
+								placeholder="<?= date('h:m')?>"
+								id="hora3"
+								onkeyup="dos_puntos('hora3')"
+								onblur="calcular()"  
+						>
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" id="hora4" onblur="calcular()" onkeyup="dos_puntos('hora4')" type="time" name="hor[l][2]" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[ma][0]" id="horma"
+						>
+						Martes
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora5" onkeyup="dos_puntos('hora5')" name="hor[ma][1]" placeholder="<?= date('h:m')?>" >
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora6" onkeyup="dos_puntos('hora6')" name="hor[ma][2]" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[mi][0]" id="hormi"
+						>
+						Miercoles
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora7" onkeyup="dos_puntos('hora7')" name="hor[mi][1]" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora8" onkeyup="dos_puntos('hora8')" name="hor[mi][2]" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"  id="horj"
+							name="hor[j][0]"
+							>
+						Jueves
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora9" onkeyup="dos_puntos('hora9')" name="hor[j][1]" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaJ2" onkeyup="dos_puntos('horaJ2')" name="hor[j][2]" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[v][0]" id="horv"
+						>
+						Viernes	
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaV1" onkeyup="dos_puntos('horaV1')" name="hor[v][1]" placeholder="<?= date('h:m')?>" >
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaV2" onkeyup="dos_puntos('horaV2')" name="hor[v][2]" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[s][0]" id="hors"
+						>
+						Sabado
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaS1" onkeyup="dos_puntos('horaS1')" name="hor[s][1]" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaS2" onkeyup="dos_puntos('horaS2')" name="hor[s][2]" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<input type="checkbox" name="diaE" value="1"<?= ($arr['per']['diaE_per'] == '1') ? 'checked': ''?>>Dia estimulo
+			</div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-primary sepa">
+	<div class="panel-heading">[dp]</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[Dom]</label>
+			<div class="col-sm-8">
+				<label>[Cal]</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="calle" placeholder="[Cal]"><br>
+				<label>[Col]</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="colonia" placeholder="[Col]"><br>
+				<label>[CP]</label>&nbsp&nbsp
+				<input type="text" name="CP" placeholder="[CP]"><br>
+				<label>[Mun]</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="Mun" placeholder="[Mun]"><br>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[tel]</label>
+			<div class="col-sm-8">
+				<label>[te1]</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="telCas" placeholder="[te1]"><br>
+				<label>[te2]</label>&nbsp&nbsp
+				<input type="text" name="telCel" placeholder="[te2]">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[FN]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="fecN" id="fecN" placeholder="<?= date('d/m/Y')?>" required onblur="val('fecN')" onkeyup="guiones('fecN')" onfocus="lim()">
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[RFC]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="rfc" placeholder="[RFC]" required>
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[CURP]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="curp" placeholder="[CURP]" required>
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[NSS]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="nss" placeholder="[NSS]" required>
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[foto]</label>
+			<div class="col-sm-8">
+				<input type="file" name="foto">
+   			</div>
+		</div>
+	</div>
+</div>
+<button type="submit" class="btn btn-primary" onclick="enviar()">[save]</button>
+</form>

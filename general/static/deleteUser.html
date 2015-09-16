@@ -1,0 +1,17 @@
+<h4>[userdelete]</h4>
+<dl class="dl-horizontal">
+  <dt>[nombre]</dt>
+  <dd><?= utf8_encode($arr['us']['name_user'])?></dd>
+  <dt>[cod]</dt>
+  <dd><?= $arr['us']['code_user']?></dd>
+  <dt>[ar]</dt>
+  <dd><?= utf8_encode($arr['us']['name_area'])?></dd>
+  <dt>[depen]</dt>
+  <dd><?= $arr['us']['nombre_depe']?></dd>
+</dl>
+<a href="index.php/admUsers/delete/yes/<?=$arr['us']['id_user']?>">
+	<button type="button" class="btn btn-danger">[delete]</button>
+</a>
+<a href="index.php/admUsers">
+	<button type="button" class="btn btn-default">[cansel]</button>
+</a>

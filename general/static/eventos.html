@@ -1,0 +1,171 @@
+<h3>[eventos]</h3>
+<div class="panel panel-default eventos">
+	<div class="panel-heading">
+  		<div class="row">
+	  		<div class="col-md-4">
+	  			<a class="link_blanco" href="index.php/eventos?mes=<?=$arr['mes_an']?>&anio=<?=$arr['anio_ant']?>">
+	  				<p>&lt;-[ant]</p>
+	  			</a>
+	  		</div>
+	  		<div class="col-md-4">
+	  			<p class="text-center">
+	  				<?=$arr['name_mes']."-".$arr['anio_hoy']?>
+	  			</p>
+	  		</div>
+	  		<div class="col-md-4">
+	  			<a class="link_blanco" href="index.php/eventos?mes=<?=$arr['mes_sig']?>&anio=<?=$arr['anio_sig']?>">
+	  				<p class="text-right">[sig]-&gt;</p>
+	  			</a>
+	  		</div>
+		</div>
+  	</div>
+	<div class="panel-body">
+  		<table class="table table-bordered">
+			<tr class="cal_eve text-blanco">
+				<td align=center>
+					<img class="logo-calendario" src="main/templates/complementos/img/udglogo.png" width="32" height="32">
+				</td>
+				<td align=center>Do</td>
+			    <td align=center>Lu</td>
+			    <td align=center>Ma</td>
+			    <td align=center>Mi</td>
+			    <td align=center>Ju</td>
+			    <td align=center>Vi</td>
+			    <td align=center>Sa</td>
+			</tr>
+			<tr>
+				<td class="gray">
+					<p class="link_negro"><?=$arr['nd_semana']?></p>
+				</td>
+				<?php for ($i=0; $i<7 ; $i++):?>
+					<?php if($i < $arr['n_dias']):?>
+						<td class="none"></td>
+					<?php else:?>
+						<?php if(($i == 0) || ($i == 6)):?>
+							<?php if($arr['dia'] == $arr['dia_ac']):?>
+								<td class="hoy-eve">
+									<a class="link_black" onclick="eventos(<?=$arr["dia_ac"]?>,<?=$arr["mes_hoy"]?>,<?=$arr["anio_hoy"]?>)">
+										<?=$arr['dia_ac']?>
+									</a>
+								</td>
+							<?php else:?>
+								<td class="WEE">
+									<a class="link_blanco" onclick="eventos(<?=$arr["dia_ac"]?>,<?=$arr["mes_hoy"]?>,<?=$arr["anio_hoy"]?>)">
+										<?=$arr['dia_ac']?>
+									</a>
+								</td>
+							<?php endif;?>	
+						<?php else:?>
+							<?php if($arr['dia'] == $arr['dia_ac']):?>
+								<td class="hoy-eve">
+									<a class="link_black" onclick="eventos(<?=$arr["dia_ac"]?>,<?=$arr["mes_hoy"]?>,<?=$arr["anio_hoy"]?>)">
+										<?=$arr['dia_ac']?>
+									</a>
+								</td>
+							<?php else:?>
+								<td>
+									<a class="link_black" onclick="eventos(<?=$arr["dia_ac"]?>,<?=$arr["mes_hoy"]?>,<?=$arr["anio_hoy"]?>)">
+										<?=$arr['dia_ac']?>
+									</a>
+								</td>
+							<?php endif;?>
+						<?php endif;?>
+						<?php $arr['dia_ac']++;?>
+					<?php endif;?>
+				<?php endfor;?>
+				<?php
+					if($arr['mes_hoy'] == 1 and $arr['nd_semana'] != 1):?>
+						<?php $arr['nd_semana'] = 1;?>
+					<?php else:?>
+						<?php $arr['nd_semana']++;?>
+					<?php endif;?>
+			</tr>
+			<?php while ( $arr['dia_ac']<= $arr['nd_mes']):?>
+				<?php if($arr['nd_dias'] == 0):?>
+					<tr>
+						<td class="gray">
+							<p class="link_negro"><?=$arr['nd_semana']?></p>
+						</td>
+				<?php endif;?>
+					<?php if($arr['nd_dias'] == 0 || $arr['nd_dias'] == 6):?>
+						<?php if($arr['dia'] == $arr['dia_ac']):?>
+							<td class="hoy-eve">
+								<a class="link_black" onclick="eventos(<?=$arr["dia_ac"]?>,<?=$arr["mes_hoy"]?>,<?=$arr["anio_hoy"]?>)">
+									<?=$arr['dia_ac']?>
+								</a>
+							</td>
+						<?php else:?>
+							<td class="WEE">
+								<a class="link_blanco" onclick="eventos(<?=$arr["dia_ac"]?>,<?=$arr["mes_hoy"]?>,<?=$arr["anio_hoy"]?>)">
+									<?=$arr['dia_ac']?>
+								</a>
+							</td>
+						<?php endif;?>
+					<?php else:?>
+						<?php if($arr['dia'] == $arr['dia_ac']):?>
+							<td class="hoy-eve">
+								<a class="link_black" onclick="eventos(<?=$arr["dia_ac"]?>,<?=$arr["mes_hoy"]?>,<?=$arr["anio_hoy"]?>)">
+									<?=$arr['dia_ac']?>
+								</a>
+							</td>
+						<?php else:?>
+							<td>
+								<a class="link_black" onclick="eventos(<?=$arr["dia_ac"]?>,<?=$arr["mes_hoy"]?>,<?=$arr["anio_hoy"]?>)">
+									<?=$arr['dia_ac']?>
+								</a>
+							</td>
+						<?php endif;?>	
+					<?php endif;?>
+					<?php $arr['dia_ac']++;?>
+					<?php $arr['nd_dias']++;?>
+					<?php if($arr['nd_dias'] == 7):?>
+						<?php $arr['nd_dias'] =0;?>
+						<?php $arr['nd_semana']++;?>
+						</tr>
+				<?php endif;?>
+			<?php endwhile;?>
+			<?php if($arr['nd_dias'] != 0):?>
+				<?php for($i=$arr['nd_dias'];$i<7;$i++ ):?>
+					<td class="none"></td>
+				<?php endfor;?>
+			<?php endif;?>
+		</table>
+		<?php if($arr['mes_hoy'] == date('m') && $arr['anio_hoy'] == date('Y')):?>
+			<h3>Progreso del mes</h3>
+			<div class="progress">
+				<div class="progress-bar progress-bar-danger WEE progress-bar-striped active" role="progressbar" aria-valuenow="<?=$arr['dia_ac']?>" aria-valuemin="1" aria-valuemax="<?=$arr['nd_mes']?>" style="width: <?= round((date('j')*100)/$arr['nd_mes'])?>%">
+	    			<?=round((date('j')*100)/$arr['nd_mes'])?>%
+	  			</div>
+			</div>
+		<?php endif;?>
+ 	</div>
+</div>
+<div id="pantalla">
+	<div id="eventos_conteiner">
+		<div id="even_title">Eventos<div id="equis"><img src="main/templates/complementos/img/equis.jpg" width="32" height="32"></div></div>
+		<div class="clear"></div>	
+		<div id="lista-eventos">
+			<table class="table">
+				<tr>
+					<td><strong>Nombre</strong></td>
+					<td><strong>Descripción</strong></td>
+					<td><strong>Fecha</strong></td>
+					<td><strong>Archivo</strong></td>
+				</tr>
+			</table>
+		</div>	
+		<div id="not-found" style="display:none">
+			No hay eventos
+		</div>
+	</div>
+</div>
+<script>
+	$(function () {
+		$("#pantalla").css({width:$(document).width()+'px',height:$(document).height()+'px'})
+		$("#eventos_conteiner").css({left:(($("body").width()/2)-($("#eventos_conteiner").width()/2)),top:(($(window).height()/2)-($("#eventos_conteiner").height()/2))})
+		$("#equis").click(function () {
+			$("#pantalla").fadeOut(500);
+			$("body").css("overflow-y","scroll");
+		})
+	})
+</script>

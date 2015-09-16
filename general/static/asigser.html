@@ -1,0 +1,137 @@
+<div class="panel panel-primary sepa">
+	<div class="panel-heading"><b>[asigserver]</b></div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[tipo]</label>
+			<div class="col-sm-8">
+				<p>[<?= "tSe".$arr['tipo_ser']?>]</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[sol]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['name_user']?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[SLA]</label>
+			<div class="col-sm-8">
+				<p><?php if ($arr['nombre_per'])echo $arr['nombre_per'];elseif($arr['asig_ser'] != '0')echo $arr['asig_ser'];else echo 'No Asignado'?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[depen]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['nombre_depe']?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[feandho]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['fecha_ser'].' '.$arr['hora_ser']?></p>
+			</div>
+		</div>
+		<?php if($arr['des_ser'] !=''){ ?>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[des]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['des_ser']?></p>
+			</div>
+		</div>
+		<?php } ?>
+		<?php if($arr['contacto_ser'] !=''){ ?>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[con]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['contacto_ser']?></p>
+			</div>
+		</div>
+		<?php } ?>
+		<?php if($arr['extension_ser'] !=''){ ?>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[ext]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['extension_ser']?></p>
+			</div>
+		</div>
+		<?php } ?>
+		<?php if($arr['archivo_ofi'] !=''){ ?>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[num] de [ofi]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['no_ofi']?></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">Ver PDF</label>
+			<div class="col-sm-8">
+				<a class="link_blanco"><button class="btn btn-default" onclick="ventana('main/templates/complementos/archivos_oficios/<?=$arr['archivo_ofi']?>')">VER</button></a>
+			</div>
+		</div>
+		<?php } ?>
+		<?php if($arr['estado_ser'] == 1 && $arr['asig_ser'] == '0'):?>
+			<?php if($_SESSION['depen_user'] == 14){?>
+			<form method="POST" action="">
+				<input type='hidden' name='ser' value ="<?= $arr['id_ser']?>">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">[AsigA]</label>
+					<div class="col-sm-8">
+						<input type="text" name="asig" class="form-control" placeholder="[AsigA]...">
+					</div>
+				</div>
+	</div>
+</div>
+<input type="hidden" name="cod" value="<?= $arr['cod_ser']?>">
+<input type="hidden" name="dep" value="<?= $arr['nombre_depe']?>">
+<input type="hidden" name="sol" value="<?= $arr['name_user']?>">
+<input type="hidden" name="tipo" value="<?= $arr['tipo_ser']?>">
+<input type="hidden" name="des" value="<?= $arr['des_ser']?>">
+<input type="hidden" name="hor" value="<?= $arr['hora_ser']?>">
+<input type="hidden" name="fec" value="<?= $arr['fecha_ser']?>">
+<input type="hidden" name="ext" value="<?= $arr['extension_ser']?>">
+<button type="submit" class="btn btn-primary">[asig]</button>
+</form>
+<?php }else{ ?>
+	</div>
+</div>
+<a href="index.php/asigserver"><button class="btn btn-success">Volver</button></a>
+<?php } ?>
+<?php elseif($arr['estado_ser'] == 1 && $arr['asig_ser'] != '0'):?>
+	<form method="POST" action="">
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[desOb]</label>
+			<div class="col-sm-8">
+				<textarea cols="50" rows="7" placeholder="[desOb]" name="des" value ="<?= $arr['des2_ser']?>"><?= $arr['des2_ser']?></textarea>
+			</div>
+		</div>
+	</div>
+</div>
+		<input type='hidden' name='id' value ="<?= $arr['id_ser']?>">
+		<button type="submit" name="btn" value="1" class="btn btn-warning">[proc]</button>
+		<button type="submit" name="btn" value="2" class="btn btn-success">[findo]</button>
+	</form>
+<?php elseif($arr['estado_ser'] == 2):?>
+	<form method="POST" action="">
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[desOb]</label>
+			<div class="col-sm-8">
+				<textarea cols="50" rows="7" placeholder="[desOb]" name="des" value ="<?= $arr['des2_ser']?>"><?= $arr['des2_ser']?></textarea>
+			</div>
+		</div>
+	</div>
+</div>
+		<input type='hidden' name='id' value ="<?= $arr['id_ser']?>">
+		<button type="submit" name="btn" value="1" class="btn btn-warning">[anq]</button>
+		<button type="submit" name="btn" value="3" class="btn btn-success">[findo]</button>
+	</form>
+<?php else:?>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[desOb]</label>
+			<div class="col-sm-8">
+				<p><?= $arr['des2_ser']?></p>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="index.php/asigserver"><button class="btn btn-success">Volver</button></a>
+<?php endif;?>

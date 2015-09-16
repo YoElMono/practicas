@@ -1,0 +1,23 @@
+<h1>[cap-dep-delete]</h1>
+<dl class="dl-horizontal">
+	<dt>[nombre]</dt>
+	<dd><?= $arr['uni']['nombre_depe']?></dd>
+	<dt>[ubicacion]</dt>
+	<dd><?= $arr['uni']['ubi_depe']?></dd>
+	<dt>[responsable]</dt>
+	<dd><?= $arr['uni']['resp_depe']?></dd>
+	<dt>[contacto]</dt>
+	<dd><?= $arr['uni']['conta_depe']?></dd>
+	<dt>[tel]</dt>
+	<dd><?= $arr['uni']['tel_depe']?></dd>
+	<dt>[ext]</dt>
+	<dd><?= $arr['uni']['ext_depe']?></dd>
+	<dt>[ffa]</dt>
+	<?php foreach ($arr['ffa'] as $key => $value):?>
+		<?php if ($value['depe_ffa'] == $arr['uni']['id_depe']):?>
+			<dd><?= $value['nombre_ffa']?> <img src="main/templates/complementos/firmas/<?= $value['foto_ffa']?>" width="160" heigth="130"></dd>
+		<?php endif;?>
+	<?php endforeach;?>		
+</dl>
+<a class="btn btn-success" href="index.php/cap-dep/delete/si?depeName=<?=$arr['uni']['id_depe']?>">[aceptar]</a>
+<a class="btn btn-danger" href="index.php/cap-dep?depeName=<?=$arr['uni']['id_depe']?>">[cancelar]</a>

@@ -1,0 +1,161 @@
+<?php $mes=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']?>
+<h2>[Reporte_ofi]</h2>
+<div ng-app="MyFirseModule">
+<form method="POST" class="form-horizontal" action="" ng-init="user = ''" ng-init="dep = ''">
+	<label class="col-sm-4 control-label">[cap]</label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<input type="text" name="prod" list="producto" class="form-control" placeholder="[cap]..." autocomplete="off">
+			<datalist id="producto">
+				<?php foreach ($arr['caps'] as $key => $value) {?>
+					<option value="<?=$value?>">
+				<?php }?>
+			</datalist>
+		</div>
+   	</div>
+   	<label class="col-sm-4 control-label">[depen] </label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<select class="form-control" name="dep">
+				<option value="0"></option>
+   	    		<?php foreach ($arr['dep'] as $key => $value):?>
+   	        		<option value="<?= $value['id_depe']?>"><?= $value['nombre_depe']?></option>
+   	    		<?php endforeach;?>
+    		</select>
+		</div>
+    </div>
+   	<label class="col-sm-4 control-label">[Con] </label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<select class="form-control" name="con">
+				<?php for ($i=0; $i < 8; $i++) {?>
+				<option value="<?=$i?>">[Con<?=$i?>]</option>
+				<?php } ?>
+    		</select>
+		</div>
+    </div>
+	<label class="col-sm-4 control-label">[num]</label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<input type="text" class="form-control" list="numero" autocomplete="off" placeholder="[num]..." name="num">
+			<datalist id="numero">
+				<?php foreach ($arr['nums'] as $key => $value) {?>
+					<option value="<?=$value?>">
+				<?php }?>
+			</datalist>
+		</div>
+	</div>
+	<label class="col-sm-4 control-label">[pal-cl]</label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="[pal-cl]..." name="cl">
+		</div>
+	</div>	
+    <label class="col-sm-4 control-label">[fec]</label>
+    <div class="row">
+    	<div class="col-xs-2">
+    		<label>[dia]</label>
+	   		<select class="form-control" name="dia" >
+	   		<option value="0"></option>
+	   			<?php for($i=1;$i<=31;$i++):?>
+	   				<?php if($i<10) $i='0'.$i;?>
+	   				<option value="<?= $i?>"><?= $i?></option>
+	   			<?php endfor;?>
+	   		</select>
+  		</div>
+    	<div class="col-xs-2">
+	   		<label>[mes]</label>
+	   		<select class="form-control" name="mes">
+	   		<option value="0"></option>
+	   			<?php for($i=1;$i<=12;$i++):?>
+	   				<?php if($i<10) $i='0'.$i;?>
+	   				<option value="<?= $i?>"><?= $mes[$i-1]?></option>
+	   			<?php endfor;?>
+	   		</select>
+  		</div>
+    	<div class="col-xs-2">
+    		<label>[año]</label>
+	   		<select class="form-control" name="anio">
+	   			<option value="0"></option>
+	   			<?php for($i=2015;$i<=2018;$i++):?>
+	   				<option value="<?= $i?>"><?= $i?></option>
+	   			<?php endfor;?>
+	   		</select>
+  		</div>	
+    </div>	
+    <label class="col-sm-4 control-label">Rango de [fec]</label>
+    <div class="row">
+    	<div class="col-xs-3">
+    		<label>[ini]</label>
+	   		<input type="text" class="form-control" name="fecIni" id="Cinicio" readonly>
+  		</div>
+    	<div class="col-xs-3">
+	   		<label>[fin]</label>
+	   		<input type="text" id="Cfin" name="fecFin" class="form-control" readonly>
+  		</div>
+    </div>
+    <input type="hidden" name="busca" value="TRUE">
+    <input type="submit" class="btn btn-default" value="Buscar">
+</form>
+</div>
+<br>
+<?php if($arr['inf']){?>
+<table class="table table-bordered">
+	<tr>
+		<td><strong>[feandho]</strong></td>
+		<td><strong>[no]</strong></td>
+		<td><strong>[Con]</strong></td>
+		<td><strong>[cap]</strong></td>
+		<td>[v+]</td>
+		<td>[edit]</td>
+		<td>[delete]</td>
+	</tr>
+	<?php foreach ($arr['inf'] as $key => $value) { if($value['no_ofi']!='0'){	?>
+	<tr>
+		<td><?=$value['fecha_ofi'].' '.$value['hora_ofi']?></td>
+		<td><?=$value['no_ofi']?></td>
+		<td><?php if($value['con_ofi'] < 7) echo '[Con'.$value['con_ofi'].']'; else echo $value['nomCon_ofi'];?></td>
+		<td><?=$value['userCap_ofi']?></td>
+		<td><a class="link_blanco" href="index.php/Reporte_ofi?id=<?=$value['id_ofi']?>"><span class="label label-success">[v+]</span></a></td>
+		<td><a class="link_blanco" href="index.php/Reporte_ofi?edit=<?=$value['id_ofi']?>"><span class="label label-warning">[edit]</span></a></td>
+		<td><a class="link_blanco" href="index.php/Reporte_ofi?elim=<?=$value['id_ofi']?>"><span class="label label-danger">[delete]</span></a></td>
+	</tr>
+	<?php }} ?>
+</table>
+<?php }else{ ?>
+	<?php if($arr['dat']){?>
+		<div class="alert alert-warning" role="alert">[not-info]</div>
+	<?php }?>
+<?php } ?>
+<?php if($arr['dh'] && !$arr['inf'] && !$arr['dat']){?>
+<table class="table table-bordered">
+	<tr>
+		<td><strong>[feandho]</strong></td>
+		<td><strong>[no]</strong></td>
+		<td><strong>[Con]</strong></td>
+		<td><strong>[cap]</strong></td>
+		<td>[v+]</td>
+		<td>[edit]</td>
+		<td>[delete]</td>
+	</tr>
+	<?php foreach ($arr['dh'] as $key => $value) { if($value['no_ofi']!='0'){	?>
+	<tr>
+		<td><?=$value['fecha_ofi'].' '.$value['hora_ofi']?></td>
+		<td><?=$value['no_ofi']?></td>
+		<td><?php if($value['con_ofi'] < 7) echo '[Con'.$value['con_ofi'].']'; else echo $value['nomCon_ofi'];?></td>
+		<td><?=$value['userCap_ofi']?></td>
+		<td><a class="link_blanco" href="index.php/Reporte_ofi?id=<?=$value['id_ofi']?>"><span class="label label-success">[v+]</span></a></td>
+		<td><a class="link_blanco" href="index.php/Reporte_ofi?edit=<?=$value['id_ofi']?>"><span class="label label-warning">[edit]</span></a></td>
+		<td><a class="link_blanco" href="index.php/Reporte_ofi?elim=<?=$value['id_ofi']?>"><span class="label label-danger">[delete]</span></a></td>
+	</tr>
+	<?php } }?>
+</table>
+<?php }elseif(!($arr['dh']) && !($arr['inf'] || $arr['dat'])){ ?>
+	<div class="alert alert-warning" role="alert">[ndh]</div>
+<?php }?>
+<script>
+	$(function () {
+		$('#Cinicio').calendarioDW();
+		$('#Cfin').calendarioDW();
+	})
+</script>

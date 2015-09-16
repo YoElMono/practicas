@@ -1,0 +1,23 @@
+<h1>[servasig]</h1>
+<?php if($arr):?>
+	<table class="table table-bordered">
+		<tr>
+			<td><strong>[sers]</strong></td>
+			<td><strong>[depen]</strong></td>
+			<td><strong>[userIp]</strong></td>
+			<td><strong>[cod]</strong></td>
+			<td><strong>[v+]</strong></td>
+		</tr>
+		<?php foreach ($arr as $key => $value):?>
+			<tr>
+				<td>[tSe<?=$value['tipo_ser']?>]</td>
+				<td><?=$value['nombre_depe']?></td>
+				<td><?=$value['name_user']?></td>
+				<td><?=$value['cod_ser']?></td>
+				<td><a href="index.php/servasig/<?=$value['id_ser']?>"><span class="label label-success">[v+]</span></a></td>
+			</tr>
+		<?php endforeach;?>
+	</table>
+<?php else:?>
+	<p><h5>No hay Servicios finalizados</h5></p>
+<?php endif;?>

@@ -1,0 +1,122 @@
+<h1>[repEntra]</h1>
+<div ng-app="MyFirseModule">
+<form method="POST" class="form-horizontal" action="" ng-init="user = ''" ng-init="dep = ''">
+	<label class="col-sm-4 control-label">[nombre]</label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<input type="text" name="nombre" list="nombres" class="form-control" placeholder="[buscar] por [nombre]" autocomplete="off">
+			<datalist id="nombres">
+				<?php foreach ($arr['nombres'] as $key => $value) {?>
+					<option value="<?=$value['nombre_entrada']?>">
+				<?php }?>
+			</datalist>
+		</div>
+   	</div>
+	<label class="col-sm-4 control-label">[aut]</label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<select class="form-control" name="user">
+				<option value="0"></option>
+    			<?php foreach ($arr['user'] as $key => $value):?>
+   	    			<option value="<?= $value['id_user']?>"><?= ($value['name_user'])?></option>
+   	    		<?php endforeach;?>
+   			</select>
+		</div>
+   	</div>
+   	<label class="col-sm-4 control-label">[depen] </label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<select class="form-control" name="dep">
+				<option value="0"></option>
+   	    		<?php foreach ($arr['depe'] as $key => $value):?>
+   	        		<option value="<?= $value['id_depe']?>"><?= $value['nombre_depe']?></option>
+   	    		<?php endforeach;?>
+    		</select>
+		</div>
+    </div>
+    <label class="col-sm-4 control-label">[fec]</label>
+    <div class="row">
+    	<div class="col-xs-2">
+    		<label>[dia]</label>
+	   		<select class="form-control" name="dia" >
+	   		<option value="0"></option>
+	   			<?php for($i=1;$i<=31;$i++):?>
+	   				<option value="<?= $i?>"><?= $i?></option>
+	   			<?php endfor;?>
+	   		</select>
+  		</div>
+    	<div class="col-xs-2">
+	   		<label>[mes]</label>
+	   		<select class="form-control" name="mes">
+	   		<option value="0"></option>
+	   			<?php for($i=1;$i<=12;$i++):?>
+	   				<option value="<?= $i?>"><?= $i?></option>
+	   			<?php endfor;?>
+	   		</select>
+  		</div>
+    	<div class="col-xs-2">
+    		<label>[año]</label>
+	   		<select class="form-control" name="anio">
+	   			<option value="0"></option>
+	   			<?php for($i=15;$i<=18;$i++):?>
+	   				<option value="<?= $i?>"><?= $i?></option>
+	   			<?php endfor;?>
+	   		</select>
+  		</div>			
+    </div>
+    <input type="hidden" name="busca" value="TRUE">
+    <input type="submit" class="btn btn-default" value="Buscar">
+</form>
+<br>
+<?php if($arr['inf']):?>
+	<table class="table table-bordered">
+		<tr>
+			<td><strong>[feandho]</strong></td>
+	  		<td><strong>[tipo]</strong></td>
+	  		<td><strong>[nombre]</strong></td>
+	  		<td><strong>[depen]</strong></td>
+	  		<td><strong>[aut]</strong></td>
+	  		<td><strong>[v+]</strong></td>
+		</tr>
+		<?php foreach ($arr['inf'] as $key => $value):?>
+			<tr>
+				<td><?= $value['fecha_entrada']." ".$value['hora_entrada'] ?></td>
+		  		<td>[<?= "tE".$value['tipo_entrada']?>]</td>
+		  		<td><?= $value['nombre_entrada']?></td>
+		  		<td><?= $value['nombre_depe']?></td>
+		  		<td><?= ($value['name_user'])?></td>
+		  		<td> <a href="index.php/repEntra/<?= $value['id_entrada']?>"><span class="label label-success">[v+]</span></a></td>
+			</tr>
+		<?php endforeach;?>
+	</table>
+<?php else:?>
+	<?php if($arr['dat']):?>
+		<div class="alert alert-warning" role="alert">[not-info]</div>
+	<?php endif;?>
+<?php endif;?>
+<?php if($arr['dh'] && !($arr['inf'])):?>
+	<h4>Entradas de Hoy</h4>
+	<table class="table table-bordered">
+		<tr>
+			<td><strong>[feandho]</strong></td>
+	  		<td><strong>[tipo]</strong></td>
+	  		<td><strong>[nombre]</strong></td>
+	  		<td><strong>[depen]</strong></td>
+	  		<td><strong>[aut]</strong></td>
+	  		<td><strong>[v+]</strong></td>
+		</tr>
+		<?php foreach ($arr['dh'] as $key => $value):?>
+			<tr >
+				<td><?= $value['fecha_entrada']." ".$value['hora_entrada'] ?></td>
+		  		<td>[<?= "tE".$value['tipo_entrada']?>]</td>
+		  		<td><?= $value['nombre_entrada']?></td>
+		  		<td><?= $value['nombre_depe']?></td>
+		  		<td><?= ($value['name_user'])?></td>
+		  		<td> <a href="index.php/repEntra/<?= $value['id_entrada']?>"><span class="label label-success">[v+]</span></a></td>
+			</tr>
+		<?php endforeach;?>
+	</table>
+	<?php elseif(!($arr['dh']) && !($arr['inf'] || $arr['dat']) ):?>
+		<div class="alert alert-warning" role="alert">[ndh]</div>
+<?php endif;?>
+</div>

@@ -1,0 +1,118 @@
+<h1>[cap-dep]</h1>
+<form action="index.php/cap-dep" method="GET" class="form-inline" enctype="multipart/form-data">
+  <div class="form-group">
+    <label>[nombre]</label>
+    	<select name="depeName" class="form-control">
+    		<?php foreach ($arr['lis'] as $key => $value):?>
+    			<option value="<?= $value['id_depe']?>"><?= ($value['nombre_depe'])?></option>
+    		<?php endforeach;?>
+    	</select>
+  </div>
+  <button type="submit" class="btn btn-success">[buscar]</button>
+</form>
+<form action="index.php/cap-dep" method="POST" class="form sepa">
+	<input type="hidden" name="depSave" value="TRUE">
+  <button type="submit" class="btn btn-info">[nuevaDp]</button>
+</form>
+<?php if($arr['view'] and !$arr['edit']):?>
+	<dl class="dl-horizontal">
+  		<dt>[nombre]</dt>
+  		<dd><?= $arr['uni']['nombre_depe']?></dd>
+  		<dt>[ubicacion]</dt>
+  		<dd><?= $arr['uni']['ubi_depe']?></dd>
+  		<dt>[responsable]</dt>
+  		<dd><?= $arr['uni']['resp_depe']?></dd>
+  		<dt>[contacto]</dt>
+  		<dd><?= $arr['uni']['conta_depe']?></dd>
+  		<dt>[tel]</dt>
+  		<dd><?= $arr['uni']['tel_depe']?></dd>
+  		<dt>[ext]</dt>
+  		<dd><?= $arr['uni']['ext_depe']?></dd>
+  		<?php if($arr['uni']['abr_depe']):?>
+  		<dt>[abr]</dt>
+  		<dd><?= $arr['uni']['abr_depe']?></dd>
+  		<?php endif;?>
+  		<dt>[ffa]</dt>
+  		<?php foreach ($arr['ffa'] as $key => $value):?>
+  			<?php if ($value['depe_ffa'] == $arr['uni']['id_depe']):?>
+  				<dd><?= $value['nombre_ffa']?> <img src="main/templates/complementos/firmas/<?= $value['foto_ffa']?>" width="160" heigth="130"></dd>
+  			<?php endif;?>
+  		<?php endforeach;?>		
+	</dl>
+	<form action="" method="POST" class="form sepa">
+	<input type="hidden" name="depEdit" value="TRUE">
+  <button type="submit" class="btn btn-warning">[editDp]</button>
+  <a class="btn btn-danger" href="index.php/cap-dep/delete?depeName=<?=$arr['uni']['id_depe']?>">Borrar</a>
+</form>
+<?php endif;?>
+
+<?php if($arr['error'] == TRUE):?>
+	<form action="" method="POST" class="form-horizontal" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">[nombre]</label>
+		    <div class="col-sm-10">
+		    	<input type="text" class="form-control" name="name" value="<?= $arr['uni']['nombre_depe']?>" placeholder="[nombre]">
+		    </div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">[ubicacion]</label>
+			<div class="col-sm-10">
+		    	<input type="text" class="form-control" name="ubi" value="<?= $arr['uni']['ubi_depe']?>"  placeholder="[ubicacion]">
+		    </div>
+		</div>
+	  	<div class="form-group">
+	    	<label class="col-sm-2 control-label">[responsable]</label>
+	    	<div class="col-sm-10">
+	      		<input type="text" class="form-control" name="res" value="<?= utf8_encode($arr['uni']['resp_depe'])?>"  placeholder="[responsable]">
+	    	</div>
+	  	</div>
+	  	<div class="form-group">
+	    	<label class="col-sm-2 control-label">[contacto]</label>
+	    	<div class="col-sm-10">
+	      		<input type="text" class="form-control" name="con" value="<?= utf8_encode($arr['uni']['conta_depe'])?>"  placeholder="[contacto]">
+	    	</div>
+	  	</div>
+	  	<div class="form-group">
+	    	<label class="col-sm-2 control-label">[tel]</label>
+	    	<div class="col-sm-10">
+	      		<input type="text" class="form-control" name="tel" value="<?= utf8_encode($arr['uni']['tel_depe'])?>"  placeholder="[tel]">
+	    	</div>
+	  	</div>
+	  	<div class="form-group">
+	    	<label class="col-sm-2 control-label">[ext]</label>
+	    	<div class="col-sm-10">
+	      		<input type="text" class="form-control" name="ex" value="<?= utf8_encode($arr['uni']['ext_depe'])?>"  placeholder="[ext]">
+	    	</div>
+	  	</div>
+	  	<div class="form-group" id="div">
+	    	<label class="col-sm-2 control-label">[abr]</label>
+	    	<div class="col-sm-10">
+	      		<input type="text" id="abr" class="form-control" name="abr" maxlength="6" value="<?= utf8_encode($arr['uni']['abr_depe'])?>"  placeholder="[max-6]">
+	    	</div>
+	  	</div>
+	  	<?php if($_GET['depeName']):?>
+	  		<input type="hidden" name="depEdi" value="TRUE">
+	  	<?php else:?>
+	  		<input type="hidden" name="depSav" value="TRUE">
+	  	<?php endif;?>
+	  	<div class="form-group">
+	    	<div class="col-sm-offset-2 col-sm-10">
+	      		<button type="submit" class="btn btn-default">[enviar]</button>
+	    	</div>
+	  	</div>
+	</form>
+<?php endif;?>
+<script>
+	$(function () {
+		$('#abr').blur(function () {
+			if($('#abr').val().length > 6){
+				$('#div').addClass('has-error')
+				$('#abr').val('').prop('placeholder','Deben de ser [max-6]')
+			}
+		})
+		$('#abr').focus(function () {
+			$('#div').removeClass('has-error')
+			$('#abr').prop('placeholder','')
+		})
+	})
+</script>

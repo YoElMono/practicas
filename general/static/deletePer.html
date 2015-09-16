@@ -1,0 +1,13 @@
+<h4>[perdelete]</h4>
+<dl class="dl-horizontal">
+  <dt>[nombre]</dt>
+  <dd><?= utf8_encode($arr['per']['nombre_per'])?></dd>
+  <dt>[cod]</dt>
+  <dd><?= $arr['per']['cod_per']?></dd>
+</dl>
+<a href="index.php/admPer/delete/yes/<?=$arr['per']['id_per']?>">
+	<button type="button" class="btn btn-danger">[delete]</button>
+</a>
+<a href="index.php/admPer">
+	<button type="button" class="btn btn-default">[cansel]</button>
+</a>

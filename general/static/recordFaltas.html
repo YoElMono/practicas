@@ -1,0 +1,74 @@
+<!--<pre><?=print_r($arr)?></pre>-->
+<!--<style type="text/css">
+	.bien{
+		color:green;
+	}
+	.error{
+		color:red;
+	}
+</style>-->
+<?php $mes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']; $i=0;?>
+<h6>[repFal2]</h6>
+<div class="panel panel-warning">
+	<?php if($_GET['dia']){?>
+	<div class="panel-heading">[dia]-><?= $_GET['dia']?> de <?=$mes[$_GET['mes']-1]?> de <?=$_GET['anio']?></div>
+	<div class="panel-body">
+		<table class="table table-bordered">
+			<tr>
+				<td><strong>[nombre]</strong></td>
+				<td align="center"><strong>[ent]</strong></td>
+				<td align="center"><strong>[sal]</strong></td>
+			</tr>
+			<?php foreach ($arr as $key => $value):?>
+			<tr>
+				<td><?=$key?></td>
+				<td align="center"><i class="glyphicon glyphicon-<?php if($value['entrada'])echo'remove error';else echo 'ok bien';?>"></i></td>
+				<td align="center"><i class="glyphicon glyphicon-<?php if($value['salida'])echo'remove error';else echo 'ok bien';?>"></i></td>
+			</tr>
+			<?php endforeach;?>
+		</table>
+	</div>
+	<?php }else{
+		echo '<pre>';print_r($arr);echo '</pre>';exit(); ?>
+	<div class="panel-heading">[mes]-><?=$mes[$_GET['mes']-1]?> de <?=$_GET['anio']?></div>
+	<div class="panel-body">
+		<!--<pre><?= print_r($arr)?></pre>-->
+		<table class="table table-bordered">
+			<tr>
+				<td><strong>[dia]</strong></td>
+				<td><strong>[nombre]</strong></td>
+				<td><strong>[ent]</strong></td>
+				<td><strong>[sal]</strong></td>
+			</tr>
+			<?php foreach ($arr as $key => $value):?>
+				<?php if($i):?>
+				<tr><td style="border:1px;"></td></tr>
+				<tr>
+					<td><strong>[dia]</strong></td>
+					<td><strong>[nombre]</strong></td>
+					<td><strong>[ent]</strong></td>
+					<td><strong>[sal]</strong></td>
+				</tr>
+				<?php endif;?>
+				<?php foreach ($value as $clave => $valor):?>
+				<?php if(is_numeric($clave)):?>
+				<tr>
+					<td><?=$clave?></td>
+					<td><?=$key?></td>
+					<td align="center"><i class="glyphicon glyphicon-<?php if($valor['entrada'])echo'remove error';else echo 'ok bien';?>"></i></td>
+					<td align="center"><i class="glyphicon glyphicon-<?php if($valor['salida'])echo'remove error';else echo 'ok bien';?>"></i></td>
+				</tr>
+				<?php endif;?>
+				<?php endforeach;?>
+				<tr>
+					<td colspan="2">Total</td>
+					<td><?=$value['totalE']?></td>
+					<td><?=$value['totalS']?></td>
+				</tr>
+			<?php $i=1; endforeach;?>
+		</table>
+	</div>
+	<?php } ?>
+</div>
+<br>
+<button class="btn btn-danger" style="margin-bottom:10px; float:left; margin-top:-20px" onclick="window.close()">[exit]</button>

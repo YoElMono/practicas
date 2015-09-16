@@ -1,0 +1,110 @@
+<div ng-app>
+	<br><button class="btn btn-info" value="1" ng-init="accion = true" ng-click="accion = !accion">{{accion ? "Descanso":"Trabajan"}}</button>
+	<form class="btn" action="" method="POST">
+		<input type="hidden" name="accion" value="2">
+		<input type="hidden" name="dia" value="<?=$_GET['dia']?>">
+		<input type="hidden" name="mes" value="<?=$_GET['mes']?>">
+		<input type="hidden" name="anio" value="<?=$_GET['anio']?>">
+		<input type="submit"class="btn btn-success" value="Dia de vacaciones" onclick="window.close()">
+	</form>
+	<!--<?php $hoy = new DateTime("now"); $fecha = new DateTime($_GET['anio'].'-'.$_GET['mes'].'-'.$_GET['dia']);?>-->
+	<button class="btn btn-primary">[dia-extra]</button>
+	<br><br>
+	<form ng-show="accion" action="" method="POST" id="action1">
+	<input type="hidden" name="accion" value="1">
+	<input type="hidden" name="dia" value="<?=$_GET['dia']?>">
+	<input type="hidden" name="mes" value="<?=$_GET['mes']?>">
+	<input type="hidden" name="anio" value="<?=$_GET['anio']?>">
+		<table class="table table-bordered">
+			<thead>
+				<th>Eligió el día</th>
+				<th>[nombre]</th>
+				<th>Select</th>
+			</thead>
+			<?php foreach ($arr as $key => $value):?>
+				<tbody>
+					<?php if ($value['dias'] != ''):?>
+						<td><input type="checkbox" name="trab[<?=$key?>][0]" value="1"></td>
+						<td><?=$value['nombre_per']?></td>
+						<td>
+							<select class="form-control" name="trab[<?=$key?>][1]">
+								<?php foreach ($value['dias'] as $key2 => $value2):?>
+									<option value="<?= $value2['id_diar']?>"><?=$value2['motivo_diar']."-".$value2['mes2_diar']?></option>
+								<?php endforeach;?>
+							</select>
+						</td>
+					<?php endif;?>
+				</tbody>
+			<?php endforeach;?>
+		</table>
+		<input type="submit"class="btn btn-success" onclick="window.close()">
+	</form>
+	<form ng-hide="accion" action="" method="POST" id="action2">
+		<input type="hidden" name="accion" value="3">
+		<input type="hidden" name="dia" value="<?=$_GET['dia']?>">
+		<input type="hidden" name="mes" value="<?=$_GET['mes']?>">
+		<input type="hidden" name="anio" value="<?=$_GET['anio']?>">
+		<table class="table table-bordered">
+			<thead>
+				<th>[trab]</th>
+				<th>[nombre]</th>
+				<th>[ent]</th>
+				<th>[sal]</th>
+			</thead>
+			<?php foreach ($arr as $key => $value):?>
+				<tbody>
+					<td><input type="checkbox" name="trab[<?=$key?>][0]" value="1"></td>
+					<td><?=$value['nombre_per']?></td>
+					<td><input type="text" name="trab[<?=$key?>][1]" class="entraI" id="horE<?=$key?>"></td>
+					<td><input type="text" name="trab[<?=$key?>][2]" class="entraI" id="horE<?=$key?>"></td>
+				</tbody>
+					<input type="hidden" name="trab[<?=$key?>][3]" value="<?= $value['cod_per']?>">
+			<?php endforeach;?>
+		</table>
+		<input type="submit" class="btn btn-success" onclick="window.close()">
+	</form>
+	<div id="extra" class="invisible">
+		<form action="" method="post">
+			<table class="table table-bordered">
+				<tr>
+					<td>[pers]</td>
+					<td>[mot]</td>
+				</tr>
+				<tr>
+					<td><select name="persona" class="form-control">
+						<?php foreach ($arr as $key => $value) { ?>
+						<option value="<?=$value['cod_per']?>"><?=$value['nombre_per']?></option>
+						<?php } ?>
+					</select></td>
+					<td><textarea width="200" height="100" name="motivo" placeholder="[mot]..."></textarea></td>
+				</tr>
+			</table>
+			<input type="hidden" name="action" value="4">
+			<button class="btn btn-primary" onclick="window.close()">[save]</button>
+		</form>
+	</div>
+</div><br>
+<script>
+	$(function () {
+		$('button.btn-primary').click(function () {
+			$('#action1,#action2').hide();
+			$('#extra').removeClass('invisible');
+		})
+		$('button.btn-info').click(function () {
+			este = $(this);
+			if(este.val()==1){
+				$('#action1').hide();
+				$('#extra').addClass('invisible');
+				$('#action2').show();
+				este.val(2);
+				console.log(este.val())
+			}else{
+				$('#action2').hide();
+				$('#extra').addClass('invisible');
+				$('#action1').show();
+				este.val(1);
+				console.log(este.val())
+			}
+		})
+	})
+</script>

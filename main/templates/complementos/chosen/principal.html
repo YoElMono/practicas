@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="{[lang]}">
+      <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="author" content="@Norman404">
+            <title>{Title}</title>
+            <base href="{[host]}">
+            <link rel="icon" type="image/vnd.microsoft.icon" href="main/templates/complementos/img/favicon.ico">
+            <link href="main/templates/css/bootstrap.min.css" rel="stylesheet">
+            <link href="main/templates/complementos/chosen/chosen.min.css" rel="stylesheet">
+            <link href="main/templates/css/styles.css" rel="stylesheet">
+            <!--[if lt IE 9]>
+                  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+                  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+            <![endif]-->
+      </head>
+      <body>
+            <div class="container">
+                  {header}
+                  <div class="row cont" id="body2">
+                        <div class="col-md-9"> {contenido}</div>
+                        <aside class="col-md-3">{lateral}</aside>
+                  </div>
+            </div> <!-- /container -->
+            {footer}
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="main/templates/js/jquery.min.js"></script>
+            <script src="main/templates/js/angular.min.js"></script>
+            <script src="main/templates/js/bootstrap.min.js"></script>
+            <script src="main/templates/complementos/chosen/chosen.proto.min.js"></script>
+            <script src="main/templates/complementos/chosen/chosen.jquery.min.js"></script>
+            <script src="main/templates/js/script.js"></script>
+
+            <script type="text/javascript">
+                  jQuery(document).ready(function(){
+                        jQuery(".chosen").chosen();
+                  });
+                  jQuery(document).ready(function(){
+                        jQuery(".chosen").data("placeholder","Select Frameworks...").chosen();
+                  });
+            </script>
+      </body>
+</html>

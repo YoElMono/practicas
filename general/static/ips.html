@@ -1,0 +1,115 @@
+<h4>Buscar Ip</h4>
+<div class="row">
+	<form action="index.php/ips" method="POST">
+		  <div class="col-xs-2">
+    		<input type="text" class="form-control" name='ip1' placeholder="148" value="148" disabled>
+  		</div>
+  		<div class="col-xs-2">
+    		<input type="text" class="form-control" name="ip2" placeholder="202" value="202" disabled>
+  		</div>
+  		<div class="col-xs-2">
+    		<input type="text" class="form-control" name="ip3" placeholder="144" value="144" disabled>
+  		</div>
+  		<div class="col-xs-2">
+    		<input type="text" class="form-control" name="ip4" placeholder="Completa IP's">
+  		</div>
+  		<div class="col-xs-2">
+    		<button type="submit" class="btn btn-primary">[buscar]</button>
+  		</div>
+	</form>
+</div>
+<br><br>
+<?php if($arr['error']):?>
+    <dl class="dl-horizontal">
+      <dt>[ipD]</dt>
+      <dd>148.202.144.<?= $arr['ip4']?></dd>
+    </dl>
+    <form action="index.php/ips" method="POST" class="form-horizontal">
+      <div class="form-group">
+        <label class="col-sm-4 control-label">[namePC]</label>
+        <div class="col-sm-8">
+          <input type="text" name="namePC" class="form-control" value="<?= $arr['namePc_ip']?>" placeholder="[namePC]">
+        </div>
+      </div>
+       <div class="form-group">
+        <label class="col-sm-4 control-label">[macD]</label>
+        <div class="col-sm-8">
+          <input type="text" name="macD" class="form-control" value="<?= $arr['mac_ip']?>" placeholder="[macD]">
+        </div>
+      </div>
+       <div class="form-group">
+        <label class="col-sm-4 control-label">[areaIp]</label>
+        <div class="col-sm-8">
+          <select name="areaIp" class="form-control">
+            <?php foreach ($arr['ar'] as $key => $value):?>
+              <option value="<?= $value['id_area']?>"><?= utf8_encode($value['name_area'])?></option>
+            <?php endforeach;?>
+          </select>
+        </div>
+      </div>
+       <div class="form-group">
+        <label class="col-sm-4 control-label">[userIp]</label>
+        <div class="col-sm-8">
+          <select name="userIp" class="form-control">
+            <?php foreach ($arr['us'] as $key => $value):?>
+              <option value="<?= $value['id_user']?>"><?= utf8_encode($value['name_user'])?></option>
+            <?php endforeach;?>
+          </select>
+        </div>
+      </div>
+       <div class="form-group">
+        <label class="col-sm-4 control-label">[rosetta]</label>
+        <div class="col-sm-8">
+          <input type="text" name="rosetta" class="form-control" value="<?= $arr['rosetta_ip']?>" placeholder="[rosetta]">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label">[swIp]</label>
+        <div class="col-sm-8">
+          <input type="text" name="swIp" class="form-control" value="<?= $arr['sw_ip']?>" placeholder="[swIp]">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-4 control-label">[puertoIp]</label>
+        <div class="col-sm-8">
+          <input type="text" name="puertoIp" class="form-control" value="<?= $arr['puerto_ip']?>" placeholder="[puertoIp]">
+        </div>
+      </div>
+      <?php if($arr['edit']):?>
+        <input type="hidden" name="ip4E" value="<?= $arr['ip4']?>"> 
+      <?php else:?>
+       <input type="hidden" name="ip4S" value="<?= $arr['ip4']?>"> 
+      <?php endif;?>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">[save]</button>
+        </div>
+      </div>
+    </form>
+<?php else: ?>
+  <?php if($arr):?>
+    <dl class="dl-horizontal">
+      <dt>[ipD]</dt>
+      <dd>148.202.144.<?= $arr['ip4_ip']?></dd>
+      <dt>[macD]</dt>
+      <dd><?= $arr['mac_ip']?></dd>
+      <dt>[namePC]</dt>
+      <dd><?= $arr['namePc_ip']?></dd>
+      <dt>[areaIp]</dt>
+      <dd><?= utf8_encode($arr['name_area'])?></dd>
+      <dt>[userIp]</dt>
+      <dd><?= utf8_encode($arr['name_user'])?></dd>
+      <dt>[rosetta]</dt>
+      <dd><?= $arr['rosetta_ip']?></dd>  
+      <dt>[swIp]</dt>
+      <dd><?= $arr['sw_ip']?></dd>  
+      <dt>[puertoIp]</dt>
+      <dd><?= $arr['puerto_ip']?></dd>  
+    </dl>
+    <form action="index.php/ips" method="POST">
+       <input type="hidden" name="ip4" value="<?= $arr['ip4_ip']?>">
+       <input type="hidden" name="edit" value="TRUE">
+       <button type="submit" class="btn btn-default">[edit]</button>
+    </form>
+  <?php endif;?>
+<?php endif;?>

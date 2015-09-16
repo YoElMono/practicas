@@ -1,0 +1,91 @@
+<br><div class="panel panel-primary">
+  <div class="panel-heading">
+  	<div class="row">
+	  	<div class="col-md-4">
+	  		<a href="index.php/jusfal?mes=<?=$arr['mes_an']?>&anio=<?=$arr['anio_ant']?>">
+	  			<p class="text-blanco">&lt;-[ant]</p>
+	  		</a>
+	  	</div>
+	  	<div class="col-md-4"><p class="text-center"><?=$arr['name_mes']."-".$arr['anio_hoy']?></p></div>
+	  	<div class="col-md-4">
+	  		<a href="index.php/jusfal?mes=<?=$arr['mes_sig']?>&anio=<?=$arr['anio_sig']?>">
+	  			<p class="text-right text-blanco">[sig]-&gt;</p>
+	  		</a>
+	  	</div>
+	</div>
+  	
+  </div>
+  <div class="panel-body">
+  	<table class="table table-bordered">
+	<tr>
+		<td align=center>Do</td>
+	    <td align=center>Lu</td>
+	    <td align=center>Ma</td>
+	    <td align=center>Mi</td>
+	    <td align=center>Ju</td>
+	    <td align=center>Vi</td>
+	    <td align=center>Sa</td>
+	</tr>
+	<tr>
+		<?php for ($i=0; $i<7 ; $i++):?>
+			<?php if($i < $arr['n_dias']):?>
+				<td></td>
+			<?php else:?>
+				<?php if(($i == 0) || ($i == 6)):?>
+					<?php if($arr['dia'] == $arr['dia_ac']):?>
+						<td class="blue"><a onclick="abrirVentana('index.php/jufal?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')"> <?=$arr['dia_ac']?></a></td>
+					<?php else:?>
+						<td class="red"><a onclick="abrirVentana('index.php/jufal?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')"> <?=$arr['dia_ac']?></a></td>
+					<?php endif;?>	
+					
+				<?php else:?>
+					<?php if($arr['dia'] == $arr['dia_ac']):?>
+						<td class="blue"><a onclick="abrirVentana('index.php/jufal?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')"> <?=$arr['dia_ac']?></a></td>
+					<?php else:?>
+						<td><a onclick="abrirVentana('index.php/jufal?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')"> <?=$arr['dia_ac']?></a></td>
+					<?php endif;?>
+				<?php endif;?>
+				<?php $arr['dia_ac']++;?>
+			<?php endif;?>
+		<?php endfor;?>
+	</tr>
+	<?php while ( $arr['dia_ac']<= $arr['nd_mes']):?>
+		<?php if($arr['nd_dias'] == 0):?>
+			<tr>
+		<?php endif;?>
+		<?php if($arr['nd_dias'] == 0 || $arr['nd_dias'] == 6):?>
+			<?php if($arr['dia'] == $arr['dia_ac']):?>
+				<td class="blue"><a onclick="abrirVentana('index.php/jufal?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')"> <?=$arr['dia_ac']?></a></td>
+			<?php else:?>
+				<td class="red"><a onclick="abrirVentana('index.php/jufal?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')"> <?=$arr['dia_ac']?></a></td>
+			<?php endif;?>
+		<?php else:?>
+			<?php if($arr['dia'] == $arr['dia_ac']):?>
+				<td class="blue"><a onclick="abrirVentana('index.php/jufal?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')"> <?=$arr['dia_ac']?></a></td>
+			<?php else:?>
+				<td><a onclick="abrirVentana('index.php/jufal?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')"> <?=$arr['dia_ac']?></a></td>
+			<?php endif;?>	
+		<?php endif;?>
+		<?php $arr['dia_ac']++;?>
+		<?php $arr['nd_dias']++;?>
+		<?php if($arr['nd_dias'] == 7):?>
+			<?php $arr['nd_dias'] =0;?>
+			</tr>
+		<?php endif;?>
+	<?php endwhile;?>
+	<?php if($arr['nd_dias'] != 0):?>
+		<?php for($i=$arr['nd_dias'];$i<7;$i++ ):?>
+			<td></td>
+		<?php endfor;?>
+	<?php endif;?>
+</table>
+<?php if($arr['mes_hoy'] == date('m') && $arr['anio_hoy'] == date('Y')):?>
+	<h3>Progreso del mes</h3>
+	<div class="progress">
+		<div class="progress-bar progress-bar-success  progress-bar-striped active" role="progressbar" aria-valuenow="<?=$arr['dia_ac']?>" aria-valuemin="1" aria-valuemax="<?=$arr['nd_mes']?>" style="width: <?= round((date('j')*100)/$arr['nd_mes'])?>%">
+	    	<?=round((date('j')*100)/$arr['nd_mes'])?>%
+	  	</div>
+	</div>
+<?php endif;?>
+  </div>
+</div>

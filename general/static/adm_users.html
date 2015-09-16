@@ -1,0 +1,24 @@
+<table class="table table-bordered">
+	<tr>
+		<td><strong>[nombre]</strong></td>
+  		<td><strong>[cod]</strong></td>
+  		<td><strong>[Email]</strong></td>
+  		<td><strong>[ar]</strong></td>
+  		<td><strong>[depen]</strong></td>
+  		<td><strong>[nl]</strong></td>
+  		<td><strong>[edit]</strong></td>
+  		<td><strong>[delete]</strong></td>
+	</tr>
+	<?php foreach ($arr['users'] as $key => $value):?>
+		<tr>
+			<td><?= ($value['name_user'])?></td>
+			<td><?= $value['code_user']?></td>
+			<td><?= $value['email_user']?></td>
+			<td><?= utf8_encode($value['name_area'])?></td>
+			<td><?= ($value['nombre_depe'])?></td>
+			<td><?= $value['nivel_user']?></td>
+		  	<td><a href="index.php/admUsers/<?= $value['id_user']?>"><span class="label label-success">[edit]</span></a></td>
+		  	<td><a href="index.php/admUsers/delete/<?= $value['id_user']?>"><span class="label label-danger">[delete]</span></a></td>
+		</tr>
+	<?php endforeach;?>
+</table>

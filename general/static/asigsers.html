@@ -1,0 +1,201 @@
+<!--<?= print_r($arr['pen'])?>--><h3>[rep] de [sers]</h3>
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"value="1"><a href="#">[sa]</a></li>
+  <li role="presentation" value="2"><a href="#">[sp]</a></li>
+  <li role="presentation" value="3"><a href="#">[spc]</a></li>
+  <li role="presentation" value="4"><a href="#">[sf]</a></li>
+</ul>
+<div class="sepa-nav"></div>
+<div id="sa">
+<?php if($arr['sa']):?>
+<table class="table table-bordered bg-white">
+		<tr>
+			<td><strong>[feandho]</strong></td>
+			<td><strong>[sers]</strong></td>
+			<td><strong>[depen]</strong></td>
+			<td><strong>[soli]</strong></td>
+			<td><strong>[cod]</strong></td>
+			<?php if($_SESSION['depen_user'] == 14 && $_SESSION['area_user'] != 5){ ?>
+			<td><strong>[asig]</strong></td>
+			<td><strong>[delete]</strong></td>
+			<?php }else{ ?>
+			<td><strong>[v+]</strong></td>
+			<?php } ?>
+		</tr>
+		<?php foreach ($arr['sa'] as $key => $value):?>
+			<tr>
+				<td><?=$value['fecha_ser'].' '.$value['hora_ser']?></td>
+				<td>[tSe<?=$value['tipo_ser']?>]</td>
+				<td><?=$value['nombre_depe']?></td>
+				<td><?=$value['name_user']?></td>
+				<td><?=$value['cod_ser']?></td>
+				<?php if($_SESSION['depen_user'] == 14 && $_SESSION['area_user'] != 5){ ?>
+				<td><a href="index.php/asigserver/<?=$value['id_ser']?>" class="link_blanco"><span class="label label-info">[asig]</span></a></td>
+				<td><span value="<?=$value['id_ser']?>" class="label label-danger">[delete]</span></td>
+				<?php }else{ ?>
+				<td><a href="index.php/asigserver/<?=$value['id_ser']?>" class="link_blanco"><span class="label label-success">[v+]</span></a></td>
+				<?php } ?>
+			</tr>
+		<?php endforeach;?>
+</table>
+<?php else:?>
+	<div class="sepa-alert"></div>
+	<div class="alert alert-warning" role="alert">[not-info]</div>
+<?php endif;?>
+</div>
+<div id="pen" style="display:none">
+<?php if($arr['pen']):?>
+<table class="table table-bordered bg-white">
+		<tr>
+			<td><strong>[feandho]</strong></td>
+			<td><strong>[sers]</strong></td>
+			<td><strong>[depen]</strong></td>
+			<td><strong>[asio]</strong></td>
+			<td><strong>[cod]</strong></td>
+			<td><strong>[v+]</strong></td>
+			<?php if($_SESSION['depen_user'] == 14 && $_SESSION['area_user'] != 5){ ?>
+			<td><strong>[delete]</strong></td>
+			<?php } ?>
+			<td><strong>[pdf]</strong></td>
+		</tr>
+		<?php foreach ($arr['pen'] as $key => $value):?>
+			<tr>
+				<td><?=$value['fecha_ser'].' '.$value['hora_ser']?></td>
+				<td>[tSe<?=$value['tipo_ser']?>]</td>
+				<td><?=$value['nombre_depe']?></td>
+				<td><?=($value['nombre_per'])?$value['nombre_per']:$value['asig_ser']?></td>
+				<td><?=$value['cod_ser']?></td>
+				<td><a href="index.php/asigserver/<?=$value['id_ser']?>" class="link_blanco"><span class="label label-success">[v+]</span></a></td>
+				<?php if($_SESSION['depen_user'] == 14 && $_SESSION['area_user'] != 5){ ?>
+				<td><span value="<?=$value['id_ser']?>" class="label label-danger">[delete]</span></td>
+				<?php } ?>
+				<td><span class="label label-info" onclick="ventana('main/templates/complementos/archivos_servicios/solicitud_de_servicio<?=$value['cod_ser']?>')">Ver</span></td>
+			</tr>
+		<?php endforeach;?>
+</table>
+<?php else:?>
+	<div class="sepa-alert"></div>
+	<div class="alert alert-warning" role="alert">[not-info]</div>
+<?php endif;?>
+</div>
+<div id="fin" style="display:none">
+<?php if($arr['fin']):?>
+<table class="table table-bordered bg-white">
+		<tr>
+			<td><strong>[feandho]</strong></td>
+			<td><strong>[sers]</strong></td>
+			<td><strong>[depen]</strong></td>
+			<td><strong>[soli]</strong></td>
+			<td><strong>[cod]</strong></td>
+			<td><strong>[v+]</strong></td>
+			<?php if($_SESSION['depen_user'] == 14 && $_SESSION['area_user'] != 5){ ?>
+			<td><strong>[delete]</strong></td>
+			<?php } ?>
+			<td><strong>[pdf]</strong></td>
+		</tr>
+		<?php foreach ($arr['fin'] as $key => $value):?>
+			<tr>
+				<td><?=$value['fecha_ser'].' '.$value['hora_ser']?></td>
+				<td>[tSe<?=$value['tipo_ser']?>]</td>
+				<td><?=$value['nombre_depe']?></td>
+				<td><?=$value['name_user']?></td>
+				<td><?=$value['cod_ser']?></td>
+				<td><a href="index.php/asigserver/<?=$value['id_ser']?>" class="link_blanco"><span class="label label-success">[v+]</span></a></td>
+				<?php if($_SESSION['depen_user'] == 14 && $_SESSION['area_user'] != 5){ ?>
+				<td><span value="<?=$value['id_ser']?>" class="label label-danger">[delete]</span></td>
+				<?php } ?>
+				<td><span class="label label-info" onclick="ventana('main/templates/complementos/archivos_servicios/solicitud_de_servicio<?=$value['cod_ser']?>')">Ver</span></td>
+			</tr>
+		<?php endforeach;?>
+</table>
+<?php else:?>
+	<div class="sepa-alert"></div>
+	<div class="alert alert-warning" role="alert">[not-info]</div>
+<?php endif;?>
+</div>
+<div id="fin2" style="display:none">
+<?php if($arr['fin2']):?>
+<table class="table table-bordered bg-white">
+		<tr>
+			<td><strong>[feandho]</strong></td>
+			<td><strong>[sers]</strong></td>
+			<td><strong>[depen]</strong></td>
+			<td><strong>[soli]</strong></td>
+			<td><strong>[cod]</strong></td>
+			<td><strong>[v+]</strong></td>
+			<?php if($_SESSION['depen_user'] == 14 && $_SESSION['area_user'] != 5){ ?>
+			<td><strong>[delete]</strong></td>
+			<?php } ?>
+			<td><strong>[pdf]</strong></td>
+		</tr>
+		<?php foreach ($arr['fin2'] as $key => $value):?>
+			<tr>
+				<td><?=$value['fecha_ser'].' '.$value['hora_ser']?></td>
+				<td>[tSe<?=$value['tipo_ser']?>]</td>
+				<td><?=$value['nombre_depe']?></td>
+				<td><?=$value['name_user']?></td>
+				<td><?=$value['cod_ser']?></td>
+				<td><a href="index.php/asigserver/<?=$value['id_ser']?>" class="link_blanco"><span class="label label-success">[v+]</span></a></td>
+				<?php if($_SESSION['depen_user'] == 14 && $_SESSION['area_user'] != 5){ ?>
+				<td><span value="<?=$value['id_ser']?>" class="label label-danger">[delete]</span></td>
+				<?php } ?>
+				<td><span class="label label-info" onclick="ventana('main/templates/complementos/archivos_servicios/solicitud_de_servicio<?=$value['cod_ser']?>')">Ver</span></td>
+			</tr>
+		<?php endforeach;?>
+</table>
+<?php else:?>
+	<div class="sepa-alert"></div>
+	<div class="alert alert-warning" role="alert">[not-info]</div>
+<?php endif;?>
+</div>
+<script>
+	$(function () {
+		$("li").click(function (e) {
+			e.preventDefault()
+			$('li.active').removeClass('active')
+			$(this).addClass('active')
+			if($(this).val() == 1){
+				$('#sa').css('display','block')
+				$('#pen').css('display','none')
+				$('#fin').css('display','none')
+				$('#fin2').css('display','none')
+			}else if($(this).val() == 2){
+				$('#pen').css('display','block')
+				$('#sa').css('display','none')
+				$('#fin').css('display','none')
+				$('#fin2').css('display','none')
+			}else if($(this).val() == 3){
+				$('#fin').css('display','block')
+				$('#sa').css('display','none')
+				$('#pen').css('display','none')
+				$('#fin2').css('display','none')
+			}else if($(this).val() == 4){
+				$('#fin2').css('display','block')
+				$('#sa').css('display','none')
+				$('#fin').css('display','none')
+				$('#pen').css('display','none')
+			}
+		})
+		$(document).on('click','span.label.label-danger',function () {
+			var este = $(this);
+			var fila = este.parent()
+			fila = fila.parent()
+			var id = este.attr('value')
+			console.log(este,id);
+			id = 'id='+id;
+			$.ajax({
+				url:'index.php/asigserver',
+				type:'POST',
+				data:id,
+				dataType:'html',
+				success:function (datos) {
+					console.log(datos)
+					fila.remove()
+				},
+				error:function () {
+					console.log('error')
+				}
+			})
+		})
+	})
+</script>

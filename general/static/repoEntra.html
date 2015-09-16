@@ -1,0 +1,108 @@
+<div ng-app="MyFirseModule">
+	<dl class="dl-horizontal" ng-init="tipo = <?= $arr['tipo_entrada']?>">
+		<div>
+			<dt>[tipo]</dt>
+		  	<dd>[<?= "tE".$arr['tipo_entrada']?>]</dd>
+		</div>
+		<div>
+			<dt>[nombre]</dt>
+		  	<dd><?= $arr['nombre_entrada']?></dd>
+		</div>
+		<div ng-if="tipo == 1 || tipo == 2 || tipo == 5">
+			<dt>[nfac]</dt>
+		  	<dd><?= $arr['nfac_entrada']?></dd>
+		</div>
+		<?php if($arr['nombreEn_entrada']):?>
+		<div>
+			<dt>[nombreEn]</dt>
+		  	<dd><?= $arr['nombreEn_entrada']?></dd>
+		</div>
+		<?php endif;?>
+		<?php if($arr['iden_entrada']):?>
+		<div>
+			<dt>[ide]</dt>
+		  	<dd><?= $arr['iden_entrada']?></dd>
+		</div>
+		<?php endif;?>
+		<?php if($arr['cre_entrada']):?>
+		<div>
+			<dt>[NoCre]</dt>
+		  	<dd><?= $arr['cre_entrada']?></dd>
+		</div>
+		<?php endif;?>
+		<div>
+			<dt>[depen]</dt>
+		  	<dd><?= $arr['nombre_depe']?></dd>
+		</div>
+		<div>
+			<dt>[desOb]</dt>
+		  	<dd><?= $arr['des_entrada']?></dd>
+		</div>
+		<div ng-if="tipo == 6">
+			<dt>[per]</dt>
+			<dd><b>Inicio:&nbsp&nbsp&nbsp</b><?= $arr['inicioPer_entrada']?></dd>
+			<dd><b>Fin:&nbsp&nbsp&nbsp</b><?= $arr['finPer_entrada']?></dd>
+		</div>
+		<div ng-if="tipo == 3 || tipo == 4 || tipo == 6">
+			<dt>[serie]</dt>
+		  	<dd><?= $arr['serie_entrada']?></dd>
+		</div>
+		<div>
+			<dt>[cod]</dt>
+		  	<dd><?= $arr['codigo_entrada']?></dd>
+		</div>
+		<div>
+			<dt>[foto]</dt>
+		  	<dd><img src="main/templates/complementos/fotos/<?= $arr['foto_entrada']?>" width="500" heigth="350"></dd></div>
+		<div>
+		<?php if($arr['foto2_entrada']):?>
+		<div>
+			<dt></dt>
+		  	<dd><img src="main/templates/complementos/fotos/<?= $arr['foto2_entrada']?>" width="500" heigth="350"></dd></div>
+		<div>
+		<?php endif;?>
+		<?php if($arr['foto3_entrada']):?>
+		<div>
+			<dt></dt>
+		  	<dd><img src="main/templates/complementos/fotos/<?= $arr['foto3_entrada']?>" width="500" heigth="350"></dd></div>
+		<div>
+		<?php endif;?>
+			<dt>[aut]</dt>
+		  	<dd><?= utf8_encode($arr['name_user'])?></dd>
+		</div>
+		<div>
+			<dt>[feandho]</dt>
+		  	<dd><?= $arr['fecha_entrada']."  ".$arr['hora_entrada']?></dd>
+		</div>
+		<?php if($arr['estado_entrada']):?>
+		<div>
+			<dt>Estado</dt>
+			<dd><?= $arr['estado_entrada']?></dd>
+		</div>
+		<?php endif;?>
+		<?php if($arr['fechab_entrada']):?>
+		<div>
+			<dt>[feandho] de baja</dt>
+		  	<dd><?= $arr['fechab_entrada']."  ".$arr['horab_entrada']?></dd>
+		</div>
+		<?php endif;?>
+		<?php if($arr['autb_entrada']):?>
+		<div>
+			<dt>[aut] baja</dt>
+		  	<dd><?=  utf8_encode($arr['autb_entrada'])?></dd>
+		</div>
+		<?php endif;?>
+		<?php if($arr['ddb']):?>
+		<form method="POST" action="">
+			<div>
+				<input type="hidden" name='cod' value="<?=$_GET['codigoBus']?>">
+				<dt><a href="index.php/entraPro"><button class="btn btn-success">Volver</button></a></dt>
+				<dd><button class="btn btn-danger" type="submit" name="boton" value="1">[DdB]</button></dd>
+			</div>
+		</form>
+		<?php else:?>
+		<a href="index.php/repEntra"><button class="btn btn-success">Volver</button></a>
+		<?php endif;?>
+
+	</dl>
+</div>

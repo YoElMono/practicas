@@ -1,0 +1,312 @@
+<h1>[personal]</h1>
+<form class="form-horizontal" method="POST" action="" enctype="multipart/form-data" ng-app="MyFirseModule" name="per">
+	<div class="panel panel-primary sepa" ng-controller="verificacion">
+		<div class="panel-heading">[dl]</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[foto]</label>
+				<div class="col-sm-8">
+					<input type="hidden" name="foto1" value="<?= $arr['per']['foto_per']?>">
+					<img class="img-thumbnail img-tamper" src="main/templates/complementos/fotos_per/<?= $arr['per']['foto_per']?>">
+					<input type="file" name="foto">
+				</div>
+			</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[nombre]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="nom" value="<?= $arr['per']['nombre_per']?>" placeholder="[nombre]">
+			</div>
+		</div>
+		<div class="form-group" id="codig">
+			<label class="col-sm-4 control-label">[cod]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="cod" id="cod" onblur="validar()" value="<?=$arr['per']['cod_per']?>" placeholder="[cod]">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[Email]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="email" value="<?=$arr['per']['email_per']?>" placeholder="[Email]">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[Nom]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="nombra" value="<?=$arr['per']['nombra_per']?>" placeholder="[Nom]">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[ar]</label>
+			<div class="col-sm-8">
+					<select class="form-control" name="area">
+    					<?php foreach ($arr['ar'] as $key => $value):?>
+   	    					<option value="<?= $value['id_area']?>" <?= ($arr['per']['area_per'] == $value['id_area']) ? 'selected': ''?> ><?= utf8_encode($value['name_area'])?></option>
+   	    				<?php endforeach;?>
+   					</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[TC]</label>
+			<div class="col-sm-8">
+				<select class="form-control" name="tc" id="con">
+					<option value="Definitivo" <?= ($arr['per']['tc_per'] == 'Definitivo') ? 'selected': ''?> >Definitivo</option>
+					<option value="Suplencia" <?= ($arr['per']['tc_per'] == 'Suplencia') ? 'selected': ''?> >Suplencia</option>
+					<option value="Contrato" <?= ($arr['per']['tc_per'] == 'Contrato') ? 'selected': ''?> >Contrato</option>
+					<option value="Temporal" <?= ($arr['per']['tc_per'] == 'Temporal') ? 'selected': ''?> >Temporal</option>
+					<option value="SS" <?= ($arr['per']['tc_per'] == 'SS') ? 'selected': ''?> >S. S.</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" id="per1">
+			<label class="col-sm-4 control-label">[per]</label>
+			<div class="col-sm-8">
+				<section class="row">
+					<article class="col-sm-3">[inicio]</article>
+					<article class="col-sm-3"><input value="<?=$arr['per']['iniPerC_per']?>" class="form-control" name="perInicio1" id="perInicio" onblur="val('perInicio')" onkeyup="guiones('perInicio')"></article>
+					<article class="col-sm-3">[fin]</article>
+					<article class="col-sm-3"><input value="<?=$arr['per']['finPerC_per']?>" class="form-control" name="perFin1" id="perFin" onblur="val('perFin')" onkeyup="guiones('perFin')"></article>
+				</section>
+   			</div>
+		</div>
+		<div class="form-group" id="CH">
+			<label class="col-sm-4 control-label">[CH]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="carHor" value="<?= $arr['per']['ch_per']?>" placeholder="Horas/semana">
+				<p id="text-alert"></p>
+   			</div> 
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[estatus]</label>
+			<div class="col-sm-8">
+				<select class="form-control" name="carga" id="status">
+					<option value="0"></option>
+					<option value="1" <?= ($arr['per']['status_per'] == '1') ? 'selected': ''?> >[licCG]</option>
+					<option value="3" <?= ($arr['per']['status_per'] == '3') ? 'selected': ''?> >[licSG]</option>
+					<option value="2" <?= ($arr['per']['status_per'] == '2') ? 'selected': ''?> >[com]</option>
+				</select>
+   			</div>
+		</div>
+		<div class="form-group" id="lic">
+			<label class="col-sm-4 control-label">[lic]</label>
+			<div class="col-sm-8">
+				<select class="form-control" name="licencia" id="lic2">
+					<option></option>
+					<option value="1" <?= ($arr['per']['licencia_per'] == '1') ? 'selected': ''?> >[per]</option>
+					<option value="2" <?= ($arr['per']['licencia_per'] == '2') ? 'selected': ''?> >[otroCar]</option>
+				</select>
+   			</div>
+		</div>
+		<div class="form-group" id="per">
+			<label class="col-sm-4 control-label">[per]</label>
+			<div class="col-sm-8">
+				<section class="row">
+					<article class="col-sm-3">[inicio]</article>
+					<article class="col-sm-3"><input value="<?=$arr['per']['iniPer_per']?>" class="form-control" name="perInicio" id="perInicio" onblur="val('perInicio')" onkeyup="guiones('perInicio')"></article>
+					<article class="col-sm-3">[fin]</article>
+					<article class="col-sm-3"><input value="<?=$arr['per']['finPer_per']?>" class="form-control" name="perFin" id="perFin" onblur="val('perFin')" onkeyup="guiones('perFin')"></article>
+				</section>
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[tur]</label>
+			<div class="col-sm-8">
+				<select class="form-control" name="turno">
+				<option value="1" <?= ($arr['per']['turno_per'] == '1') ? 'selected': ''?> >Matutino</option>
+				<option value="2" <?= ($arr['per']['turno_per'] == '2') ? 'selected': ''?> >Vespertino</option>
+				<option value="3" <?= ($arr['per']['turno_per'] == '3') ? 'selected': ''?> >Nocturno</option>
+				<option value="4" <?= ($arr['per']['turno_per'] == '4') ? 'selected': ''?> >Mixto</option>
+				<option value="5" <?= ($arr['per']['turno_per'] == '5') ? 'selected': ''?> >Varios</option>
+   				</select>
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[Hor]</label>
+			<div class="col-sm-8">
+				<section class="row">
+					<article class="col-sm-4"><label>Días</label></article>
+					<article class="col-sm-4"><label>[En]</label></article>
+					<article class="col-sm-4"><label>[sal]</label></article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[d][0]"
+							value="1"<?= ($arr['per']['checkD_per'] == '1') ? 'checked': ''?> 
+						id="hord">
+						Domingo	
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" id="hora1" onblur="calcular()" onkeyup="dos_puntos('hora1')" type="time" name="hor[d][1]" value="<?= $arr['per']['horED_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" id="hora2" onblur="calcular()" onkeyup="dos_puntos('hora2')" type="time" name="hor[d][2]" value="<?= $arr['per']['horSD_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+								name="hor[l][0]"
+								value="1"<?= ($arr['per']['checkL_per'] == '1') ? 'checked': ''?>
+						id="horl">
+						Lunes
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI"
+								type="time"
+								name="hor[l][1]"
+								value="<?= $arr["per"]["horEL_per"]?>"
+								placeholder="<?= date('h:m')?>"
+								id="hora3"
+								onkeyup="dos_puntos('hora3')"
+								onblur="calcular()"
+						>
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" id="hora4" onblur="calcular()" onkeyup="dos_puntos('hora4')" type="time" name="hor[l][2]" value="<?= $arr['per']['horSL_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[ma][0]"
+							value="1"<?= ($arr['per']['checkMa_per'] == '1') ? 'checked': ''?> 
+						id="horma">
+						Martes
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora5" onkeyup="dos_puntos('hora5')" name="hor[ma][1]" value="<?= $arr['per']['horEMa_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora6" onkeyup="dos_puntos('hora6')" name="hor[ma][2]" value="<?= $arr['per']['horSMa_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[mi][0]"
+							value="1"<?= ($arr['per']['checkMi_per'] == '1') ? 'checked': ''?> 
+						id="hormi">
+						Miercoles
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora7" onkeyup="dos_puntos('hora7')" name="hor[mi][1]" value="<?= $arr['per']['horEMi_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora8" onkeyup="dos_puntos('hora8')" name="hor[mi][2]" value="<?= $arr['per']['horSMi_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[j][0]"
+							value="1"<?= ($arr['per']['checkJ_per'] == '1') ? 'checked': ''?> 
+						id="horj">
+						Jueves
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="hora9" onkeyup="dos_puntos('hora9')" name="hor[j][1]" value="<?= $arr['per']['horEJ_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaJ2" onkeyup="dos_puntos('horaJ2')" name="hor[j][2]" value="<?= $arr['per']['horSJ_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[v][0]"
+							value="1"<?= ($arr['per']['checkV_per'] == '1') ? 'checked': ''?> 
+						id="horv">
+						Viernes	
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaV1" onkeyup="dos_puntos('horaV1')" name="hor[v][1]" value="<?= $arr['per']['horEV_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaV2" onkeyup="dos_puntos('horaV2')" name="hor[v][2]" value="<?= $arr['per']['horSV_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox"
+							name="hor[s][0]"
+							value="1"<?= ($arr['per']['checkS_per'] == '1') ? 'checked': ''?> 
+						id="hors">
+						Sabado
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaS1" onkeyup="dos_puntos('horaS1')" name="hor[s][1]" value="<?= $arr['per']['horES_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" type="time" onblur="calcular()" id="horaS2" onkeyup="dos_puntos('horaS2')" name="hor[s][2]" value="<?= $arr['per']['horSS_per']?>" placeholder="<?= date('h:m')?>">
+					</article>
+				</section>
+				<section class="row">
+					<article class="col-sm-4">
+						<input type="checkbox" name="diaE" value="1"<?= ($arr['per']['diaE_per'] == '1') ? 'checked': ''?>>Dia estimulo
+					</article>
+					<article class="col-sm-4">
+						[hconta]
+					</article>
+					<article class="col-sm-4">
+						<input class="entraI" id="htotal" disabled>
+					</article>
+				</section>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-primary sepa">
+	<div class="panel-heading">[dp]</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[Dom]</label>
+			<div class="col-sm-8">
+				<label>[Cal]</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="calle" value="<?=$arr['per']['calle_per']?>" placeholder="[Cal]"><br>
+				<label>[Col]</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="colonia" value="<?=$arr['per']['col_per']?>" placeholder="[Col]"><br>
+				<label>[CP]</label>&nbsp&nbsp
+				<input type="text" name="CP" value="<?=$arr['per']['cp_per']?>" placeholder="[CP]"><br>
+				<label>[Mun]</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="Mun" value="<?=$arr['per']['mun_per']?>" placeholder="[Mun]"><br>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[tel]</label>
+			<div class="col-sm-8">
+				<label>[te1]</label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<input type="text" name="telCas" value="<?=$arr['per']['telcas_per']?>" placeholder="[te1]"><br>
+				<label>[te2]</label>&nbsp&nbsp
+				<input type="text" name="telCel" value="<?=$arr['per']['telcel_per']?>" placeholder="[te2]">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[FN]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="fecN" id="fecN" value="<?=$arr['per']['fecN_per']?>" placeholder="<?=$arr['per']['fecN_per']?>" onblur="val('fecN')" onkeyup="guiones('fecN')" onfocus="lim()" required>
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[RFC]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="rfc" value="<?=$arr['per']['rfc_per']?>" placeholder="[RFC]">
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[CURP]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="curp" value="<?=$arr['per']['curp_per']?>" placeholder="[CURP]">
+   			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[NSS]</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" name="nss" value="<?=$arr['per']['nss_per']?>" placeholder="[NSS]">
+   			</div>
+		</div>
+	</div>
+</div>
+<button type="submit" class="btn btn-primary" onclick="enviar()">[save]</button>
+</form>

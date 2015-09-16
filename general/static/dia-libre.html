@@ -1,0 +1,35 @@
+<?php $mes = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');?>
+<div class="panel panel-warning">
+	<div class="panel-heading">
+		[GAN] del [mes]-><?=$mes[$_GET['mes']-1]?>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered">
+			<tr>
+				<td><strong>[nombre]</strong></td>
+				<td><strong>[cod]</strong></td>
+				<td><strong>[ar]</strong></td>
+			</tr>
+			<?php if(count($arr['ganadores']) > 1):?>
+			<form method="POST">
+				<?php for ($i=1; $i < count($arr['ganadores']); $i++):?>
+				<tr>
+					<td><?= $arr['ganadores'][$i]['nombre']?></td><input type="hidden" value="<?=$arr['ganadores'][$i]['nombre']?>" name="<?=$i?>[nom]">
+					<td><?= $arr['ganadores'][$i]['codigo']?></td><input type="hidden" value="<?=$arr['ganadores'][$i]['codigo']?>" name="<?=$i?>[codigo]">
+					<td><?= $arr['ganadores'][$i]['area']?></td>
+				</tr>
+				<?php endfor;?>
+			<?php else:?>
+				<tr>
+					<td colspan="2"><?= $arr['ganadores'][0]['nombre']?></td>
+				</tr>
+			<?php endif;?>
+		</table>
+		<input type="hidden" value="<?=$_GET['mes']?>" name="mes">
+		<input type="text" class="form-control" placeholder="Frase" name="frase"><br>
+		<input type="text" class="form-control" placeholder="Responsable" name="jefe"><br>
+		<input type="text" class="form-control" placeholder="Siglas" name="fin"><br>
+		<button class="btn btn-info" type="submit">Imprimir</button>
+		</form>
+	</div>
+</div>

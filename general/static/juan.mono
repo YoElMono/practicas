@@ -1,0 +1,68 @@
+<div ng-app="MyFirseModule">
+	<dl class="dl-horizontal" ng-init="tipo = <?= $arr['pes_dir']?>">
+		<div>
+			<dt>[pes]</dt>
+		  	<dd>[<?= "pD".$arr['pes_dir']?>]</dd>
+		</div>
+		<div ng-if="'<?= $arr['nom_dir']?>' != ''">
+			<dt>[nombre]</dt>
+		  	<dd><?= $arr['nom_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['calle_dir']?>' != ''">
+			<dt>[Cal]</dt>
+		  	<dd><?= $arr['calle_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['calle_dir']?>' != ''">
+			<dt>#</dt>
+		  	<dd><?= $arr['no_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['calle_dir']?>' != ''">
+			<dt>[Col]</dt>
+		  	<dd><?= $arr['col_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['depa_dir']?>' != ''">
+			<dt>[dep]</dt>
+		  	<dd><?= $arr['depa_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['ubi_dir']?>' != ''">
+			<dt>[ubicacion]</dt>
+		  	<dd><?= $arr['ubi_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['tel_dir']?>' != ''"> 
+			<dt>[tel]</dt>
+		  	<dd><?= $arr['tel_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['con_dir']?>' != ''">
+			<dt>[con]</dt>
+		  	<dd><?= $arr['con_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['img_dir']?>' != ''">
+			<dt>[img]</dt>
+		  	<dd><img src="main/templates/complementos/fotos/<?= $arr['img_dir']?>" width="320" heigth="260"></dd>
+		</div>
+		<div ng-if="'<?= $arr['ex_dir']?>' != ''">
+			<dt>[ext]</dt>
+		  	<dd><?= $arr['ex_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['pes_dir']?>' == 4">
+			<dt>[tcu]</dt>
+		  	<dd>[tcu<?= $arr['tipo_dir']?>]</dd>
+		</div>
+		<div ng-if="'<?= $arr['conm_dir']?>' != ''">
+			<dt>[conm]</dt>
+		  	<dd><?= $arr['conm_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['exesc_dir']?>' != ''">
+			<dt>[ext] [esc]</dt>
+		  	<dd><?= $arr['exesc_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['piso_dir']?>' != ''">
+			<dt>[piso]</dt>
+		  	<dd><?= $arr['piso_dir']?></dd>
+		</div>
+		<div ng-if="'<?= $arr['web_dir']?>' != ''">
+			<dt>[webp]</dt>
+		  	<dd><a href="http://<?= $arr['web_dir']?>" target="_blank"><?= $arr['web_dir']?></a></dd>
+		</div>
+	</dl>
+</div>

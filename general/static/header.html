@@ -1,0 +1,193 @@
+<?php global $url_array;?>
+<?php if ($_SESSION['code_user']):?>
+	<ul class="barr-top row">
+		<section class="col-md-11">
+			<a href="index.php/">
+				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			</a> >
+			<?php foreach ($url_array as $key => $value):?>
+				<?php if($key == 1 and $value != ''):?>
+					<a href="index.php/<?=$value?>">[<?= $value?>]</a> >
+				<?php else:?>
+					<?= $value?>
+				<?php endif;?>
+			<?php endforeach;?>
+		</section>
+		<section class="col-md-1 iconos-menu">
+			<a href="index.php/editPass">
+				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+			</a>
+			<a href="index.php/distroy">
+				<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+			</a>
+
+		</section>
+		
+	</ul>
+<?php endif;?>
+<header>
+	<div class="logo-header row">
+		<div class="col-md-1 img-header">
+			<a href="index.php/">
+				<img src="main/templates/complementos/img/escudo_2.png">
+			</a>
+		</div>
+		<div class="col-md-11">
+			<h2 id="name-udg">[udg]</h2>
+		</div>
+	</div>
+	<div class="barra-header"><p id="name-area">[cymR]</p></div>
+	<!--<nav class="navbar navbar-default sepa">
+		<div class="container padding-left0">
+			<div class="collapse navbar-collapse padding-left0" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav udg-obj">
+					<li class="dropdown udg-obj padding-sides10">
+          				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[des] <span class="caret"></span></a>
+          				<ul class="dropdown-menu">
+          					<li><a href="#">Action</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">Separated link</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">One more separated link</a></li>
+          				</ul>
+          			</li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="dropdown udg-obj">
+          				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[des] <span class="caret"></span></a>
+          				<ul class="dropdown-menu">
+          					<li><a href="#">Action</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">Separated link</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">One more separated link</a></li>
+          				</ul>
+          			</li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="dropdown udg-obj">
+          				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[des] <span class="caret"></span></a>
+          				<ul class="dropdown-menu">
+          					<li><a href="#">Action</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">Separated link</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">One more separated link</a></li>
+          				</ul>
+          			</li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="dropdown udg-obj">
+          				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[des] <span class="caret"></span></a>
+          				<ul class="dropdown-menu">
+          					<li><a href="#">Action</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">Separated link</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">One more separated link</a></li>
+          				</ul>
+          			</li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class="dropdown udg-obj">
+          				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">[des] <span class="caret"></span></a>
+          				<ul class="dropdown-menu">
+          					<li><a href="#">Action</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">Separated link</a></li>
+				            <li role="separator" class="divider"></li>
+				            <li><a href="#">One more separated link</a></li>
+          				</ul>
+          			</li>
+				</ul>
+			</div>
+		</div>
+	</nav>-->
+
+	<nav class="navbar navbar-default udg-obj1">
+		<div class="container-fluid">
+			 <div class="navbar-header">
+      			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        			<span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+      			</button>
+    		</div>
+    		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    			<ul class="nav nav-pills nav-justified nav-udg">
+  					<li role="presentation" class="udg-obj1 dropdown">
+  						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  							[des]<span class="caret"></span>
+  						</a>
+  						<ul class="dropdown-menu" role="menu">
+				            <li><a href="#">Action</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li class="divider"></li>
+				            <li><a href="#">Separated link</a></li>
+          				</ul>
+  					</li>
+  					<li role="presentation" class="udg-obj1 dropdown">
+  						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  							[areaM]<span class="caret"></span>
+  						</a>
+  						<ul class="dropdown-menu" role="menu">
+				            <li><a href="index.php/view/proCivil">[proCivil]</a></li>
+				            <li><a href="index.php/view/medica">[medica]</a></li>
+				            <li><a href="index.php/view/capasitacion">[capasitacion]</a></li>
+				            <li><a href="index.php/view/atencionPrehos">[atencionPrehos]</a></li>
+          				</ul>
+  					</li>
+  					<li role="presentation" class="udg-obj1 dropdown">
+  						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  							[segu]<span class="caret"></span>
+  						</a>
+  						<ul class="dropdown-menu" role="menu">
+				            <li><a href="#">Action</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li class="divider"></li>
+				            <li><a href="#">Separated link</a></li>
+          				</ul>
+  					</li>
+  					<li role="presentation" class="udg-obj1 dropdown">
+  						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  							[conseman]
+  						</a>
+  						<ul class="dropdown-menu" role="menu">
+				            <li><a href="#">Action</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li class="divider"></li>
+				            <li><a href="#">Separated link</a></li>
+          				</ul>
+  					</li>
+  					<li role="presentation" class="udg-obj1 dropdown">
+  						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  							[estaci]<span class="caret"></span>
+  						</a>
+  						<ul class="dropdown-menu" role="menu">
+				            <li><a href="#">Action</a></li>
+				            <li><a href="#">Another action</a></li>
+				            <li><a href="#">Something else here</a></li>
+				            <li class="divider"></li>
+				            <li><a href="#">Separated link</a></li>
+          				</ul>
+  					</li>
+				</ul>
+    		</div>
+		</div>
+	</nav>
+	<div id="img-acerca"></div>
+</header>

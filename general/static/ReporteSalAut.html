@@ -1,0 +1,25 @@
+<h1>[repSalida] autorizadas</h1>
+<table class="table table-bordered">
+	<tr>
+		<td><strong>[feandho]</strong></td>
+  		<td><strong>[tipo]</strong></td>
+  		<td><strong>[prod]</strong></td>
+  		<td><strong>[depen]</strong></td>
+  		<td><strong>[cap]</strong></td>
+  		<td><strong>[aut]</strong></td>
+  		<td><strong>[v+]</strong></td>
+	</tr>
+	<?php foreach ($arr as $key => $value):?>
+		<?php if($value['estado_sali'] == 1):?>
+			<tr>
+				<td><?= $value['fecha_sali']." ".$value['hora_sali'] ?></td>
+		  		<td>[<?= "tS".$value['tipo_sali']?>]</td>
+		  		<td><?= $value['pro_sali']?></td>
+		  		<td><?= $value['nombre_depe']?></td>
+		  		<td><?= utf8_encode($value['name_user'])?></td>
+		  		<td><?= $value['nombre_ffa']?></td>
+		  		<td> <a href="index.php/repSalidaAut/<?= $value['id_sali']?>"><span class="label label-success">[v+]</span></a></td>
+			</tr>
+		<?php endif;?>
+	<?php endforeach;?>
+</table>

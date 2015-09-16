@@ -1,0 +1,180 @@
+<h1>[entraPro]</h1>
+<form name="principal" ng-app="MyFirseModule" action="index.php/entraPro" class="form-horizontal" method="POST" enctype="multipart/form-data">
+    <div ng-controller="ocultar">
+        <div class="btn-group">
+            <label class="btn btn-primary radazul">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="1" checked>[compra]
+            </label>
+            <label class="btn btn-primary radrojo">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="2"> [prestamo]
+            </label>
+            <label class="btn btn-primary radverde">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="3"> [servicio]
+            </label>
+            <label class="btn btn-primary radama">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="4"> [herramientas]
+            </label>
+            <label class="btn btn-primary radnar">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="5"> [garantia]
+            </label>
+            <label class="btn btn-primary radgris">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="6"> [transito]
+            </label>
+            <label class="btn btn-primary radextra">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="7"> [DdB]
+            </label>
+        </div>
+        <div class="{{colors.tono}} sepa" ng-hide="view.mostrar4">
+            <div class="panel-heading">Datos Iniciales</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Nombre</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="nombre" placeholder="Nombre" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label ng-hide="view.mostrar1" class="col-sm-4 control-label">Número de Factura</label>
+                    <div ng-hide="view.mostrar1" class="col-sm-8">
+                        <input type="text" name="no_factura" placeholder="Número de Factura" class="form-control">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="{{colors.tono}} sepa" ng-hide="view.mostrar4">
+            <div class="panel-heading">Datos Personales</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Nombre</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="nombreEn" placeholder="Nombre" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Identificación</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="ide" placeholder="[ide]" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Número de Credencial</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" name="credencial">
+                            <?php for($i = 1;$i <= 10; $i++):?>
+                                <option value="<?=$i?>"><?=$i?></option>
+                            <?php endfor;?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="{{colors.tono}}" ng-hide="view.mostrar4">
+            <div class="panel-heading">Dependencia</div>
+            <div class="panel-body">
+                <label class="col-sm-4 control-label">Dependencia</label>
+                <div class="col-sm-8">
+                    <article ng-controller="FirseController">
+                        <select name="depen" class="form-control" ng-click="bus()" ng-model="id">
+                            <?php foreach ($arr['dep'] as $key => $value):?>
+                                <option value="<?= $value['id_depe']?>"><?= $value['nombre_depe']?></option>
+                            <?php endforeach;?>
+                        </select>
+                        <dl class="dl-horizontal">
+                            <dt>[nombre]</dt>
+                            <dd>{{todo[0].nombre_depe}}</dd>
+                            <dt>[ubicacion]</dt>
+                            <dd>{{todo[0].ubi_depe}}</dd>
+                            <dt>[responsable]</dt>
+                            <dd>{{todo[0].resp_depe}}</dd>
+                            <dt>[contacto]</dt>
+                            <dd>{{todo[0].conta_depe}}</dd>
+                            <dt>[tel]</dt>
+                            <dd>{{todo[0].tel_depe}}</dd>
+                            <dt>[ext]</dt>
+                            <dd>{{todo[0].ext_depe}}</dd>
+                        </dl>
+                    </article>
+                </div>
+            </div>
+        </div>
+        <div class="{{colors.tono}}" ng-hide="view.mostrar4">
+            <div class="panel-heading">Producto</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[desOb]</label>
+                    <div class="col-sm-8">
+                        {op}
+                        <textarea id="textarea-msn" style="width:100; height:100px;" name="des" placeholder="[desOb]"class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label ng-show="view.mostrar3" class="col-sm-4 control-label">[per]</label>
+                    <div ng-show="view.mostrar3" class="col-sm-8">
+                        <label class="col-sm-4 control-label">Inicio</label>
+                        <input type="text" name="perIni" value="<?= date('d-m-y')?>">
+                        <label class="col-sm-4 control-label">Fin</label>
+                        <input type="text" name="perFin" value="<?= date('d-m-y')?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label ng-hide="view.mostrar2" class="col-sm-4 control-label">Número de Serie</label>
+                    <div ng-hide="view.mostrar2" class="col-sm-8">
+                        <input type="text" name="no_serie" placeholder="Número de Serie" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Código</label>
+                    <div class="col-sm-8">
+                        <p><?= $arr['data']?></p>
+                        <input type="hidden" name="codeFecha" value="<?= $arr['data']?>"> 
+                    </div>
+                </div>
+                <div class="form-group">
+                   <label class="col-sm-4 control-label">Seleccionar Foto</label>
+                    <div class="col-sm-8">
+                        <input type="file" id="files" name="foto[]" multiple accept="image/*;capture=camera">
+                        <output id="list"></output>
+                        <script type="text/javascript">
+                            function archivo(evt) {
+                                var files = evt.target.files; // FileList object
+                                // Obtenemos la imagen del campo "file".
+                                for (var i = 0, f; f = files[i]; i++) {
+                                    //Solo admitimos imágenes.
+                                    if (!f.type.match('image.*')) continue;
+                                    var reader = new FileReader();
+                                    reader.onload = (function(theFile) {
+                                        return function(e) {
+                                        // Insertamos la imagen
+                                            document.getElementById("list").innerHTML = ['<img class="img-thumbnail img-tamper" width="320" heigth="260" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                                            };
+                                    })(f);
+                                    reader.readAsDataURL(f);
+                                    }
+                                }
+                            document.getElementById('files').addEventListener('change', archivo, false);
+                        </script>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div ng-hide="view.mostrar4">
+        <input type="hidden" value="Activo" name="status">
+        <button type="submit" class="{{colors.tono2}}">{{txt}}</button>
+        </div>
+</form>
+        <form method="GET" action="">
+        <div class="{{colors.tono}} sepa" ng-show="view.mostrar4">
+            <div class="panel-heading">[DdB]</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[cod]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="codigoBus" placeholder="[cod]" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button ng-show="view.mostrar4" type="submit" class="{{colors.tono2}}">{{txt}}</button>
+        </form>
+    </div>

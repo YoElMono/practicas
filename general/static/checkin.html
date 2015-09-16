@@ -1,0 +1,133 @@
+<style type="text/css">
+	p[id*='z']{
+		font-size: 10pt;
+		font-weight: bold;
+		font-style: italic;
+	}
+</style>
+<form method="post" action="" id="form-per">
+<div style="float:right; margin: 30px;">
+	<select class="form-control" name='nom'>
+		<option></option>
+		<?php foreach ($arr['per'] as $key => $value) {?>
+			<option value="<?=$value['cod_per']?>"><?=$value['nombre_per']?></option>
+		<?php }?>
+	</select>
+</div>
+</form>
+<?php $i=1;?>
+<form method="POST" class="form-horizontal" action="" ng-app="">
+	<table class="table table-bordered" style="margin-top: 70px;">
+		<tr>
+			<td><strong>[nombre]</strong></td>
+			<td><strong>[fec]</strong></td>
+	  		<td><strong>[tipo]</strong></td>
+	  		<td><strong>[jus]</strong></td>
+	  		<td><strong>[falt]</strong></td>
+	  		<td><strong>[h]</strong></td>
+		</tr>
+		<?php foreach ($arr['check'] as $key => $value):?>
+			<input type="hidden" name="idck[<?=$i?>]" value="<?= $value['id_check']?>">
+			<tr>
+				<td><?= $value['nombre_per']?></td>
+				<td> <?= $value['dia_check']."/".$value['mes_check']."/".$value['anio_check']?> </td>
+				<td> [checkt<?= $value['tipo_check']?>] </td>
+				<td>
+					<section class="secjus">
+						<input type="radio" id="hor<?=$i?>" name="hor[<?=$i?>]" value="1" ng-model="jus<?=$i?>">
+
+						<textarea ng-if="jus<?=$i?>" class = "textnotjus" name="nota[<?= $i?>]"></textarea> 
+					</section>
+				</td>
+				<td> <input type="radio" id="hor<?=$i?>a" name="hor[<?=$i?>]" ng-click='jus<?=$i?> = false'  value="2" onclick="falta(<?=$i?>)"> </td>
+				<td> 
+					<section class="secjus" id="section<?=$i?>">
+						<input style="margin-bottom:15px;padding-rigth:100px" type="radio" id="hocr<?=$i?>" name="hor[<?=$i?>]" ng-click="jus<?=$i?> = false" value="3" style="float:left; left:0px;">
+						<div width="10" height="10" style="float:right;margin-left:-100px">
+							<p id="z<?=$i?>" style="display:none"></p>
+						</div>
+						<input type="text" class="form-control" id="horc<?=$i?>" onkeyup="dos_puntos('horc<?=$i?>')" name="horc[<?=$i?>]" placeholder="hh:mm">
+					</section>	
+				</td>
+				<input type="hidden" name="horr[<?=$i?>]" id="horr<?=$i?>" value="<?= $value['horcap_check']?>">
+				<input type="hidden" name="tip[<?=$i?>]" value="<?= $value['tipo_check']?>">
+				<script>
+					var valor = $('#horr<?=$i?>').val();			
+					$('#hor<?=$i?>').click(function () {
+						if ($(this).prop("checked")){ 
+							$('#horc<?=$i?>').prop("disabled",true); 
+							$('#horc<?=$i?>').val(valor);
+						}else $('#horc<?=$i?>').prop("disabled",false)
+					})
+					$("#hor<?=$i?>a").click(function () {
+						if ($(this).prop("checked")){ 
+							$("#horc<?=$i?>").prop("disabled",true); 
+							$("#horr<?=$i?>").val('FALTA');
+							$("#horc<?=$i?>").val('FALTA');
+						}else $("#horc<?=$i?>").prop("disabled",false)
+					})
+					$("#hocr<?=$i?>").click(function () {
+					if ($(this).prop("checked")){ $("#horc<?=$i?>").prop("disabled",false).val('');}
+					})
+					$('#horc<?=$i?>').blur(function () {
+						if($('#horc<?=$i?>').val() != ''){
+							if(!valHorVer($('#horc<?=$i?>').val())){
+								$("p[id=z<?=$i?>]").css('color','red').text('Error').fadeIn();
+								$("#section<?=$i?>").addClass('has-error');
+								$("#horc<?=$i?>").val('').attr('placeholder','Error en el Formato').prop('required', true).delay(2000).fadeOut(0).fadeIn(0, function () {
+									$("p[id=z<?=$i?>]").fadeOut('',function () {
+										$("#section<?=$i?>").removeClass('has-error');
+									})
+								});
+							}
+							else{
+								$("p[id=z<?=$i?>]").css('color','green').text('Correcto').fadeIn();
+								$("#section<?=$i?>").removeClass('has-error').addClass('has-success').delay(2000).fadeOut(0).fadeIn(0,function () {
+									$("p[id=z<?=$i?>]").fadeOut('',function () {
+										$("#section<?=$i?>").removeClass('has-success');
+									})
+								});$("#horc<?=$i?>").prop('required', false);
+							}
+						}else
+							$('#horc<?=$i?>').attr('placeholder','hh:mm').prop('required',false);
+					})
+					function valHorVer (hor) {
+						var hora = hor.split(':')
+						if(hora[0] && hora[1]){
+							if(isNaN(hora[0]) || isNaN(hora[1]) || hora[0].length != 2 || hora[1].length != 2 || hora[0] < 0 || hora[0] > 24 || hora[1] > 59 || hora[1] < 0)
+								return false
+						}else
+							return false
+						return true
+					}
+				</script>
+			</tr>
+			<?php $i++;?>
+		<?php endforeach;?>
+	</table>
+	<input type="hidden" name="total" value="<?= count($arr['check'])?>">
+	<button type="submit" class="btn btn-primary">[enviar]</button>
+</form>
+<script type="text/javascript">
+	$(function () {
+		/*$('select').change(function () {
+			//alert($(this).val())
+			ele = $("tr:gt(0) td:first-child")
+			ele.each(function(indice, elemento) {
+				a = $(elemento).text()
+				//console.log('El elemento con el índice '+indice+' contiene '+$(elemento).text());
+				if($("select").val() == a || $('select').val() == ''){
+					$(elemento).parent().css('display','block')
+					//$(elemento).siblings().css('display','block')
+				}else{
+					$(elemento).parent().css('display','none')
+					//$(elemento).siblings().css('display','none')
+					//console.log('El elemento con el índice '+indice+' contiene '+a);
+				}
+			})
+		})*/
+		$('select').change(function () {
+			$('#form-per').submit()
+		})
+	})
+</script>

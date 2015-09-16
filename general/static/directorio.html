@@ -1,0 +1,126 @@
+<h4>[dir]</h4>
+<form ng-app="MyFirseModule" action="index.php/dir" class="form-horizontal" method="POST" enctype="multipart/form-data">{{t}}
+	<div ng-controller="ocultar" ng-init="t = '<?= $arr['pes_dir']?>'">
+        <div class="btn-group">
+            <label class="btn btn-primary radazul">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="1"> [pD1]
+            </label>
+            <label class="btn btn-primary radrojo">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="2"> [pD2]
+            </label>
+            <label class="btn btn-primary radverde">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="3"> [pD3]
+            </label>
+            <label class="btn btn-primary radama">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="4"> [pD4]
+            </label>
+            <label class="btn btn-primary radnar">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="5"> [pD5]
+            </label>
+            <label class="btn btn-primary radgris">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="6"> [pD6]
+            </label>
+            <label class="btn btn-primary radext">
+                <input type="radio" ng-click="act2()" ng-model="t" name="options" value="7"> [pD7]
+            </label>
+        </div>
+        <div class="{{colors.tono}} sepa">
+            <div class="panel-heading">[datos]</div>
+            <div class="panel-body">
+                <div class="form-group" ng-if="t != 3">
+                    <label class="col-sm-4 control-label">[nombre]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="nombre" placeholder="[nombre]" class="form-control" value="<?= $arr['nom_dir']?>" required>
+                    </div>
+                </div>
+                <div ng-show="view2.dire" class="form-group">
+                    <label class="col-sm-4 control-label">[dire]</label>
+                    <div class="col-sm-8">
+                    	<label class="col-sm-4 control-label">[Cal]</label>
+                        <input type="text" name="calle" placeholder="[Cal]" value="<?= $arr['calle_dir']?>"><br>
+                        <label class="col-sm-4 control-label">#</label>
+                        <input type="number" name="num" min="1" step="1" placeholder="1" value="<?= $arr['no_dir']?>"><br>
+                        <label class="col-sm-4 control-label">[Col]</label>
+                        <input type="text" name="col" placeholder="[Col]" value="<?= $arr['col_dir']?>">
+                    </div>
+                </div>
+                <div ng-show="view2.dep" class="form-group">
+                    <label class="col-sm-4 control-label">[dep]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="dep" placeholder="[dep]" class="form-control" value="<?= $arr['depa_dir']?>">
+                    </div>
+                </div>
+                <div ng-show="view2.ubi" class="form-group">
+                    <label class="col-sm-4 control-label">[ubicacion]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="ubi" placeholder="[ubicacion]" class="form-control" value="<?= $arr['ubi_dir']?>">
+                    </div>
+                </div>
+                <div ng-if="t != 3" class="form-group">
+                    <label class="col-sm-4 control-label">[tel]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="tel" placeholder="[tel]" class="form-control" value="<?= $arr['tel_dir']?>" required>
+                    </div>
+                </div>
+                <div ng-show="view2.con" class="form-group">
+                    <label class="col-sm-4 control-label">[con]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="con" placeholder="[con]" class="form-control" value="<?= $arr['con_dir']?>">
+                    </div>
+                </div>
+                <div ng-show="view2.img" class="form-group">
+                    <label class="col-sm-4 control-label">[img]</label>
+                    <div class="col-sm-8">
+                        <input type="file" name="img">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[ext]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="ext" placeholder="[ext]" class="form-control" value="<?= $arr['ex_dir']?>" required>
+                    </div>
+                </div>
+                <div ng-show="view2.tcu" class="form-group">
+                    <label class="col-sm-4 control-label">[tcu]</label>
+                    <div class="col-sm-8">
+                    	<select class="form-control" name="tcu">
+                            <option value="0" selected="0"></option>
+                    		<option value="1">[tcu1]</option>
+                    		<option value="2">[tcu2]</option>
+                    	</select>
+                    </div>
+                </div>
+                <div ng-show="view2.conm" class="form-group">
+                    <label class="col-sm-4 control-label">[conm]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="conm" placeholder="[conm]" class="form-control" value="<?= $arr['conm_dir']?>">
+                    </div>
+                </div>
+                <div ng-show="view2.extesc" class="form-group">
+                    <label class="col-sm-4 control-label">[ext] [esc]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="extesc" placeholder="[ext] [esc]" class="form-control" value="<?= $arr['exesc_dir']?>">
+                    </div>
+                </div>
+                <div ng-show="view2.piso" class="form-group">
+                    <label class="col-sm-4 control-label">[piso]</label>
+                    <div class="col-sm-8">
+                        <input type="number" min="-2" max="12" step="1" name="piso" placeholder="1" class="form-control" value="<?= $arr['piso_dir']?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[webp]</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="web" placeholder="http://www.google.com" class="form-control" value="<?= $arr['web_dir']?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if($arr):?>
+            <input type="hidden" value="<?= $arr['id_dir']?>" name="id">
+            <button type="submit" class="{{colors.tono2}}" name="save" value="2">[save]</button>
+        <?php else:?>
+            <button type="submit" class="{{colors.tono2}}" name='save' value="1">[save]</button>
+        <?php endif;?>
+    </div>
+</form>

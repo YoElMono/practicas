@@ -1,0 +1,93 @@
+<h1>[sers]</h1>
+<form ng-app="MyFirseModule" action="index.php/sers" class="form-horizontal" method="POST" id="form-ser">
+    <div ng-controller="ocultar">
+        <div class="btn-group">
+            <label class="btn btn-primary radazul">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="1" checked>[tSe1]
+            </label>
+            <label class="btn btn-primary radrojo">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="2"> [tSe2]
+            </label>
+            <label class="btn btn-primary radverde">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="3"> [tSe3]
+            </label>
+            <label class="btn btn-primary radama">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="4"> [tSe4]
+            </label>
+            <label class="btn btn-primary radnar">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="5"> [tSe5]
+            </label>
+            <label class="btn btn-primary radgris">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="6"> [tSe6]
+            </label>
+            <label class="btn btn-primary radextra">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="7"> [tSe7]
+            </label>
+            <label class="btn btn-primary radmor">
+                <input type="radio" ng-click="act()" ng-model="t" name="options" value="8"> [tSe8]
+            </label>
+        </div>
+        <div class="{{colors.tono}} sepa">
+            <div class="panel-heading">Datos Personales</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[userIp]</label>
+                	<div class="col-sm-8">
+                        <p><?= utf8_encode($_SESSION['name_user'])?></p>
+                        <input type="hidden" name="nCap" value="<?= utf8_encode($_SESSION['id_user'])?>">
+                	</div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[depen]</label>
+                	<div class="col-sm-8">
+                    	<p><?= $arr['dep'][$_SESSION['depen_user']-1]['nombre_depe']?></p>
+                        <?php if($_SESSION['depen_user'] != 14):?>
+                            <input type="hidden" name="dp" value="<?=$_SESSION['depen_user']?>">
+                        <?php else:?>
+                            <select class="form-control" name="dp">
+                                <?php foreach ($arr['dep'] as $key => $value):?>
+                                    <option value="<?=$value['id_depe']?>"><?=$value['nombre_depe']?></option>
+                                <?php endforeach;?>
+                            </select>
+                        <?php endif;?>
+                	</div>
+                </div>
+            </div>
+        </div>
+        <div class="{{colors.tono}} sepa">
+            <div class="panel-heading">[sers]</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[ordser]</label>
+                    <div class="col-sm-8">
+                        <p id="codigo"><?= $arr['data']?></p>
+                        <input type="hidden" name="cod" value="<?= $arr['data']?>" id="hidden">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[con]</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="cont" placeholder="[con]" required id="con">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[ext]</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="ext" placeholder="[ext]" required id="ext">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">[desOb]</label>
+                    <div class="col-sm-8">
+                        <textarea id="textarea-msn" cols="50" rows="7" name="des" placeholder="[desOb]"class="form-control" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="url" value="<?=$_SERVER['PHP_SELF']?>">
+        <button type="submit" class="{{colors.tono2}}">[solic]</button>
+        <button class="btn btn-default" onclick="return servicio()">[new]</button>
+    </div>
+</form>
+<div id="msj" class="msj-save">
+</div>

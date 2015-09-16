@@ -1,0 +1,43 @@
+<h3>[segSer]</h3>
+<table class="table table-bordered">
+		<tr>
+			<td><strong>[sers]</strong></td>
+			<td><strong>[depen]</strong></td>
+			<td><strong>[soli]</strong></td>
+			<td><strong>[cod]</strong></td>
+			<td><strong>[estado]</strong></td>
+		</tr>
+		<?php foreach ($arr as $key => $value):?>
+			<tr>
+				<td>[tSe<?=$value['tipo_ser']?>]</td>
+				<td><?=$value['nombre_depe']?></td>
+				<td><?=$value['name_user']?></td>
+				<td><?=$value['cod_ser']?></td>
+				<td>
+					<a href="index.php/segSer/<?=$value['id_ser']?>">
+						<?php if($value['estado_ser'] == 1 AND $value['asig_ser'] == 0):?>
+							<span class="label label-warning">[sp]</span>
+						<?php elseif($value['estado_ser'] == 1 AND $value['asig_ser'] != 0):?>
+							<span class="label label-info">[proc]</span>
+						<?php elseif($value['estado_ser'] != 1):?>
+							<span class="label label-success">[sf]</span>
+						<?php endif;?>
+					</a>
+				</td>
+			</tr>
+		<?php endforeach;?>
+</table>
+<?php if(!$arr):?>
+	<h3>[not-info]</h3>
+<?php endif;?>
+<nav>
+  <ul class="pager">
+  	<?php if($_GET['page']):?>
+
+    	<li><a href="index.php/segSer?page=<?=$_GET['page']-1?>">Previous</a></li>
+	<?php endif;?>
+	<?php if($arr):?>
+    	<li><a href="index.php/segSer?page=<?=$_GET['page']+1?>">Next</a></li>
+    <?php endif;?>
+  </ul>
+</nav>

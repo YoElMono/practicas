@@ -1,0 +1,84 @@
+<h1>[repSalida]</h1>
+<div ng-app="MyFirseModule">
+		<dl class="dl-horizontal" ng-init="tipo = <?= $arr['tipo_sali']?>">
+			<div>
+				<dt>[tipo]</dt>
+			  	<dd>[<?= "tS".$arr['tipo_sali']?>]</dd>
+			</div>
+			<div>
+				<dt>[prod]</dt>
+			  	<dd><?= $arr['pro_sali']?></dd>
+			</div>
+			<div ng-if="tipo == 4">
+				<dt>[nfac]</dt>
+			  	<dd><?= $arr['nfac_sali']?></dd>
+			</div>
+			<div>
+				<dt>[depen]</dt>
+			  	<dd><?= $arr['nombre_depe']?></dd>
+			</div>
+			<div>
+				<dt>[desOb]</dt>
+			  	<dd><?= $arr['obser_sali']?></dd>
+			</div>
+			<div ng-if="tipo == 3">
+				<dt>[per]</dt>
+				<dd><b>Inicio:&nbsp&nbsp&nbsp</b><?= $arr['iniPer_sali']?></dd>
+				<dd><b>Fin:&nbsp&nbsp&nbsp</b><?= $arr['finPer_sali']?></dd>
+			</div>
+			<div>
+				<dt>[ffa]</dt>
+			  	<dd><img src="main/templates/complementos/firmas/<?= $arr['foto_ffa']?>" width="320" heigth="260"></dd>
+			<div>
+			<br>
+			<div>
+				<dt>[fp]</dt>
+			  	<dd><img src="main/templates/complementos/fotos/<?= $arr['fp_sali']?>" width="320" heigth="260"></dd></div>
+			<div>
+				<dt>[cap]</dt>
+			  	<dd><?= utf8_decode($arr['name_user'])?></dd>
+			</div>
+			<div ng-if="tipo == 3">
+				<dt>[contacto]</dt>
+			  	<dd><?= $arr['cont_sali']?></dd>
+			</div>
+			<div ng-if="tipo == 3">
+				<dt>[tel]</dt>
+			  	<dd><?= $arr['tel_sali']?></dd>
+			</div>
+			<div>
+				<dt>[feandho]</dt>
+			  	<dd><?= $arr['fecha_sali']."  ".$arr['hora_sali']?></dd>
+			</div>
+			<div>
+				<dt>[cod]</dt>
+			  	<dd><?= $arr['cod_sali']?></dd>
+			</div>
+		
+	<?php if(!$_GET){?>
+	<div ng-if="<?= $arr['estado_sali']?> == 0">
+		<form method="POST" action="">
+			<input type="hidden" name="status" value="1">
+			<input type="hidden" name="autSal" value="<?= $_SESSION['name_user']?>">
+			<input type="hidden" name="id" value="<?= $arr['id_sali']?>">
+			<button type="submit" class="btn btn-primary">[Aut]</button>
+		</form>
+	</div>
+	<div ng-if="<?= $arr['estado_sali']?> == 1">
+		<dl class="dl-horizontal">
+			<dt>[aut]&nbsp[sal]</dt>
+			<dd><?= utf8_decode($arr['aut_sali'])?></dd>
+		</dl>
+	</div>
+	<a href="javascript:history.back(1)"><button class="btn btn-success">Volver</button></a>
+	<?php }else{ ?>
+	<form method="POST" action="">
+	<div>
+		<input type="hidden" name='cod' value="<?=$_GET['codigoBus']?>">
+		<dt><a href="index.php/salidaPro"><button class="btn btn-success">Volver</button></a></dt>
+		<dd><button class="btn btn-danger" type="submit" name="boton" value="1">[DdA]</button></dd>
+	</div>
+	</form>
+	<?php } ?>
+	</dl>
+</div>

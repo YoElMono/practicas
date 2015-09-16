@@ -1,0 +1,46 @@
+<!--<pre><?=print_r($arr)?></pre>-->
+<h2>[Delffas]</h2>
+<div class="panel panel-primary sepa">
+	<div class="panel-heading">[Delffas]</div>
+	<div class="panel-body">
+	<form id="form1" class="form-horizontal" method="GET" action="">
+		<div class="form-group">
+			<label class="col-sm-4 control-label">[depen]</label>
+			<div class="col-sm-8">
+				<select class="form-control" name="depen" id="depen">
+					<option></option>
+					<?php foreach ($arr['dep'] as $key => $value):?>
+	    				<option value="<?= $value['id_depe']?>"><?= $value['nombre_depe']?></option>
+	    			<?php endforeach;?>
+				</select>
+			</div>
+		</div>
+	</form>
+	<?php if($arr['ffas']){?>
+	<!--<pre><?=print_r($arr['ffas'])?></pre>-->
+	<form method="POST" action="">
+		<div class="form-group">
+			<div>
+			<label class="col-sm-4 control-label">[ffas]</label>
+			</div>
+			<div class="form-group">
+				<?php foreach ($arr['ffas'] as $key => $value) { ?>
+				<label class="col-sm-4"><input type="checkbox" name="ffas[]" value="<?=$value['id_ffa']?>"><?=$value['nombre_ffa']?></label>
+				<?php } ?>
+			</div>
+		</div>
+	</form>
+	<?php }?>
+	</div>
+</div>
+<?php if($arr['ffas']){?><button type="submit" class="btn btn-danger" name="eliminar" value="true">Eliminar</button><?php } ?>
+<script>
+	$(function () {
+		$('select').change(function () {
+			$('form:eq(0)').submit();
+		})
+		$('button').click(function () {
+			$('form:eq(1)').submit();
+		})
+	})
+</script>

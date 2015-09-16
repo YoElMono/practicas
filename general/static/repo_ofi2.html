@@ -1,0 +1,145 @@
+<?php $mes=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']?>
+<h2>[Reporte_ofi]</h2>
+<div id="principal">
+<form method="POST" class="form-horizontal" action="" id="buscarOficio">
+<input type="hidden" id="url" value="<?=$_SERVER['PHP_SELF']?>">
+	<label class="col-sm-4 control-label">[cap]</label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<input id="caps" type="text" name="prod" list="producto" class="form-control" placeholder="[cap]..." autocomplete="off">
+			<datalist id="producto">
+				<?php foreach ($arr['caps'] as $key => $value) {?>
+					<option value="<?=$value?>">
+				<?php }?>
+			</datalist>
+		</div>
+   	</div>
+   	<label class="col-sm-4 control-label">[depen] </label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<select class="form-control" name="dep" id="dep">
+				<option value="0"></option>
+   	    		<?php foreach ($arr['dep'] as $key => $value):?>
+   	        		<option value="<?= $value['id_depe']?>"><?= $value['nombre_depe']?></option>
+   	    		<?php endforeach;?>
+    		</select>
+		</div>
+    </div>
+   	<label class="col-sm-4 control-label">[Con] </label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<select class="form-control" name="con" id="con">
+				<?php for ($i=0; $i < 8; $i++) {?>
+				<option value="<?=$i?>">[Con<?=$i?>]</option>
+				<?php } ?>
+    		</select>
+		</div>
+    </div>
+	<label class="col-sm-4 control-label">[num]</label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<input id="num" type="text" class="form-control" list="numero" autocomplete="off" placeholder="[num]..." name="num">
+			<datalist id="numero">
+				<?php foreach ($arr['nums'] as $key => $value) {?>
+					<option value="<?=$value?>">
+				<?php }?>
+			</datalist>
+		</div>
+	</div>
+	<label class="col-sm-4 control-label">[pal-cl]</label>
+	<div class="col-sm-8">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="[pal-cl]..." name="cl" id="cl">
+		</div>
+	</div>	
+    <label class="col-sm-4 control-label">[fec]</label>
+    <div class="row">
+    	<div class="col-xs-2">
+    		<label>[dia]</label>
+	   		<select class="form-control" name="dia" id="dia">
+	   		<option value="0"></option>
+	   			<?php for($i=1;$i<=31;$i++):?>
+	   				<?php if($i<10) $i='0'.$i;?>
+	   				<option value="<?= $i?>"><?= $i?></option>
+	   			<?php endfor;?>
+	   		</select>
+  		</div>
+    	<div class="col-xs-2">
+	   		<label>[mes]</label>
+	   		<select class="form-control" name="mes" id="mes">
+	   		<option value="0"></option>
+	   			<?php for($i=1;$i<=12;$i++):?>
+	   				<?php if($i<10) $i='0'.$i;?>
+	   				<option value="<?= $i?>"><?= $mes[$i-1]?></option>
+	   			<?php endfor;?>
+	   		</select>
+  		</div>
+    	<div class="col-xs-2">
+    		<label>[año]</label>
+	   		<select class="form-control" name="anio" id="anio">
+	   			<option value="0"></option>
+	   			<?php for($i=2015;$i<=2018;$i++):?>
+	   				<option value="<?= $i?>"><?= $i?></option>
+	   			<?php endfor;?>
+	   		</select>
+  		</div>	
+    </div>
+    <label class="col-sm-4 control-label">Rango de [fec]</label>
+    <div class="row">
+    	<div class="col-xs-3">
+    		<label>[ini]</label>
+	   		<input type="text" class="form-control" name="fecIni" id="Cinicio" readonly><i class="glyphicon glyphicon-remove"></i>
+  		</div>
+    	<div class="col-xs-3">
+	   		<label>[fin]</label>
+	   		<input type="text" id="Cfin" name="fecFin" class="form-control" readonly><i class="glyphicon glyphicon-remove"></i>
+  		</div>
+    </div>
+    <input type="hidden" name="url" value="<?=$_SERVER['PHP_SELF']?>" id="url">
+    <button class="btn btn-default" onclick="return buscarOficio()">Buscar</button>
+</form>
+<br>
+<?php if($arr['dh']){ ?>
+<table class="table table-bordered" id="busofi">
+	<tr>
+		<td><strong>[feandho]</strong></td>
+		<td><strong>[no]</strong></td>
+		<td><strong>[Con]</strong></td>
+		<td><strong>[cap]</strong></td>
+		<td>[v+]</td>
+		<td>[edit]</td>
+		<td>[delete]</td>
+	</tr>
+	<?php foreach ($arr['dh'] as $key => $value) { ?>
+	<tr>
+		<td><?=$value['fecha_ofi'].' '.$value['hora_ofi']?></td>
+		<td><?=$value['no_ofi']?></td>
+		<td><?php if($value['con_ofi'] < 7) echo '[Con'.$value['con_ofi'].']'; else echo $value['nomCon_ofi'];?></td>
+		<td><?=$value['userCap_ofi']?></td>
+		<td><span id="vermas" value="<?=$value['id_ofi']?>" class="label label-success">[v+]</span></td>
+		<td><a class="link_blanco" href="index.php/Reporte_ofi?edit=<?=$value['id_ofi']?>"><span class="label label-warning">[edit]</span></a></td>
+		<td><span id="delete" value="<?=$value['id_ofi']?>" class="label label-danger">[delete]</span></td>
+	</tr>
+	<?php } ?>
+</table>
+<?php }else{ ?> 
+<div id="padre">
+<table class="table table-bordered" id="busofi"></table>
+<div class="alert alert-warning" role="alert" id="notinfo">[not-info]</div>
+</div>
+<?php } ?>
+</div>
+<div id="verofi"></div>
+<script>
+	$(function () {
+		$('#Cinicio').calendarioDW();
+		$('#Cfin').calendarioDW();
+	})
+	function girar (grad) {
+		//if(typeof(grad) == 'undefined') grad = 0;
+		if(grad == '') grad = 10;
+		$('#cuadrado').css('transform','rotate('+grad+'deg)');
+		grad+=5;
+		girar(grad)
+	}
+</script>

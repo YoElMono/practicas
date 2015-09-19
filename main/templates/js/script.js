@@ -875,7 +875,16 @@ function abrirVentana(url) {
 	}
 
 	function eventos (dia,mes,anio) {
-		var fecha = anio+'-'+((mes<10)?'0'+mes:mes)+'-'+((dia==0)?'%':(dia<10)?'0'+dia:dia);
+		var fecha = anio+'-'+((mes<10)?'0'+mes:mes)+'-';//+((dia==0)?'%':(dia<10)?'0'+dia:dia);
+		if(dia == 0){
+			fecha += '%';
+		}else{
+			if(dia<10){
+				fecha += '0'+dia;
+			}else{
+				fecha += dia;
+			}
+		}
 		$.ajax({
 			url:'index.php/eventos',
 			dataType:'json',

@@ -908,7 +908,6 @@ function abrirVentana(url) {
 					$("#lista-eventos>table").hide();
 					$("#not-found").show();
 				}
-				$("#eventos_conteiner").css({left:(($("body").width()/2)-($("#eventos_conteiner").width()/2)),top:(($(window).height()/2)-($("#eventos_conteiner").height()/2))})
 				$("#pantalla").fadeIn(500);
 				$("body").css("overflow-y","hidden");
 			},

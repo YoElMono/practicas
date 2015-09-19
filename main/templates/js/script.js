@@ -875,7 +875,7 @@ function abrirVentana(url) {
 	}
 
 	function eventos (dia,mes,anio) {
-		var fecha = anio+'-'+((mes<10)?'0'+mes:mes)+'-'+((dia<10)?'0'+dia:dia);
+		var fecha = anio+'-'+((mes<10)?'0'+mes:mes)+'-'+((dia==0)?'%':(dia<10)?'0'+dia:dia);
 		$.ajax({
 			url:'index.php/eventos',
 			dataType:'json',
@@ -885,10 +885,12 @@ function abrirVentana(url) {
 				console.log(data)
 				if(data != ""){
 					$("#lista-eventos>table").html("")
+					var head = "<tr><td><b>Nombre</b></td><td><b>Descripcion</b></td><td><b>Fecha</b></td><td><b>Hora</b></td><td><b>Sede</b></td><td><b>Archivo</b></td></tr>";
+					$("#lista-eventos>table").append(head);
 					$.each(data,function (key,value) {
 						url = "'main/templates/complementos/archivos_oficios/"+value.archivo_eve+"'";
 						boton = '<button class="boton-archivo" onclick="abrirVentana('+url+');">Archivo</button>'
-						var fila = '<tr><td>'+value.nombre_eve+'</td><td>'+value.descripcion_eve+'</td><td>'+value.fecha_eve+'</td><td>'+boton+'</td></tr>';
+						var fila = '<tr><td>'+value.nombre_eve+'</td><td>'+value.descripcion_eve+'</td><td>'+value.fecha_eve+'</td><td>'+value.hora_eve+'</td><td>'+value.sede_eve+'</td><td>'+boton+'</td></tr>';
 						$("#lista-eventos>table").append(fila);
 					})
 					$("#lista-eventos>table").show();

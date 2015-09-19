@@ -142,7 +142,8 @@
 		public function conGet(){
 			$d[0] = $this->data->dpUni($_GET['d']);
 			$d[1] = $this->data->dpF($_GET['d']);
-			return JsonResponse($d);
+			echo json_encode($d);exit();
+			//return JsonResponse($d);
 		}
 		public function get_f(){
 			$d = $this->data->nffa($_GET['id']);
@@ -1109,6 +1110,7 @@
 					if($_POST['con'] == 6 ){
 						$_POST['options'] = 6;
 						$this->data->solSer($_POST);
+						$_POST['sede_eve'] = utf8_encode($_POST['sede_eve']);
 						$_POST['fecha_eve'] = explode('/',$_POST['fecha_eve']);
 						$_POST['fecha_eve'] = $_POST['fecha_eve'][2].'-'.$_POST['fecha_eve'][1].'-'.$_POST['fecha_eve'][0];
 						$this->data->newEvent($_POST);

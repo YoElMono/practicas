@@ -1,5 +1,5 @@
 <h1>[Oficialia]</h1>
-<form method="post" action="<?=($arr['inf'])?'index.php/Oficialia':'';?>" class="form-horizontal" ng-app="MyFirseModule" onload="bus()" enctype="multipart/form-data" ng-init="id=<?=$arr['inf']['id_depe']?>" id="form-ofi">
+<form method="post" action="<?=($arr['inf'])?'index.php/Oficialia':'';?>" class="form-horizontal" ng-app="MyFirseModule" onload="bus()" enctype="multipart/form-data" ng-init="id=<?=$arr['inf']['id_depe']?>" id="form-ofi" onsubmit="validarForm(); return false;">
 <div class="panel panel-primary sepa">
 	<div class="panel-heading">Datos Generales</div>
 	<div class="panel-body">
@@ -74,9 +74,19 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Fecha del Evento</label>
+                <label class="col-sm-4 control-label">Sede</label>
+                <div class="col-sm-8">
+                    <input class="form-control" name="sede_eve" value="" id="sedeEve">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Fecha del Evento y Hora</label>
                 <div class="col-sm-4">
                     <input class="form-control" name="fecha_eve" value="" id="fechaEve" readonly>
+                </div>
+                <label class="col-sm-4 control label">Hora</label>
+                <div class="col-sm-4">
+                    <input type="text" name="hora_eve" id="hora_eve" onkeyup="dos_puntos('hora_eve')" onblur="validarHora('hora_eve')">                    
                 </div>
             </div>
         </div>
@@ -149,9 +159,54 @@
             }
         })
         $("#cons").change(function () {
-            if($(this).val()==6) $('#eventos').show();
-            else $('#eventos').hide();
+            if($(this).val()==6){ $('#eventos').show();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',true)}
+            else {$('#eventos').hide();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',false)}
         })
         $("#fechaEve").calendarioDW();
+        /*$("#form-ofi").submit(function (event) {
+            event.preventDefault();
+            if($("#cons").val() == 7 && ($("#nombreCon").val() == "" || $("#nombreCon").val() == null)){
+               // alert("bien")
+               $("#nombreCon").focus();
+            }else{
+                $("#form-ofi").submit();
+            }
+        })*/
+        $("#nombreCon, #nombreEve").keypress(function (event) {
+            if(event.which == 13){
+                $("#desc").focus()
+                event.preventDefault();
+            }
+        })
     })
+    function validarForm () {
+        if(($("#cons").val() == 7 && ($("#nombreCon").val() == "" || $("#nombreCon").val() == null)) || ($("#cons").val() == 6 && ($("#nombreEve").val() == "" || $("#nombreEve").val() == null))){
+          // alert("bien")
+           ($("#cons").val()==6) ? $("#nombreEve").focus():$("#nombreCon").focus();
+
+           return false;
+        }else{
+            $("#form-ofi").submit();
+        }
+        return false;
+    }
+
+
+    function validarHora (id) {
+        if(!valHorVer($("#"+id).val())) $("#"+id).val("");
+    }
+
+
+
+    function valHorVer (hor) {
+        var hora = hor.split(':')
+        if(hora[0] && hora[1]){
+            if(isNaN(hora[0]) || isNaN(hora[1]) || hora[0].length != 2 || hora[1].length != 2 || hora[0] < 0 || hora[0] > 24 || hora[1] > 59 || hora[1] < 0)
+                return false
+        }else
+            return false
+        return true
+    }
+
+
 </script>

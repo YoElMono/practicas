@@ -535,6 +535,8 @@ aside > div{
 }
 aside{z-index: 99;right: 0px;}
 
+#eventos_conteiner{max-height: 600px;}
+
 /*
 	------------------------
 		Páginas de consulta

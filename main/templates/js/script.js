@@ -913,6 +913,7 @@ function abrirVentana(url) {
 				}
 				$("#pantalla").fadeIn(500);
 				$("#eventos_conteiner").css({left:(($("body").width()/2)-($("#eventos_conteiner").width()/2)),top:(($(window).height()/2)-($("#eventos_conteiner").height()/2))})
+				if($("#eventos_conteiner").height()>=600) $('#eventos_conteiner').css('overflow-y','scroll'); else $('#eventos_conteiner').css('overflow-y','hidden');
 				$("body").css("overflow-y","hidden");
 			},
 			error:function () {

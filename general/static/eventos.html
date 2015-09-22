@@ -34,7 +34,7 @@
 			    <td align=center>Sa</td>
 			</tr>
 			<tr>
-				<td class="gray">
+				<td class="gray" style="cursor:pointer;">
 					<p class="link_negro" onclick="eventos('','',<?=$arr["anio_hoy"]?>,<?=$arr["nd_semana"]?>)"><?=$arr['nd_semana']?></p>
 				</td>
 				<?php for ($i=0; $i<7 ; $i++):?>
@@ -83,7 +83,7 @@
 			<?php while ( $arr['dia_ac']<= $arr['nd_mes']):?>
 				<?php if($arr['nd_dias'] == 0):?>
 					<tr>
-						<td class="gray">
+						<td class="gray" style="cursor:pointer;">
 							<p class="link_negro" onclick="eventos('','',<?=$arr["anio_hoy"]?>,<?=$arr["nd_semana"]?>)"><?=$arr['nd_semana']?></p>
 						</td>
 				<?php endif;?>

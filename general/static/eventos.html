@@ -35,7 +35,7 @@
 			</tr>
 			<tr>
 				<td class="gray">
-					<p class="link_negro"><?=$arr['nd_semana']?></p>
+					<p class="link_negro" onclick="eventos('','',<?=$arr["anio_hoy"]?>,<?=$arr["nd_semana"]?>)"><?=$arr['nd_semana']?></p>
 				</td>
 				<?php for ($i=0; $i<7 ; $i++):?>
 					<?php if($i < $arr['n_dias']):?>
@@ -84,7 +84,7 @@
 				<?php if($arr['nd_dias'] == 0):?>
 					<tr>
 						<td class="gray">
-							<p class="link_negro"><?=$arr['nd_semana']?></p>
+							<p class="link_negro" onclick="eventos('','',<?=$arr["anio_hoy"]?>,<?=$arr["nd_semana"]?>)"><?=$arr['nd_semana']?></p>
 						</td>
 				<?php endif;?>
 					<?php if($arr['nd_dias'] == 0 || $arr['nd_dias'] == 6):?>

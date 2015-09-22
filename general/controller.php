@@ -1113,6 +1113,10 @@
 						$_POST['sede_eve'] = utf8_encode($_POST['sede_eve']);
 						$_POST['fecha_eve'] = explode('/',$_POST['fecha_eve']);
 						$_POST['fecha_eve'] = $_POST['fecha_eve'][2].'-'.$_POST['fecha_eve'][1].'-'.$_POST['fecha_eve'][0];
+						$dia   = substr($_POST['fecha_eve'],8,2);
+						$mes = substr($_POST['fecha_eve'],5,2);
+						$anio = substr($_POST['fecha_eve'],0,4);
+						$_POST['semana_eve'] = date('W',  mktime(0,0,0,$mes,$dia,$anio));
 						$this->data->newEvent($_POST);
 						$ya = true;
 					}elseif($_POST['ser'] && !$ya){

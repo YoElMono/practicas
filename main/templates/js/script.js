@@ -875,16 +875,20 @@ function abrirVentana(url) {
 		return false
 	}
 
-	function eventos (dia,mes,anio) {
-		var fecha = anio+'-'+((mes<10)?'0'+mes:mes)+'-';//+((dia==0)?'%':(dia<10)?'0'+dia:dia);
-		if(dia == 0){
-			fecha += '%';
-		}else{
-			if(dia<10){
-				fecha += '0'+dia;
+	function eventos (dia,mes,anio,semana) {
+		if(mes != ''){
+			var fecha = "'"+ anio+'-'+((mes<10)?'0'+mes:mes)+'-';//+((dia==0)?'%':(dia<10)?'0'+dia:dia);
+			if(dia == 0){
+				fecha += "%'";
 			}else{
-				fecha += dia;
+				if(dia<10){
+					fecha += '0'+dia+"'";
+				}else{
+					fecha += dia+"'";
+				}
 			}
+		}else if(semana !== undefined){
+			var fecha = "'"+ anio+"-%' and semana_eve = "+semana;
 		}
 		$.ajax({
 			url:'index.php/eventos',
@@ -903,11 +907,9 @@ function abrirVentana(url) {
 						var fila = '<tr><td>'+value.nombre_eve+'</td><td>'+value.descripcion_eve+'</td><td>'+value.fecha_eve+'</td><td>'+value.hora_eve+'</td><td>'+value.sede_eve+'</td><td>'+boton+'</td></tr>';
 						$("#lista-eventos>table").append(fila);
 					})
-					//$("#eventos_conteiner").css({left:(($("body").width()/2)-($("#eventos_conteiner").width()/2)),top:(($(window).height()/2)-($("#eventos_conteiner").height()/2))})
 					$("#lista-eventos>table").show();
 					$("#not-found").hide();
 				}else{
-					//$("#eventos_conteiner").css({left:(($("body").width()/2)-($("#eventos_conteiner").width()/2)),top:(($(window).height()/2)-($("#eventos_conteiner").height()/2))})
 					$("#lista-eventos>table").hide();
 					$("#not-found").show();
 				}

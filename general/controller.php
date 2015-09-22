@@ -210,7 +210,7 @@
 						$foto = explode('.',$_FILES['foto2']['name']);
 						$ext = $foto[count($foto)-1];
 						$arr['foto2'] = $_POST['codeFecha'].'.'.$ext;
-						move_uploaded_file($_FILES['foto2']['tmp_name'], $nombreDirectorio.$arr['foto2']);
+						copy($_FILES['foto2']['tmp_name'], $nombreDirectorio.$arr['foto2']);
 					}
 					//$nombreFichero = $_POST['codeFecha'].'.jpg';
 					//echo '<pre>';print_r($_POST);print_r($_FILES);echo '</pre>';exit();

@@ -274,6 +274,7 @@ $(function(){
 			var pos = 385-top;
 			if(pos<30)pos=30;
 			$('.menu,aside').css({'position':'fixed','top':pos+'px'});
+			$('aside').css({'right':'48px','width':'293px'});
 			//var pos2 = 300-top;
 			//if(pos2<30)pos=300
 		})
@@ -902,13 +903,16 @@ function abrirVentana(url) {
 						var fila = '<tr><td>'+value.nombre_eve+'</td><td>'+value.descripcion_eve+'</td><td>'+value.fecha_eve+'</td><td>'+value.hora_eve+'</td><td>'+value.sede_eve+'</td><td>'+boton+'</td></tr>';
 						$("#lista-eventos>table").append(fila);
 					})
+					//$("#eventos_conteiner").css({left:(($("body").width()/2)-($("#eventos_conteiner").width()/2)),top:(($(window).height()/2)-($("#eventos_conteiner").height()/2))})
 					$("#lista-eventos>table").show();
 					$("#not-found").hide();
 				}else{
+					//$("#eventos_conteiner").css({left:(($("body").width()/2)-($("#eventos_conteiner").width()/2)),top:(($(window).height()/2)-($("#eventos_conteiner").height()/2))})
 					$("#lista-eventos>table").hide();
 					$("#not-found").show();
 				}
 				$("#pantalla").fadeIn(500);
+				$("#eventos_conteiner").css({left:(($("body").width()/2)-($("#eventos_conteiner").width()/2)),top:(($(window).height()/2)-($("#eventos_conteiner").height()/2))})
 				$("body").css("overflow-y","hidden");
 			},
 			error:function () {

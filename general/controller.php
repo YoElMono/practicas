@@ -1167,7 +1167,7 @@
 					$_POST['des'] = strtoupper($_POST['des']);
 					//echo '<pre>';print_r($_POST);echo'</pre>';exit();
 					$this->data->actualizarOficios($_POST);
-					$this->data->actEventoData($_POST);
+					if($_POST['con'] == 6) $this->data->actEventoData($_POST);
 					return HttpResponse('index.php/Reporte_ofi');
 				}
 				if($_GET['borrar']){

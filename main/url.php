@@ -52,6 +52,7 @@
 		case 'cambiar_imagen':{$objects["principal"]->cambiar_imagen();}break;
 		case 'repFal2':{$objects["principal"]->repFal();}break;
 		case 'eventos':{$objects["principal"]->eventos();}break;
+		case 'getEventoData':{$objects["principal"]->getEventoData();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

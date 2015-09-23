@@ -1,5 +1,5 @@
 <h1>[Oficialia]</h1>
-<form method="post" action="<?=($arr['inf'])?'index.php/Oficialia':'';?>" class="form-horizontal" ng-app="MyFirseModule" onload="bus()" enctype="multipart/form-data" ng-init="id=<?=$arr['inf']['id_depe']?>" id="form-ofi" onsubmit="validarForm(); return false;">
+<form method="post" action="" class="form-horizontal" ng-app="MyFirseModule" onload="bus()" enctype="multipart/form-data" ng-init="id=<?=$arr['inf']['id_depe']?>" id="form-ofi" onsubmit="validarForm(); return false;">
 <div class="panel panel-primary sepa">
 	<div class="panel-heading">Datos Generales</div>
 	<div class="panel-body">
@@ -39,7 +39,7 @@
            <label class="col-sm-4 control-label">Seleccionar Archivo</label>
             <div class="col-sm-8">
                 <?php if($arr['inf']){?>
-                <input type="hidden" name="foto1" value="<?=$arr['inf']['foto_ofi']?>">
+                <input type="hidden" name="foto1" value="<?=$arr['inf']['archivo_ofi']?>">
                 <?php } ?>
                 <input type="file" id="files" name="foto" accept=".pdf">
             </div> 
@@ -98,7 +98,7 @@
             </div>
 		</div>
         <?php if(!$arr['inf']){?>
-        <div class="form-group">
+        <div class="form-group" id="service">
             <label class="col-sm-4 control-label" for="ser">[solSer]</label>
             <div clss="col-sm-8">
                 <input type="checkbox" id="ser" name="ser" value="true" class="checkOfi">
@@ -124,6 +124,7 @@
     <input type="hidden" name="idusu" value="<?=$_SESSION['id_user']?>">
     <?php }else{ ?>
     <input type="hidden" name="edit" value="<?=$arr['inf']['id_ofi']?>">
+    <input type="hidden" name="num_old" id="num_old" value="<?=$arr['inf']['no_ofi']?>">
     <?php } ?>
 </div>
 <input type="hidden" name="url" value="<?=$_SERVER['PHP_SELF']?>">
@@ -139,7 +140,7 @@
         $('#numero').blur(function () {
             var este = $(this)
             if(este.val())
-            if(validarNumero(numeros,este.val()))
+            if(validarNumero(numeros,este.val()) && ($("#num_old").val() !== null && este.val() != $("#num_old").val()))
                 este.val('').addClass('vacio').attr('placeholder','Número ya registrado')
         })
         $(document).on('focus click','#numero',function () {
@@ -159,25 +160,42 @@
             }
         })
         $("#cons").change(function () {
-            if($(this).val()==6){ $('#eventos').show();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',true)}
+            if($(this).val()==6){ $('#eventos').show();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',true)
+                                $('#service').hide()}
             else {$('#eventos').hide();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',false)}
         })
         $("#fechaEve").calendarioDW();
-        /*$("#form-ofi").submit(function (event) {
-            event.preventDefault();
-            if($("#cons").val() == 7 && ($("#nombreCon").val() == "" || $("#nombreCon").val() == null)){
-               // alert("bien")
-               $("#nombreCon").focus();
-            }else{
-                $("#form-ofi").submit();
-            }
-        })*/
         $("#nombreCon, #nombreEve").keypress(function (event) {
             if(event.which == 13){
                 $("#desc").focus()
                 event.preventDefault();
             }
         })
+        if($('#cons').val() == 6){
+            $('#eventos').show();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',true);$('#service').hide();
+            $.ajax({
+                url:'index.php/getEventoData',
+                dataType:'json',
+                type:'POST',
+                data:'id='+$("#numero").val(),
+                success:function (data) {
+                    console.log(data)
+                    var fecha = data.fecha_eve.split('-');
+                    fecha = ((fecha[2]<10)?fecha[2][1]:fecha[2])+'/'+((fecha[1]<10)?fecha[1][1]:fecha[1])+'/'+fecha[0];
+                    var hora = data.hora_eve.split(':');
+                    hora = hora[0]+':'+hora[1];
+                    $('#nombreEve').val(data.nombre_eve)
+                    $('#sedeEve').val(data.sede_eve)
+                    $('#fechaEve').val(fecha)
+                    $('#hora_eve').val(hora)
+                },
+                error:function () {
+                    console.log('error');
+                }
+            })
+        }else if($('#cons').val() == 7){
+            $('#nomCon').show();
+        }
     })
     function validarForm () {
         if(($("#cons").val() == 7 && ($("#nombreCon").val() == "" || $("#nombreCon").val() == null)) || ($("#cons").val() == 6 && ($("#nombreEve").val() == "" || $("#nombreEve").val() == null))){

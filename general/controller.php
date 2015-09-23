@@ -1138,17 +1138,36 @@
 		public function Reporte_ofi(){
 			if($_GET){
 				if($_POST['edit']){
-					$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
+					/*$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
 					$nombreFichero = $_FILES['foto']['name'];
 					if($_POST['foto1'] != $nombreFichero){
 						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
 						$_POST['foto'] = $_FILES['foto']['name'];
 					}else{
 						$_POST['foto'] = $_POST['foto1'];
+					}*/
+					if($_FILES['foto']['name'] != ''){
+						$nombreDirectorio = "main/templates/complementos/archivos_oficios/";
+						//$nombreFichero = $_POST['numero'].'.jpg';
+						$archivo = explode('.',$_FILES['foto']['name']);
+						$ext = $archivo[count($archivo)-1];
+						$replace = array('-','/',' ','.',',');
+						$archivo = str_replace($replace, '-', $_POST['numero']);
+						$archivo.= '.'.$ext;
+						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$archivo);
+						$_POST['foto'] = $archivo;
+					}else{
+						$_POST['foto'] = $_POST['foto1'];
+					}
+					if($_POST['fecha_eve'] != ""){
+						$fecha = explode('/', $_POST['fecha_eve']);
+						$_POST['fecha_eve'] = $fecha[2].'-'.(($fecha[1]<10)?'0'.$fecha[1]:$fecha[1]).'-'.(($fecha[0]<10)?'0'.$fecha[0]:$fecha[0]);
+						$_POST['semana_eve'] = date('W',  mktime(0,0,0,$fecha[1],$fecha[0],$fecha[2]));
 					}
 					$_POST['des'] = strtoupper($_POST['des']);
 					//echo '<pre>';print_r($_POST);echo'</pre>';exit();
 					$this->data->actualizarOficios($_POST);
+					$this->data->actEventoData($_POST);
 					return HttpResponse('index.php/Reporte_ofi');
 				}
 				if($_GET['borrar']){
@@ -1165,6 +1184,9 @@
 				}else{
 					$dep['dep'] = $this->data->depSel(); 
 					$dep['inf'] = $arr;
+					$dep['todo'] = $this->data->oficios();
+					foreach ($dep['todo'] as $key => $value) $caps[] = $value['no_ofi'];
+					$dep['nums'] = json_encode(array_unique($caps));
 					return render_to_response(vista::page('oficialia.html',$dep));
 				}
 			}else{
@@ -1467,6 +1489,14 @@
 			}
 			
 		}
+
+		public function getEventoData(){
+			$id = $_POST['id'];
+			$data = $this->data->getEventoData($id);
+			echo json_encode($data);exit();
+		}
+
+
 		public function diaRegalo(){
 			echo "Juan";
 		}

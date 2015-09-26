@@ -109,6 +109,7 @@
 	"personal":"Registro de Personal",
 	"dl":"Datos laborales",
 	"dp":"Datos personales",
+	"di":"Datos Institucionales",
 	"Nom":"Nombramiento",
 	"TC":"Tipo de Contrato",
 	"CH":"Carga Horaria",
@@ -176,6 +177,7 @@
 	"tcu2":"Regional",
 	"conm":"Conmutador",
 	"esc":"Escolar",
+	"Esc":"Escuela",
 	"piso":"Piso",
 	"dep":"Departamento",
 	"mdir":"Mostrar Directorio",
@@ -264,5 +266,13 @@
 	"tds":"Tipo de Servicio",
 	"ini":"Inicio",
 	"view":"Vista",
-	"eventos":"Eventos"
+	"eventos":"Eventos",
+	"Servicio_Social_Registro":"Registro (Servicio Social)",
+	"Servicio_Social_Adm":"Administrador (Servicio Social)",
+	"carr":"Carrera",
+	"pl":"Plaza",
+	"obs":"Observaciones",
+	"fecha-ingreso":"Fecha de Ingreso",
+	"HT":"Horas Totales",
+	"status":"Status"
 }

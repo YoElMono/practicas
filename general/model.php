@@ -993,5 +993,25 @@
 			$sea = $this->fetch_array($query);
 			return $sea;
 		}
+		public function savePSS($sql){
+			$this->consulta($sql);
+		}
+		public function getPSS(){
+			$query = $this->consulta("SELECT id_pss,nombre_pss,tel_pss,escuela_pss,tel2_pss,carrera_pss,fechaIngreso_pss,status_pss FROM pss_mant WHERE status_pss != 'Inactivo'");
+			if($this->numero_de_filas($query)>0){
+				while($datos = $this->fetch_assoc($query))
+					$data[] = $datos;
+				return $data;
+			}else
+				return '';
+		}
+		public function bajaPSS($id,$tipo){
+			$this->consulta("UPDATE pss_mant SET status_pss = '$tipo' WHERE id_pss = '$id'");
+		}
+		public function getDataPSS($id)	{
+			$query = $this->consulta("SELECT * FROM pss_mant WHERE id_pss = '$id'");
+			$data = $this->fetch_array($query);
+			return $data;
+		}
 	}
 ?>

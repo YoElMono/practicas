@@ -1,0 +1,293 @@
+<h1>[Servicio_Social_Registro]</h1>
+<form class="form-horizontal" method="POST" action="" enctype="multipart/form-data">
+	<div class="panel panel-primary">
+		<div class="panel-heading">[dp]</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[nombre]</label>
+				<div class="col-sm-8">
+					<input type="text" name="nombre_pss" id="nombre" placeholder="[nombre]" class="form-control" required value="<?=utf8_decode($arr['nombre_pss'])?>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[cod]</label>
+				<div class="col-sm-8">
+					<input type="text" name="codigo_pss" id="codigo" placeholder="[cod]" class="form-control" required value="<?=$arr['codigo_pss']?>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[Dom]</label>
+				<div class="col-sm-8">
+					<input type="text" name="domicilio_pss" id="domicilio" placeholder="[Dom]" class="form-control" required value="<?=utf8_decode($arr['domicilio_pss'])?>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[tel]</label>
+				<div class="col-sm-8">
+					<input type="text" name="tel_pss" id="telefono" placeholder="[tel]" class="form-control" onkeypress="return isNumberKey(event);" value="<?=$arr['tel_pss']?>">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">[di]</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[Esc]</label>
+				<div class="col-sm-8">
+					<input type="text" name="escuela_pss" id="escuela" placeholder="[Esc]" class="form-control" required value="<?=utf8_decode($arr['escuela_pss'])?>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[carr]</label>
+				<div class="col-sm-8">
+					<input type="text" name="carrera_pss" id="carrera" placeholder="[carr]" class="form-control" required value="<?=utf8_decode($arr['carrera_pss'])?>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[tel] [esc]</label>
+				<div class="col-sm-8">
+					<input type="text" name="tel2_pss" id="telefonoEscolar" placeholder="[tel] [esc]" class="form-control" onkeypress="return isNumberKey(event);" value="<?=$arr['tel2_pss']?>">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">[pl]</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[tur]</label>
+				<div class="col-sm-8">
+					<select class="form-control" name="turno_pss" id="turno" required>
+						<option value=""> --- </option>
+						<option value="Matutino"<?=($arr['turno_pss']=='Matutino')?'selected':''?>>Matutino</option>
+						<option value="Vespertino"<?=($arr['turno_pss']=='Vespertino')?'selected':''?>>Vespertino</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[Hor]</label>
+				<div class="col-sm-8">
+					<section class="row">
+						<article class="col-sm-4"><label>Días</label></article>
+						<article class="col-sm-4"><label>[En]</label></article>
+						<article class="col-sm-4"><label>[sal]</label></article>
+					</section>
+					<section class="row">
+						<article class="col-sm-4">
+							<input type="checkbox" name="checkDomingo_pss" id="hord" <?=($arr['checkDomingo_pss'])?'checked':''?>>
+							Domingo	
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="hora1" onblur="validarHora(hora1);cuentaHoras();" onkeyup="dos_puntos('hora1')" type="text" name="entradaDomingo_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['entradaDomingo_pss']?>">
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="hora2" onblur="validarHora(hora2);cuentaHoras();" onkeyup="dos_puntos('hora2')" type="text" name="salidaDomingo_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['salidaDomingo_pss']?>">
+						</article>
+					</section>
+					<section class="row">
+						<article class="col-sm-4">
+							<input type="checkbox" name="checkLunes_pss" id="horl" <?=($arr['checkLunes_pss'])?'checked':''?>>
+							Lunes	
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="hora3" onblur="validarHora(hora3);cuentaHoras();" onkeyup="dos_puntos('hora3')" type="text" name="entradaLunes_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['entradaLunes_pss']?>">
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="hora4" onblur="validarHora(hora4);cuentaHoras();" onkeyup="dos_puntos('hora4')" type="text" name="salidaLunes_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['salidaLunes_pss']?>">
+						</article>
+					</section>
+					<section class="row">
+						<article class="col-sm-4">
+							<input type="checkbox" name="checkMartes_pss" id="horma" <?=($arr['checkMartes_pss'])?'checked':''?>>
+							Martes	
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="hora5" onblur="validarHora(hora5);cuentaHoras();" onkeyup="dos_puntos('hora5')" type="text" name="entradaMartes_pss" placeholder="<?= date('h:m')?>"value="<?=$arr['entradaMartes_pss']?>">
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="hora6" onblur="validarHora(hora6);cuentaHoras();" onkeyup="dos_puntos('hora6')" type="text" name="salidaMartes_pss" placeholder="<?= date('h:m')?>"value="<?=$arr['salidaMartes_pss']?>">
+						</article>
+					</section>
+					<section class="row">
+						<article class="col-sm-4">
+							<input type="checkbox" name="checkMiercoles_pss" id="hormi" <?=($arr['checkMiercoles_pss'])?'checked':''?>>
+							Miércoles	
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="hora7" onblur="validarHora(hora7);cuentaHoras();" onkeyup="dos_puntos('hora7')" type="text" name="entradaMiercoles_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['entradaMiercoles_pss']?>">
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="hora8" onblur="validarHora(hora8);cuentaHoras();" onkeyup="dos_puntos('hora8')" type="text" name="salidaMiercoles_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['salidaMiercoles_pss']?>">
+						</article>
+					</section>
+					<section class="row">
+						<article class="col-sm-4">
+							<input type="checkbox" id="horj" name="checkJueves_pss" <?=($arr['checkJueves_pss'])?'checked':''?>>
+							Jueves
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" type="text" onblur="validarHora(hora9);cuentaHoras();" id="hora9" onkeyup="dos_puntos('hora9')" name="entradaJueves_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['entradaJueves_pss']?>">
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" type="text" onblur="validarHora(horaJ2);cuentaHoras();" id="horaJ2" onkeyup="dos_puntos('horaJ2')" name="salidaJueves_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['salidaJueves_pss']?>">
+						</article>
+					</section>
+					<section class="row">
+						<article class="col-sm-4">
+							<input type="checkbox" name="checkViernes_pss" id="horv" <?=($arr['checkViernes_pss'])?'checked':''?>>
+							Viernes	
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="horaV1" onblur="validarHora(horaV1);cuentaHoras();" onkeyup="dos_puntos('horaV1')" type="text" name="entradaViernes_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['entradaViernes_pss']?>">
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" id="horaV2" onblur="validarHora(horaV2);cuentaHoras();" onkeyup="dos_puntos('horaV2')" type="text" name="salidaViernes_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['salidaViernes_pss']?>">
+						</article>
+					</section>
+					<section class="row">
+						<article class="col-sm-4">
+							<input type="checkbox" name="checkSabado_pss" id="hors" <?=($arr['checkSabado_pss'])?'checked':''?>>
+							Sábado
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" type="text" onblur="validarHora(horaS1);cuentaHoras();" id="horaS1" onkeyup="dos_puntos('horaS1')" name="entradaSabado_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['entradaSabado_pss']?>">
+						</article>
+						<article class="col-sm-4">
+							<input class="entraI" type="text" onblur="validarHora(horaS2);cuentaHoras();" id="horaS2" onkeyup="dos_puntos('horaS2')" name="salidaSabado_pss" placeholder="<?= date('h:m')?>" value="<?=$arr['salidaSabado_pss']?>">
+						</article>
+					</section>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[CH]</label>
+				<div class="col-sm-8">
+					<input type="text" name="cargaHoraria_pss" id="cargaHoraria" class="form-control" placeholder="[CH]" onkeypress="return isNumberKey(event);" value="<?=$arr['cargaHoraria_pss']?>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[obs]</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" name="observaciones_pss" id="observaciones"><?=($arr['observaciones_pss'])?$arr['observaciones_pss']:'[obs]...';?></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[fecha-ingreso]</label>
+				<div class="col-sm-8">
+					<input type="text" name="fechaIngreso_pss" id="fechaIngreso" class="form-control" readonly required value="<?=$arr['fechaIngreso_pss']?>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[HT]</label>
+				<div class="col-sm-8">
+					<select class="form-control" name="horasTotales_pss" id="horasTotales" required value="<?=$value['horasTotales_pss']?>">
+						<option value=""> --- </option>
+						<option value="480"<?=($arr['horasTotales_pss']=='480')?'selected':''?>>480</option>
+						<option value="960"<?=($arr['horasTotales_pss']=='960')?'selected':''?>>960</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">[status]</label>
+				<div class="col-sm-8">
+					<select class="form-control" name="status_pss" id="status" required value="<?=$arr['status_pss']?>">
+						<option value=""> --- </option>
+						<option value="Activo"<?=($arr['status_pss']=='Activo')?'selected':''?>>Activo</option>
+						<option value="Inactivo"<?=($arr['status_pss']=='Inactivo')?'selected':''?>>Inactivo</option>
+						<option value="Licencia"<?=($arr['status_pss']=='Licencia')?'selected':''?>>Licencia</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php if($arr){?>
+	<input type="hidden" name="editar" value="<?=$arr['id_pss']?>">
+	<?php } ?>
+	<button type="submit" class="btn btn-primary">[save]</button>
+</form>
+
+<script>
+$(function () {
+	$(':text[id^=hora]').attr('onblur','');
+	$('textarea').focus(function () {
+		$(this).html('');
+	})
+	$('textarea').blur(function () {
+		if($(this).html() == '') $(this).html('Observaciones...')
+	})
+	$(':text[id^=hora]').blur(function () {
+		var esto = $(this);
+		if(!valHorVer(esto.val())) esto.val('');
+		//cuentaHoras();
+	})
+	$('#fechaIngreso').calendarioDW();
+});
+
+
+/*
+** Investigar como convertir los valores en enteros para 
+*  poderlos sumar en el contador total
+*/
+
+
+
+
+
+function cuentaHoras () {
+	var horas = $(':text[id^=hora]');
+	var tiempoTotal = 0;
+	horas.each(function (index,value) {
+		var obj = $(value);
+		if(obj.val() != ""){
+			if(!index%2){
+				var entrada = obj.val().split(':');
+				entrada[0] = parseInt(entrada[0]);
+				entrada[1] = parseInt(entrada[1]);
+				var mentrada = parseInt((entrada[0]*60)+entrada[1]);
+				entrada = parseInt(entrada);
+				var mEntrada = entrada
+				alert(entrada+typeof mentrada);
+			}else{
+				var salida = obj.val().split(':');
+				salida[0] = parseInt(salida[0]);
+				salida[1] = parseInt(salida[1]);
+				var msalida = parseInt((salida[0]*60)+salida[1]);
+			 	salida = parseInt(salida);
+			 	var mSalida = salida;
+				alert(salida+typeof msalida);
+				alert("tiempo: "+(msalida-mentrada));
+				if( mEntrada != 0 && mSalida != 0){
+					/*if(parseInt(entrada) < parseInt(salida)){
+						var tiempo = salida-entrada;
+						alert('bien');
+					}else{
+						var tiempo = (salida+24)-entrada;
+						alert('mal');
+					}*/
+					//alert('tiempo = '+tiempo);
+					tiempo = mSalida-mEntrada;
+					alert('tiempo = '+tiempo);
+					//tiempoTotal += tiempo;
+				}else{
+					alert('destiempo = '+tiempo);
+					entrada = salida = 0;
+				}
+			}
+		}
+		//console.log(((obj.val())?obj.val():'nada :('))
+	})
+	console.log(tiempoTotal);
+}
+
+function valHorVer (hor) {
+    var hora = hor.split(':')
+    if(hora[0] && hora[1]){
+        if(isNaN(hora[0]) || isNaN(hora[1]) || hora[0].length != 2 || hora[1].length != 2 || hora[0] < 0 || hora[0] > 24 || hora[1] > 59 || hora[1] < 0)
+            return false
+    }else
+        return false
+    return true
+}
+
+
+</script>

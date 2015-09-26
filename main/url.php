@@ -53,6 +53,8 @@
 		case 'repFal2':{$objects["principal"]->repFal();}break;
 		case 'eventos':{$objects["principal"]->eventos();}break;
 		case 'getEventoData':{$objects["principal"]->getEventoData();}break;
+		case 'Servicio_Social_Registro':{$objects["principal"]->personalSS();}break;
+		case 'Servicio_Social_Adm':{$objects["principal"]->viewPSS();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

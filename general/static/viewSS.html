@@ -1,0 +1,52 @@
+<h1>[Servicio_Social_Adm]</h1>
+<table class="table table-bordered">
+	<thead>
+		<th>Nombre</th>
+		<th>Teléfono</th>
+		<th>Escuela</th>
+		<th>Carrera</th>
+		<th>Teléfono Escolar</th>
+		<th>Ingreso</th>
+		<th>Status</th>
+		<th>Acciones</th>
+	</thead>
+	<?php foreach ($arr as $key => $value) { ?>
+	<tr>
+		<td><?=utf8_decode($value['nombre_pss'])?></td>
+		<td><?=$value['tel_pss']?></td>
+		<td><?=utf8_decode($value['escuela_pss'])?></td>
+		<td><?=utf8_decode($value['carrera_pss'])?></td>
+		<td><?=$value['tel2_pss']?></td>
+		<td><?=$value['fechaIngreso_pss']?></td>
+		<td><?=$value['status_pss']?></td>
+		<td>
+			<span style="margin-right:5px;" class="label label-warning"><a href="index.php/Servicio_Social_Registro?pss=<?=$value['id_pss']?>" style="color:white;">Editar</a></span><?php if($value['status_pss']!='Licencia'){?><span value="<?=$value['id_pss']?>" style="margin-right:5px;" class="label label-info">Licencia</span><?php } ?><span value="<?=$value['id_pss']?>" class="label label-danger">Baja</span>
+		</td>
+	</tr>
+	<?php } ?>
+</table>
+
+<script>
+	$(function () {
+		$('span.label-danger,span.label-info').click(function () {
+			var esto = $(this);
+			var abuelo = esto.parent().parent();
+			var tio = esto.parent().prev();
+			var tipo = esto.html();
+			$.ajax({
+				url:'index.php/Servicio_Social_Adm',
+				dataType:'json',
+				type:'POST',
+				data:'id='+esto.attr('value')+'&tipo='+tipo,
+				success:function (data) {
+					console.log(data);
+					if(tipo!='Licencia'){abuelo.remove();}
+					else {esto.remove();tio.html(tipo);}
+				},
+				error:function () {
+					console.log('error');
+				}
+			})
+		})
+	})
+</script>

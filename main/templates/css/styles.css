@@ -405,7 +405,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0a0a0', end
 }
 .iconos-menu > a:hover {
 	color: black;
-	font-size: 13pt;
+	/*font-size: 13pt;*/
 }
 .logo-calendario{
 	width:20px;
@@ -536,6 +536,9 @@ aside > div{
 aside{z-index: 99;right: 0px;}
 
 #eventos_conteiner{max-height: 600px;}
+
+.app_ss{background-color: #8EE6F9;color: #9E8C8C;}
+.app_ss:hover{background-color: #000;}
 
 /*
 	------------------------

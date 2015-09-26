@@ -365,7 +365,9 @@
 			$arr = $this->data->arSel();
 			if($_POST){
 				$nombreDirectorio = "main/templates/complementos/fotos_per/";
-				$nombreFichero = $_POST['cod'].'.jpg';//$_FILES['foto']['name'];
+				$foto = explode('.', $_FILES['foto']['name']);
+				$ext = $foto[count($foto)-1];
+				$nombreFichero = $_POST['cod'].'.'.$ext;//$_FILES['foto']['name'];
 				move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
 				$_POST['foto'] = $nombreFichero;
 				$horD = $_POST['hor']['d'];
@@ -388,6 +390,74 @@
 				return render_to_response(vista::page('personal.html',$arr));
 			}
 		}
+
+
+		public function personalSS(){
+			if($_POST){
+				$fecha = explode('/', $_POST['fechaIngreso_pss']);
+				$_POST['nombre_pss'] = utf8_encode($_POST['nombre_pss']);
+				$_POST['domicilio_pss'] = utf8_encode($_POST['domicilio_pss']);
+				$_POST['escuela_pss'] = utf8_encode($_POST['escuela_pss']);
+				$_POST['carrera_pss'] = utf8_encode($_POST['carrera_pss']);
+				$_POST['observaciones_pss'] = utf8_encode($_POST['observaciones_pss']);
+				$_POST['fechaIngreso_pss'] = $fecha[2].'-'.(($fecha[1]<10)?'0'.$fecha[1]:$fecha[1]).'-'.(($fecha[0]<10)?'0'.$fecha[0]:$fecha[0]);
+				if($_POST['editar']){
+					$id = $_POST['editar'];
+					unset($_POST['editar']);
+					$sql = "UPDATE pss_mant SET ";
+					foreach ($_POST as $key => $value) {
+						(strstr($key, 'check')) ? $val = 1:$val = $value;
+							$sql.= $key." = '".$val."', ";
+					}
+					$sql = substr($sql, 0,-2);
+					$sql.= " WHERE id_pss = '".$id."'";
+					//echo '<pre>';print_r($_POST);echo $sql. '</pre>';exit();
+				}else{
+					$a = "INSERT INTO pss_mant (";
+					$b = "VALUES (";
+					$i = 0;
+					foreach ($_POST as $key => $value) {
+						(strstr($key, 'check')) ? $val = 1:$val = $value;
+						if($i<(count($_POST)-1)){
+							$a .= $key.',';
+							$b .= "'".$val."',";
+						}else{
+							$a .= $key.')';
+							$b .= "'".$val."')";
+						}
+						$i++;
+					}
+					$sql = $a.$b;
+				}
+				$this->data->savePSS($sql);
+				//echo '<pre>';print_r($_POST);echo $a.$b;echo '</pre>';exit();
+				return HttpResponse('index.php');
+			}else{
+				if($_GET){
+					$arr = $this->data->getDataPSS($_GET['pss']);
+					$fecha = explode('-',$arr['fechaIngreso_pss']);
+					$arr['fechaIngreso_pss'] = (($fecha[2]<10)?substr($fecha[2],-1):$fecha[2]).'/'.(($fecha[1]<10)?substr($fecha[1],-1):$fecha[1]).'/'.$fecha[0];
+					//echo '<pre>';print_r($arr);echo '</pre>';exit();
+				}else{
+					$arr = null;
+				}
+				return render_to_response(vista::page('registroSS.html',$arr));
+			}
+		}
+
+		public function viewPSS(){
+			if($_POST){
+				$id = $_POST['id'];
+				$tipo = ($_POST['tipo'] == 'Baja')?'Inactivo':$_POST['tipo'];
+				$this->data->bajaPSS($id,$tipo);
+				echo json_encode($_POST);exit();
+			}else{
+				$arr = $this->data->getPSS();
+				return render_to_response(vista::page('viewSS.html',$arr));
+			}
+		}
+
+
 		public function admPer(){
 			global $url_array;
 			$pers['ar'] = $this->data->ar();
@@ -1154,7 +1224,7 @@
 						$replace = array('-','/',' ','.',',');
 						$archivo = str_replace($replace, '-', $_POST['numero']);
 						$archivo.= '.'.$ext;
-						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$archivo);
+						copy($_FILES['foto']['tmp_name'], $nombreDirectorio.$archivo);
 						$_POST['foto'] = $archivo;
 					}else{
 						$_POST['foto'] = $_POST['foto1'];
@@ -1395,6 +1465,8 @@
     						//"Reporte_ofi2",
     						"cambiar_imagen",
     						"eventos",
+    						"Servicio_Social_Registro",
+    						"Servicio_Social_Adm",
     						"appAdmin"];
 				return render_to_response(vista::pageChosen('adapp.html',$app));
 			}

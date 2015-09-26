@@ -1,5 +1,5 @@
 <div class="list-group sepa">
 	<?php foreach ($_SESSION['app'] as $key => $value):?>
-		<a href="index.php/<?=$value?>" class="list-group-item">[<?= $value?>]</a>
+		<a href="index.php/<?=$value?>" class="list-group-item <?=(strstr($value,'Servicio_Social_'))?'app_ss':''?>">[<?= $value?>]</a>
 	<?php endforeach;?>
 </div>

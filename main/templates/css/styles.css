@@ -539,6 +539,12 @@ aside{z-index: 99;right: 0px;}
 
 .app_ss{background-color: #8EE6F9;color: #9E8C8C;}
 .app_ss:hover{background-color: #000;}
+#no-registros{color: white;
+padding: 15px;
+border-radius: 5px;
+font-size: 30px;
+background-color: #F07171;
+margin-top: 30px;}
 
 /*
 	------------------------

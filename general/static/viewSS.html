@@ -1,6 +1,6 @@
 <h1>[Servicio_Social_Adm]</h1>
-<table class="table table-bordered">
-	<thead>
+<table class="table table-bordered" style="display:<?=(!$arr)?'none':'block'?>">
+	<thead id="cabecera">
 		<th>Nombre</th>
 		<th>Teléfono</th>
 		<th>Escuela</th>
@@ -25,6 +25,9 @@
 	</tr>
 	<?php } ?>
 </table>
+<div id="no-registros" style="display:<?=($arr)?'none':'block'?>">
+	No hay Registros :(
+</div>
 
 <script>
 	$(function () {
@@ -32,6 +35,9 @@
 			var esto = $(this);
 			var abuelo = esto.parent().parent();
 			var tio = esto.parent().prev();
+			var cabecera = abuelo.prev();
+			var siguiente = abuelo.next();
+			console.log(abuelo.next());
 			var tipo = esto.html();
 			$.ajax({
 				url:'index.php/Servicio_Social_Adm',
@@ -39,12 +45,12 @@
 				type:'POST',
 				data:'id='+esto.attr('value')+'&tipo='+tipo,
 				success:function (data) {
-					console.log(data);
-					if(tipo!='Licencia'){abuelo.remove();}
+					//console.log(data);
+					if(tipo!='Licencia'){abuelo.remove();if(!cabecera[0] && !siguiente[0]){$('table').hide();$('#no-registros').show();}}
 					else {esto.remove();tio.html(tipo);}
 				},
 				error:function () {
-					console.log('error');
+					//console.log('error');
 				}
 			})
 		})

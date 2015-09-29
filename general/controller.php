@@ -1161,18 +1161,20 @@
 				}else{
 					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 					//echo json_encode($_FILES);exit();
-					$nombreDirectorio = "main/templates/complementos/archivos_oficios/";
-					//$nombreFichero = $_POST['numero'].'.jpg';
-					$archivo = explode('.',$_FILES['foto']['name']);
-					$ext = $archivo[count($archivo)-1];
-					$replace = array('-','/',' ','.',',');
-					$archivo = str_replace($replace, '-', $_POST['numero']);
-					$archivo.= '.'.$ext;
-					move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$archivo);
-					$_POST['foto'] = $archivo;
+					if($_FILES['foto']['name'] != ""){
+						$nombreDirectorio = "main/templates/complementos/archivos_oficios/";
+						//$nombreFichero = $_POST['numero'].'.jpg';
+						$archivo = explode('.',$_FILES['foto']['name']);
+						$ext = strtolower($archivo[count($archivo)-1]);
+						$replace = array('-','/',' ','.',',');
+						$archivo = str_replace($replace, '-', $_POST['numero']);
+						$archivo.= '.'.$ext;
+						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$archivo);
+						$_POST['foto'] = $archivo;
+					}
 					$_POST['des'] = strtoupper($_POST['des']);
 					$_POST['fecha'] = date('j-n-y');
-					$_POST['hora'] = date('H:m');
+					$_POST['hora'] = date('H:i');
 					$_POST['nCap'] = $_SESSION['id_user'];
 					$_POST['cod'] = date('syimHd');
 					$_POST['dp'] = $_POST['depen'];
@@ -1220,12 +1222,14 @@
 						$nombreDirectorio = "main/templates/complementos/archivos_oficios/";
 						//$nombreFichero = $_POST['numero'].'.jpg';
 						$archivo = explode('.',$_FILES['foto']['name']);
-						$ext = $archivo[count($archivo)-1];
+						$ext = strtolower($archivo[count($archivo)-1]);
 						$replace = array('-','/',' ','.',',');
 						$archivo = str_replace($replace, '-', $_POST['numero']);
 						$archivo.= '.'.$ext;
-						copy($_FILES['foto']['tmp_name'], $nombreDirectorio.$archivo);
+						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$archivo);
 						$_POST['foto'] = $archivo;
+						//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+						//echo 'holas';exit();
 					}else{
 						$_POST['foto'] = $_POST['foto1'];
 					}
@@ -1272,62 +1276,63 @@
 				$arr['caps'] = array_unique($caps);
 				foreach ($arr['todo'] as $key => $value) $caps[] = $value['no_ofi'];
 				$arr['nums'] = array_unique($caps);
-				if($_POST['id']){
-					/*$otro['files'] = $_FILES;
-					$otro['post'] = $_POST;
-					//echo json_encode($otro);exit();
-					$replace = array('-','/',' ','.',',');
-					$_POST['no'] = str_replace($replace, '', $_POST['no']);
-					$archivo = $_POST['no'];
-					$id = $_POST['id'];
-					$carpeta = 'main/templates/complementos/archivos_oficios/';
-					@copy($_FILES['archivo']['tmp_name'], $carpeta.$archivo.'.pdf');
-					$this->data->savePDFofi($archivo.'.pdf',$id);
-					$otro['archivo'] = $archivo.'.pdf';
-					echo json_encode($otro);exit();*/
-					$file = $this->data->deleteFile($_POST['id']);
-					unlink('main/templates/complementos/archivos_oficios/'.$file);
-					echo json_encode($file);exit();
-				}
-				else{
-					/*if($_POST['edit']){
-						$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
-						$nombreFichero = $_FILES['foto']['name'];
-						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
-						$_POST['foto'] = $_FILES['foto']['name'];
-						$_POST['des'] = strtoupper($_POST['des']);
-						//echo '<pre>';print_r($_POST);echo'</pre>';exit();
-						$this->data->actualizarOficio($_POST);
-					}else{*/
-						//echo '<pre>';print_r($_POST);echo'</pre>';exit();
-						$us['pro'] = $_POST['prod'];
-						$us['dp'] = $_POST['dep'];
-						$us['fec'] = $_POST['anio']."-".$_POST['mes']."-".$_POST['dia'];
-						$us['con'] = $_POST['con'];
-						$us['num'] = $_POST['num'];
-						$us['cl'] = strtoupper($_POST['cl']);
-						if($_POST['fecIni']&&$_POST['fecFin']){
-							$fecha = explode('/', $_POST['fecIni']);
-							$us['inicio'] = $fecha[2].'-';
-							$us['inicio'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
-							$us['inicio'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
-							$fecha = explode('/', $_POST['fecFin']);
-							$us['fin'] = $fecha[2].'-';
-							$us['fin'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
-							$us['fin'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
-							$us['rango'] = true;
-						}
-						//echo '<pre>';print_r($us);echo'</pre>';exit();
-						$arr['inf'] = $this->data->busofi($us);
-						foreach ($arr['inf'] as $key => $value) {
-							$fecha = explode('-', $value['fecha_ofi']);
-							$fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
-							$arr['inf'][$key]['fecha_ofi'] = $fecha;
-						}
-						//echo '<pre>'.$arr['inf'].'</pre>';exit();
-						$arr['dat'] = true;
-						//echo '<pre>';print_r($arr);print_r($us);echo'</pre>';exit();
-					//}
+				if($_POST){
+					if($_POST['id']){
+						/*$otro['files'] = $_FILES;
+						$otro['post'] = $_POST;
+						//echo json_encode($otro);exit();
+						$replace = array('-','/',' ','.',',');
+						$_POST['no'] = str_replace($replace, '', $_POST['no']);
+						$archivo = $_POST['no'];
+						$id = $_POST['id'];
+						$carpeta = 'main/templates/complementos/archivos_oficios/';
+						@copy($_FILES['archivo']['tmp_name'], $carpeta.$archivo.'.pdf');
+						$this->data->savePDFofi($archivo.'.pdf',$id);
+						$otro['archivo'] = $archivo.'.pdf';
+						echo json_encode($otro);exit();*/
+						$file = $this->data->deleteFile($_POST['id']);
+						unlink('main/templates/complementos/archivos_oficios/'.$file);
+						echo json_encode($file);exit();
+					}else{
+						/*if($_POST['edit']){
+							$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
+							$nombreFichero = $_FILES['foto']['name'];
+							move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
+							$_POST['foto'] = $_FILES['foto']['name'];
+							$_POST['des'] = strtoupper($_POST['des']);
+							//echo '<pre>';print_r($_POST);echo'</pre>';exit();
+							$this->data->actualizarOficio($_POST);
+						}else{*/
+							//echo '<pre>';print_r($_POST);echo'</pre>';exit();
+							$us['pro'] = $_POST['prod'];
+							$us['dp'] = $_POST['dep'];
+							$us['fec'] = $_POST['anio']."-".$_POST['mes']."-".$_POST['dia'];
+							$us['con'] = $_POST['con'];
+							$us['num'] = $_POST['num'];
+							$us['cl'] = strtoupper($_POST['cl']);
+							if($_POST['fecIni']&&$_POST['fecFin']){
+								$fecha = explode('/', $_POST['fecIni']);
+								$us['inicio'] = $fecha[2].'-';
+								$us['inicio'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
+								$us['inicio'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
+								$fecha = explode('/', $_POST['fecFin']);
+								$us['fin'] = $fecha[2].'-';
+								$us['fin'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
+								$us['fin'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
+								$us['rango'] = true;
+							}
+							//echo '<pre>';print_r($us);echo'</pre>';exit();
+							$arr['inf'] = $this->data->busofi($us);
+							foreach ($arr['inf'] as $key => $value) {
+								$fecha = explode('-', $value['fecha_ofi']);
+								$fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+								$arr['inf'][$key]['fecha_ofi'] = $fecha;
+							}
+							//echo '<pre>'.$arr['inf'].'</pre>';exit();
+							$arr['dat'] = true;
+							//echo '<pre>';print_r($arr);print_r($us);echo'</pre>';exit();
+						//}
+					}
 				}
 				return render_to_response(vista::page('repo_ofi.html',$arr));
 			}

@@ -923,7 +923,7 @@
 			if($oficio != '0') $this->consulta("DELETE FROM oficios_mant WHERE no_ofi = '$oficio'");
 		}
 		public function actualizarOficios($value){
-			$this->consulta("UPDATE oficios_mant SET dep_ofi = '$value[depen]', no_ofi = '$value[numero]', des_ofi = '$value[des]', foto_ofi = '$value[foto]', con_ofi = '$value[con]', nomCon_ofi = '$value[nom_con]' WHERE id_ofi = '$value[edit]'");
+			$this->consulta("UPDATE oficios_mant SET dep_ofi = '$value[depen]', no_ofi = '$value[numero]', des_ofi = '$value[des]', foto_ofi = '$value[foto]', archivo_ofi = '$value[foto]', con_ofi = '$value[con]', nomCon_ofi = '$value[nom_con]' WHERE id_ofi = '$value[edit]'");
 		}
 		public function actEventoData($value){
 			$this->consulta("UPDATE eventos_mant SET nombre_eve = '$value[nom_eve]', fecha_eve = '$value[fecha_eve]' , descripcion_eve = '$value[des]' , archivo_eve = '$value[foto]' , num_ofi_eve = '$value[numero]' , hora_eve = '$value[hora_eve]' , sede_eve = '$value[sede_eve]' , semana_eve = '$value[semana_eve]' WHERE num_ofi_eve = '$value[num_old]' ");

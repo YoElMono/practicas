@@ -1013,5 +1013,49 @@
 			$data = $this->fetch_array($query);
 			return $data;
 		}
+		public function checksSS(){
+			$query = $this->consulta("SELECT nombre_pss,dia_cpss,mes_cpss,anio_cpss,tipo_cpss FROM checkPss_mant INNER JOIN pss_mant ON idPss_cpss = id_pss WHERE fechaCon_cpss < '".date('Y-m-d H:i:s')."' ORDER BY fechaCon_cpss");
+			if($this->numero_de_filas($query) > 0){
+				while ($datos = $this->fetch_assoc($query)) {
+					$data[] = $datos;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
+		public function PSSmat(){
+			$query = $this->consulta("SELECT * FROM pss_mant WHERE status_pss = 'Activo' AND turno_pss = 'Matutino' ORDER BY nombre_pss ASC");
+			if($this->numero_de_filas($query)>0){
+				while ($data = $this->fetch_assoc($query)) {
+					$datos[] = $data;
+				}
+				return $datos;
+			}else{
+				return '';
+			}
+		}
+		public function PSSves(){
+			$query = $this->consulta("SELECT * FROM pss_mant WHERE status_pss = 'Activo' AND turno_pss = 'Vespertino' ORDER BY nombre_pss ASC");
+			if($this->numero_de_filas($query)>0){
+				while ($data = $this->fetch_assoc($query)) {
+					$datos[] = $data;
+				}
+				return $datos;
+			}else{
+				return '';
+			}
+		}
+		public function allPSS(){
+			$query = $this->consulta("SELECT * FROM pss_mant WHERE status_pss = 'Activo' ORDER BY turno_pss,nombre_pss ASC");
+			if($this->numero_de_filas($query)>0){
+				while ($data = $this->fetch_assoc($query)) {
+					$datos[] = $data;
+				}
+				return $datos;
+			}else{
+				return '';
+			}
+		}
 	}
 ?>

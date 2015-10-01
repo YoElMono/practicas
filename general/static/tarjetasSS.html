@@ -1,0 +1,28 @@
+<h1>[Servicio_Social_Tarjetas]</h1>
+
+<?php foreach ($arr as $key => $value):?>
+	<h4>Turno [<?="tur".$key?>]</h4>
+<table class="table table-bordered">
+	<tr>
+		<td><strong>[no]</strong></td>
+		<td><strong>[nombre]</strong></td>
+  		<td><strong>[cod]</strong></td>
+  		<td><strong>[Nom]</strong></td>
+  		<td><strong>[TC]</strong></td>
+	</tr>
+	<?php $i = 1;?>
+	<?php foreach ($arr[$key] as $keyper => $value2):?>
+		<tr>
+			<td><?= $i ?></td>
+			<td><?= utf8_decode($value2['nombre_pss'])?></td>
+			<td><?= $value2['codigo_pss']?></td>
+			<td><?= utf8_decode($value2['escuela_pss'])?></td>
+			<td><?= utf8_decode($value2['carrera_pss'])?></td>
+		</tr>
+		<?php $i++;?>
+	<?php endforeach;?>
+</table>
+<?php endforeach;?>
+<form method="POST" action="">
+<button class="btn btn-success" type="submit" value="1" name="todos">[its]</button>
+</form>

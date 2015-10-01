@@ -1,0 +1,35 @@
+<pre><?=print_r($arr)?></pre>
+<table class="table table-bordered">
+	<tr>
+		<td><strong>[nombre]</strong></td>
+		<td><strong>[fec]</strong></td>
+  		<td><strong>[tipo]</strong></td>
+  		<td><strong>[jus]</strong></td>
+  		<td><strong>[falt]</strong></td>
+  		<td><strong>[h]</strong></td>
+	</tr>
+	<?php foreach ($arr as $key => $value) { ?>
+	<tr>
+		<td><?= $value['nombre_pss']?></td>
+		<td> <?= $value['dia_cpss']."/".$value['mes_cpss']."/".$value['anio_cpss']?> </td>
+		<td> [checkt<?= $value['tipo_cpss']?>] </td>
+		<td>
+			<section class="secjus">
+				<input type="radio" id="hor<?=$i?>" name="hor[<?=$i?>]" value="1" ng-model="jus<?=$i?>">
+
+				<textarea ng-if="jus<?=$i?>" class = "textnotjus" name="nota[<?= $i?>]"></textarea> 
+			</section>
+		</td>
+		<td> <input type="radio" id="hor<?=$i?>a" name="hor[<?=$i?>]" ng-click='jus<?=$i?> = false'  value="2" onclick="falta(<?=$i?>)"> </td>
+		<td> 
+			<section class="secjus" id="section<?=$i?>">
+				<input style="margin-bottom:15px;padding-rigth:100px" type="radio" id="hocr<?=$i?>" name="hor[<?=$i?>]" ng-click="jus<?=$i?> = false" value="3" style="float:left; left:0px;">
+				<div width="10" height="10" style="float:right;margin-left:-100px">
+					<p id="z<?=$i?>" style="display:none"></p>
+				</div>
+				<input type="text" class="form-control" id="horc<?=$i?>" onkeyup="dos_puntos('horc<?=$i?>')" name="horc[<?=$i?>]" placeholder="hh:mm">
+			</section>	
+		</td>
+	</tr>
+	<?php } ?>
+</table>

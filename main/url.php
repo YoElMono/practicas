@@ -55,6 +55,8 @@
 		case 'getEventoData':{$objects["principal"]->getEventoData();}break;
 		case 'Servicio_Social_Registro':{$objects["principal"]->personalSS();}break;
 		case 'Servicio_Social_Adm':{$objects["principal"]->viewPSS();}break;
+		case 'Servicio_Social_Check':{$objects["principal"]->checkPSS();}break;
+		case 'Servicio_Social_Tarjetas':{$objects["principal"]->tarjetasPSS();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

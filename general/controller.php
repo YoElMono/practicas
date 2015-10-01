@@ -457,6 +457,11 @@
 			}
 		}
 
+		public function checkPSS(){
+			$arr = $this->data->checksSS();
+			return render_to_response(vista::page('checkSS.html',$arr));
+		}
+
 
 		public function admPer(){
 			global $url_array;
@@ -534,6 +539,32 @@
 				return render_to_response(vista::page('tarjetas.html', $arr));
 			}
 		}
+
+		public function tarjetasPSS(){
+			if($_POST['todos']){
+				$arr = $this->data->allPSS();
+				//echo '<pre>';print_r($arr);echo '</pre>';exit();
+				require_once 'main/templates/complementos/fpdf/udgpdf.php';
+				$pdf=new tarjetas('P');
+				$pdf->SetMargins(60,5,0);
+				$turno = 'Matutino';
+				$j = 1;
+				foreach ($arr as $key => $value) {
+					if($value['turno_pss'] != $turno) $j = 1;
+					$pdf->AddPage();
+					$pdf->tarjeta($j,utf8_decode($value['nombre_pss']),'',$value['entradaLunes_pss'],$value['salidaLunes_pss'],$value['codigo_pss']);
+					$j++;
+					$turno = $value['turno_pss'];
+				}
+				$pdf->Output('tarjetas','i');
+			}else{
+				$mat = $this->data->PSSmat();
+				$ves = $this->data->PSSves();
+				$arr = [$mat,$ves];
+				return render_to_response(vista::page('tarjetasSS.html',$arr));
+			}
+		}
+
 		public function admUser(){
 			global $url_array;
 			if ($url_array[2]){
@@ -1472,6 +1503,8 @@
     						"eventos",
     						"Servicio_Social_Registro",
     						"Servicio_Social_Adm",
+    						"Servicio_Social_Tarjetas",
+    						//"Servicio_Social_Check",
     						"appAdmin"];
 				return render_to_response(vista::pageChosen('adapp.html',$app));
 			}

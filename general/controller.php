@@ -458,8 +458,99 @@
 		}
 
 		public function checkPSS(){
-			$arr = $this->data->checksSS();
-			return render_to_response(vista::page('checkSS.html',$arr));
+			if($_POST){
+				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+				for($i=0;$i<count($_POST['nota']);$i++){
+					if($_POST['verifica'][$i]){
+						switch ($_POST['verifica'][$i]) {
+							case 3:
+								$datos[$i]['id_cpss'] = $_POST['id'][$i];
+								$datos[$i]['verifica_cpss'] = $_POST['verifica'][$i];
+								$datos[$i]['horaCap_cpss'] = '00:00:00';
+								$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
+
+								break;
+							case 4:
+								$datos[$i]['id_cpss'] = $_POST['id'][$i];
+								$datos[$i]['verifica_cpss'] = $_POST['verifica'][$i];
+								$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
+								$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
+								break;
+							default:
+								$hora1 = explode(':', $_POST['check'][$i]);
+								$hora1 = ($hora1[0]*60)+$hora1[1];
+								$hora2 = explode(':', $_POST['horc'][$i]);
+								$hora2 = ($hora2[0]*60)+$hora2[1];
+								if($_POST['tipo'][$i] == 1){
+									if($hora1>=$hora2) $verifica = 1;
+									elseif($hora2<=$hora1+30) $verifica = 2;
+									else $verifica = 3; 
+								}else{
+									if($hora2>=$hora1) $verifica = 1;
+									if($hora2>=$hora1+60) $verifica = 5;
+									if($hora2<$hora1) $verifica = 3;
+								}
+								$datos[$i]['id_cpss'] = $_POST['id'][$i];
+								$datos[$i]['verifica_cpss'] = $verifica;
+								$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
+								$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
+								break;
+						}
+					}else{
+						$hora1 = explode(':', $_POST['check'][$i]);
+						$hora1 = ($hora1[0]*60)+$hora1[1];
+						$hora2 = explode(':', $_POST['horc'][$i]);
+						$hora2 = ($hora2[0]*60)+$hora2[1];
+						if($_POST['tipo'][$i] == 1){
+							if($hora1>=$hora2) $verifica = 1;
+							elseif($hora2<=$hora1+30) $verifica = 2;
+							else $verifica = 3; 
+						}else{
+							if($hora2>=$hora1) $verifica = 1;
+							if($hora2>=$hora1+60) $verifica = 5;
+							if($hora2<$hora1) $verifica = 3;
+						}
+						$datos[$i]['id_cpss'] = $_POST['id'][$i];
+						$datos[$i]['verifica_cpss'] = $verifica;
+						$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
+						$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
+					}
+					//$datos[$_POST['id'][$i]] = ['']
+				}
+				foreach ($datos as $key => $value) {
+					$sql = "UPDATE checkPss_mant SET ";
+					$i = 0;
+					foreach ($value as $key2 => $val) {
+						if($key2 == 'id_cpss'){
+							$final = " WHERE ".$key2." = '".$val."';";
+						}elseif($key2 == 'verifica_cpss'){
+							$sql.=" ".$key2." = ".$val.", ";
+						}else{
+							if($i<count($value)-1)
+								$sql.=" ".$key2." = '".$val."', ";
+							else
+								$sql.=" ".$key2." = '".$val."' ";
+						}
+						$i++;
+					}
+					$this->data->savePSS($sql.$final);
+					$consultas[] = $sql.$final;
+				}
+				//echo '<pre>';print_r($_POST);print_r($datos);print_r($consultas); echo '</pre>';exit();
+				return HttpResponse('index.php/Servicio_Social_Check');
+			}else{
+				$arr = $this->data->checksSS();
+				return render_to_response(vista::page('checkSS.html',$arr));
+			}
+		}
+
+		public function reportePSS(){
+			if ($_GET) {
+				$cal = $this->crear_cal(null,$_GET['mes'],$_GET['anio']);
+			}else{
+				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
+			}
+			return render_to_response(vista::page('reportePSS.html',$cal));
 		}
 
 
@@ -1093,6 +1184,52 @@
 				}
 			}
 		}
+		public function genHorariosSS(){
+			require_once 'main/templates/complementos/calendario.php';
+			$arr = $this->data->personalSS();
+			$hoy = 1;
+			$mes = date('n');
+			$anio = date('Y');
+			foreach ($arr as $key => $value) {
+				for ($i=$hoy;$i<=ultimoDia($mes,$anio);$i++) { 
+					$s = date('W',  mktime(0,0,0,$mes,$i,$anio));
+					$d = calcula_numero_dia_semana($i,$mes,$anio);
+					if($d == 0) $s+=1;
+					$a = horasESS($d);
+					$b = horasSSS($d);
+					$d = dias_semanaSS($d);
+					$data['codigo_cpss'] = $value['codigo_pss'];
+					$data['dia_cpss'] = ($i<10)?'0'.$i:$i;
+					$data['mes_cpss'] = ($mes<10)?'0'.$mes:$mes;
+					$data['anio_cpss'] = $anio;
+					$data['semana_cpss'] = $s;
+					if($value[$d] == 1){
+						for($j=1;$j<3;$j++){
+							$data['tipo_cpss'] = $j;
+							$data['hora_cpss'] = ($j == 1)?$value[$a].':00':$value[$b].':00';
+							$data['fechaCon_cpss'] = $data['anio_cpss'].'-'.$data['mes_cpss'].'-'.$data['dia_cpss'].' '.$data['hora_cpss'];
+							$data['idPss_cpss'] = $value['id_pss'];
+							$sql1 = "INSERT INTO checkPss_mant( ";
+							$sql2 = "VALUES (";
+							$k = 0;
+							foreach ($data as $key2 => $value2) {
+								if($k<count($data)-1){
+									$sql1 .= $key2.", ";
+									$sql2 .= "'".$value2."', ";
+								}else{
+									$sql1 .= $key2.") ";
+									$sql2 .= "'".$value2."')";
+								}
+								$k++;
+							}
+							$this->data->saveCheckPSS($sql1.$sql2);
+							$consultas[] = $sql1.$sql2;
+						}
+					}
+				}
+			}
+			return render_to_response('Listo\n');
+		}
 		public function genHorarios($per=""){
 			require_once 'main/templates/complementos/calendario.php';
 			$mes = mes_siguiente(date('n'));
@@ -1504,7 +1641,8 @@
     						"Servicio_Social_Registro",
     						"Servicio_Social_Adm",
     						"Servicio_Social_Tarjetas",
-    						//"Servicio_Social_Check",
+    						//"Servicio_Social_Reportes",
+    						"Servicio_Social_Check",
     						"appAdmin"];
 				return render_to_response(vista::pageChosen('adapp.html',$app));
 			}

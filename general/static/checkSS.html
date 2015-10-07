@@ -1,4 +1,6 @@
-<pre><?=print_r($arr)?></pre>
+<h1>[Servicio_Social_Check]</h1>
+<?php if($arr){ ?>
+<form method="POST" action="">
 <table class="table table-bordered">
 	<tr>
 		<td><strong>[nombre]</strong></td>
@@ -8,28 +10,100 @@
   		<td><strong>[falt]</strong></td>
   		<td><strong>[h]</strong></td>
 	</tr>
-	<?php foreach ($arr as $key => $value) { ?>
+	<?php $i=0; foreach ($arr as $key => $value) { ?>
 	<tr>
-		<td><?= $value['nombre_pss']?></td>
+		<td><?= utf8_decode($value['nombre_pss'])?></td>
 		<td> <?= $value['dia_cpss']."/".$value['mes_cpss']."/".$value['anio_cpss']?> </td>
 		<td> [checkt<?= $value['tipo_cpss']?>] </td>
 		<td>
 			<section class="secjus">
-				<input type="radio" id="hor<?=$i?>" name="hor[<?=$i?>]" value="1" ng-model="jus<?=$i?>">
-
-				<textarea ng-if="jus<?=$i?>" class = "textnotjus" name="nota[<?= $i?>]"></textarea> 
+				<input type="radio" id="jus" name="verifica[<?=$i?>]" value="4">
+				<textarea style="display:none;" class = "textnotjus" name="nota[<?= $i?>]"></textarea>
+				<input type="hidden" name="check[<?=$i?>]" value="<?=substr($value['hora_cpss'],0,-3)?>"> 
 			</section>
 		</td>
-		<td> <input type="radio" id="hor<?=$i?>a" name="hor[<?=$i?>]" ng-click='jus<?=$i?> = false'  value="2" onclick="falta(<?=$i?>)"> </td>
+		<td> 
+			<input type="radio" id="fal" name="verifica[<?=$i?>]" value="3" onclick="falta(<?=$i?>)">
+		</td>
 		<td> 
 			<section class="secjus" id="section<?=$i?>">
-				<input style="margin-bottom:15px;padding-rigth:100px" type="radio" id="hocr<?=$i?>" name="hor[<?=$i?>]" ng-click="jus<?=$i?> = false" value="3" style="float:left; left:0px;">
+				<input style="margin-bottom:15px;padding-rigth:100px" type="radio" id="hora" name="verifica[<?=$i?>]" value="1" style="float:left; left:0px;" >
 				<div width="10" height="10" style="float:right;margin-left:-100px">
 					<p id="z<?=$i?>" style="display:none"></p>
 				</div>
-				<input type="text" class="form-control" id="horc<?=$i?>" onkeyup="dos_puntos('horc<?=$i?>')" name="horc[<?=$i?>]" placeholder="hh:mm">
+				<input type="text" class="form-control" id="horc<?=$i?>" onkeyup="dos_puntos('horc<?=$i?>')" name="horc[<?=$i?>]" placeholder="hh:mm"  onblur="validarHora('horc<?=$i?>','z<?=$i?>','section<?=$i?>')">
 			</section>	
 		</td>
 	</tr>
-	<?php } ?>
+	<input type="hidden" name="id[<?=$i?>]" value="<?=$value['id_cpss']?>">
+	<input type="hidden" name="tipo[<?=$i?>]" value="<?=$value['tipo_cpss']?>">
+	<?php $i++;} ?>
 </table>
+<button type="submit" class="btn btn-primary">[enviar]</button>
+</form>
+<?php }else{ ?>
+<div id="no-registros">
+	No hay Registros :(
+</div>
+<?php } ?>
+<script>
+	$(function () {
+		$(':input[id^=jus]').click(function () {
+			var esto = $(this);
+			var nota = esto.next();
+			var hora = nota.next();
+			var sobrino = esto.parent().parent().next().next().find(':first').find(':last');
+			nota.show()//.attr('required'.true);
+			sobrino.val(hora.val()).attr('readonly',true);
+			console.log(esto,nota,sobrino);
+		})
+		$(':input[id^=fal]').click(function () {
+			var esto = $(this);
+			var sobrino = esto.parent().next().find(':first').find(':last');
+			var sobrino1 = esto.parent().prev().find(':first').find(':first').next();
+			sobrino.val('FALTA').attr('readonly',true);
+			sobrino1.hide().val('').attr('required',false);
+			console.log(esto,sobrino,sobrino1);
+		})
+		$(':input[id^=hora]').click(function () {
+			var esto = $(this);
+			var hermano = esto.next().next();
+			var primo = esto.parent().parent().prev().prev().find(':first').find(':first').next();
+			hermano.val('').attr('readonly',false);
+			primo.hide().val('').attr('required',false);
+			console.log(esto)
+		})
+	})
+
+	function validarHora (id,id_msg,id_sec) {
+        if(!valHorVer($("#"+id).val())){
+			$("p[id="+id_msg+"]").css('color','red').text('Error').fadeIn();
+			$("#"+id_sec).addClass('has-error');
+			$("#"+id).val('').attr('placeholder','Error en el Formato').prop('required', true).delay(2000).fadeOut(0).fadeIn(0, function () {
+				$("p[id="+id_msg+"]").fadeOut('',function () {
+					$("#"+id_sec).removeClass('has-error');
+				})
+			});
+        }else{
+			$("p[id="+id_msg+"]").css('color','green').text('Correcto').fadeIn();
+			$("#"+id_sec).removeClass('has-error').addClass('has-success').delay(2000).fadeOut(0).fadeIn(0,function () {
+				$("p[id="+id_msg+"]").fadeOut('',function () {
+					$("#"+id_sec).removeClass('has-success');
+				})
+			});$("#"+id).prop('required', false);
+        } //$("#"+id).val("");
+    }
+
+
+
+    function valHorVer (hor) {
+        var hora = hor.split(':')
+        if(hora[0] && hora[1]){
+            if(isNaN(hora[0]) || isNaN(hora[1]) || hora[0].length != 2 || hora[1].length != 2 || hora[0] < 0 || hora[0] > 24 || hora[1] > 59 || hora[1] < 0)
+                return false
+        }else
+            return false
+        return true
+    }
+
+</script>

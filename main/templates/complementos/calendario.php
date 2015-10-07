@@ -63,6 +63,16 @@
 		$dia = $d[$dia];
 		return $dia;
 	}
+	function horasESS($dia){
+		$d = ['entradaDomingo_pss','entradaLunes_pss','entradaMartes_pss','entradaMiercoles_pss','entradaJueves_pss','entradaViernes_pss','entradaSabado_pss'];
+		$dia = $d[$dia];
+		return $dia;
+	}
+	function horasSSS($dia){
+		$d = ['salidaDomingo_pss','salidaLunes_pss','salidaMartes_pss','salidaMiercoles_pss','salidaJueves_pss','salidaViernes_pss','salidaSabado_pss'];
+		$dia = $d[$dia];
+		return $dia;
+	}
 	function horasS($dia){
 		$d = ['horSD_per','horSL_per','horSMa_per','horSMi_per','horSJ_per','horSV_per','horSS_per'];
 		$dia = $d[$dia];
@@ -70,6 +80,11 @@
 	}
 	function dias_semana($dia){
 		$d = ['checkD_per','checkL_per','checkMa_per','checkMi_per','checkJ_per','checkV_per','checkS_per'];
+		$dia = $d[$dia];
+		return $dia;
+	}
+	function dias_semanaSS($dia){
+		$d = ['checkDomingo_pss','checkLunes_pss','checkMartes_pss','checkMiercoles_pss','checkJueves_pss','checkViernes_pss','checkSabado_pss'];
 		$dia = $d[$dia];
 		return $dia;
 	}

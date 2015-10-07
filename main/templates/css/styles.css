@@ -131,7 +131,11 @@ aside{
 	color: white;
 }
 .eventos > .panel-heading{
-	background-color: #678AF3;
+	background-color: #1D52F1;
+	color: white;
+}
+.repoSS > .panel-heading{
+	background-color: #FF7C00;
 	color: white;
 }
 .headrojo > .panel-heading{
@@ -303,7 +307,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0a0a0', end
 	background-color: #CA2828;
 }
 .cal_eve{
-	background-color: #1D52F1;
+	background-color: #678AF3;
+}
+.cal_rss{
+	background-color: #FDA859;
 }
 .cal_fal{
 	background-color: #FADA7C;
@@ -326,11 +333,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0a0a0', end
 .WEE{
 	background-color: #103090;
 }
+.WES{
+	background-color: #CF6400;
+}
 .hoy-vaca{
 	background-color: #F1A9DA;
 }
 .hoy-eve{
 	background-color: #85E2F2;
+}
+.hoy-rss{
+	background-color: #FEFB58;
 }
 .text-blanco{
 	color: #fff;

@@ -339,6 +339,17 @@
 				return '';
 			}
 		}
+		public function personalSS(){
+			$query = $this->consulta("SELECT * FROM pss_mant WHERE status_pss != 'Inactivo' ORDER BY turno_pss,nombre_pss ASC");
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
 		public function peresp($id){
 			$query = $this->consulta("SELECT * FROM personal_mant
 									INNER JOIN areas_mant ON area_per = id_area
@@ -993,7 +1004,7 @@
 			$sea = $this->fetch_array($query);
 			return $sea;
 		}
-		public function savePSS($sql){
+		public function saveCheckPSS($sql){
 			$this->consulta($sql);
 		}
 		public function getPSS(){
@@ -1014,7 +1025,7 @@
 			return $data;
 		}
 		public function checksSS(){
-			$query = $this->consulta("SELECT nombre_pss,dia_cpss,mes_cpss,anio_cpss,tipo_cpss FROM checkPss_mant INNER JOIN pss_mant ON idPss_cpss = id_pss WHERE fechaCon_cpss < '".date('Y-m-d H:i:s')."' ORDER BY fechaCon_cpss");
+			$query = $this->consulta("SELECT id_cpss,hora_cpss,id_pss,nombre_pss,dia_cpss,mes_cpss,anio_cpss,tipo_cpss FROM checkPss_mant INNER JOIN pss_mant ON idPss_cpss = id_pss WHERE fechaCon_cpss < '".date('Y-m-d H:i:s')."' AND verifica_cpss = 0 ORDER BY turno_pss ASC, nombre_pss ASC,fechaCon_cpss ASC");
 			if($this->numero_de_filas($query) > 0){
 				while ($datos = $this->fetch_assoc($query)) {
 					$data[] = $datos;

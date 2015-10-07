@@ -57,6 +57,8 @@
 		case 'Servicio_Social_Adm':{$objects["principal"]->viewPSS();}break;
 		case 'Servicio_Social_Check':{$objects["principal"]->checkPSS();}break;
 		case 'Servicio_Social_Tarjetas':{$objects["principal"]->tarjetasPSS();}break;
+		case 'Servicio_Social_Reportes':{$objects["principal"]->reportePSS();}break;
+		case 'especial':{$objects["principal"]->genHorariosSS();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

@@ -1188,8 +1188,8 @@
 			require_once 'main/templates/complementos/calendario.php';
 			$arr = $this->data->personalSS();
 			$hoy = 1;
-			$mes = date('n');
-			$anio = date('Y');
+			$mes = mes_siguiente(date('n'));
+			$anio = (date('n') == 12)?date('Y')+1:date('Y');
 			foreach ($arr as $key => $value) {
 				for ($i=$hoy;$i<=ultimoDia($mes,$anio);$i++) { 
 					$s = date('W',  mktime(0,0,0,$mes,$i,$anio));

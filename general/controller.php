@@ -461,62 +461,67 @@
 			if($_POST){
 				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 				for($i=0;$i<count($_POST['nota']);$i++){
-					if($_POST['verifica'][$i]){
-						switch ($_POST['verifica'][$i]) {
-							case 3:
-								$datos[$i]['id_cpss'] = $_POST['id'][$i];
-								$datos[$i]['verifica_cpss'] = $_POST['verifica'][$i];
-								$datos[$i]['horaCap_cpss'] = '00:00:00';
-								$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
+					if($_POST['horc'][$i] != ""){
+						//echo 'Hora: '.$_POST['horc'][$i].'<br>';
+						if(isset($_POST['verifica']) && $_POST['verifica'][$i] !=""){
+							switch ($_POST['verifica'][$i]) {
+								case 3:
+									$datos[$i]['id_cpss'] = $_POST['id'][$i];
+									$datos[$i]['verifica_cpss'] = $_POST['verifica'][$i];
+									$datos[$i]['horaCap_cpss'] = '00:00:00';
+									$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
 
-								break;
-							case 4:
-								$datos[$i]['id_cpss'] = $_POST['id'][$i];
-								$datos[$i]['verifica_cpss'] = $_POST['verifica'][$i];
-								$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
-								$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
-								break;
-							default:
-								$hora1 = explode(':', $_POST['check'][$i]);
-								$hora1 = ($hora1[0]*60)+$hora1[1];
-								$hora2 = explode(':', $_POST['horc'][$i]);
-								$hora2 = ($hora2[0]*60)+$hora2[1];
-								if($_POST['tipo'][$i] == 1){
-									if($hora1>=$hora2) $verifica = 1;
-									elseif($hora2<=$hora1+30) $verifica = 2;
-									else $verifica = 3; 
-								}else{
-									if($hora2>=$hora1) $verifica = 1;
-									if($hora2>=$hora1+60) $verifica = 5;
-									if($hora2<$hora1) $verifica = 3;
-								}
-								$datos[$i]['id_cpss'] = $_POST['id'][$i];
-								$datos[$i]['verifica_cpss'] = $verifica;
-								$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
-								$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
-								break;
-						}
-					}else{
-						$hora1 = explode(':', $_POST['check'][$i]);
-						$hora1 = ($hora1[0]*60)+$hora1[1];
-						$hora2 = explode(':', $_POST['horc'][$i]);
-						$hora2 = ($hora2[0]*60)+$hora2[1];
-						if($_POST['tipo'][$i] == 1){
-							if($hora1>=$hora2) $verifica = 1;
-							elseif($hora2<=$hora1+30) $verifica = 2;
-							else $verifica = 3; 
+									break;
+								case 4:
+									$datos[$i]['id_cpss'] = $_POST['id'][$i];
+									$datos[$i]['verifica_cpss'] = $_POST['verifica'][$i];
+									$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
+									$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
+									break;
+								default:
+									$hora1 = explode(':', $_POST['check'][$i]);
+									$hora1 = ($hora1[0]*60)+$hora1[1];
+									$hora2 = explode(':', $_POST['horc'][$i]);
+									$hora2 = ($hora2[0]*60)+$hora2[1];
+									if($_POST['tipo'][$i] == 1){
+										if($hora1>=$hora2) $verifica = 1;
+										elseif($hora2<=$hora1+30) $verifica = 2;
+										else $verifica = 3; 
+									}else{
+										if($hora2>=$hora1) $verifica = 1;
+										if($hora2>=$hora1+60) $verifica = 5;
+										if($hora2<$hora1) $verifica = 3;
+									}
+									$datos[$i]['id_cpss'] = $_POST['id'][$i];
+									$datos[$i]['verifica_cpss'] = $verifica;
+									$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
+									$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
+									break;
+							}
 						}else{
-							if($hora2>=$hora1) $verifica = 1;
-							if($hora2>=$hora1+60) $verifica = 5;
-							if($hora2<$hora1) $verifica = 3;
+							$hora1 = explode(':', $_POST['check'][$i]);
+							$hora1 = ($hora1[0]*60)+$hora1[1];
+							$hora2 = explode(':', $_POST['horc'][$i]);
+							$hora2 = ($hora2[0]*60)+$hora2[1];
+							if($_POST['tipo'][$i] == 1){
+								if($hora1>=$hora2) $verifica = 1;
+								elseif($hora2<=$hora1+30) $verifica = 2;
+								else $verifica = 3; 
+							}else{
+								if($hora2>=$hora1) $verifica = 1;
+								if($hora2>=$hora1+60) $verifica = 5;
+								if($hora2<$hora1) $verifica = 3;
+							}
+							//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+							$datos[$i]['id_cpss'] = $_POST['id'][$i];
+							$datos[$i]['verifica_cpss'] = $verifica;
+							$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
+							$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
 						}
-						$datos[$i]['id_cpss'] = $_POST['id'][$i];
-						$datos[$i]['verifica_cpss'] = $verifica;
-						$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
-						$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
 					}
 					//$datos[$_POST['id'][$i]] = ['']
 				}
+				//echo '<pre>';print_r($datos);echo '</pre>';exit();
 				foreach ($datos as $key => $value) {
 					$sql = "UPDATE checkPss_mant SET ";
 					$i = 0;
@@ -533,9 +538,11 @@
 						}
 						$i++;
 					}
-					$this->data->savePSS($sql.$final);
+					$this->data->saveCheckPSS($sql.$final);
 					$consultas[] = $sql.$final;
+					//echo 'Consulta:<br>'.$sql.$final.'<br>';
 				}
+				//exit();
 				//echo '<pre>';print_r($_POST);print_r($datos);print_r($consultas); echo '</pre>';exit();
 				return HttpResponse('index.php/Servicio_Social_Check');
 			}else{

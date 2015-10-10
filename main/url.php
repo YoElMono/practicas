@@ -59,6 +59,7 @@
 		case 'Servicio_Social_Tarjetas':{$objects["principal"]->tarjetasPSS();}break;
 		case 'Servicio_Social_Reportes':{$objects["principal"]->reportePSS();}break;
 		case 'repDiaSS':{$objects["principal"]->reporteDiaPSS();}break;
+		case 'repSemaSS':{$objects["principal"]->reporteSemaPSS();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

@@ -778,6 +778,20 @@
 				return '';
 			}
 		}
+		public function repSemaPSS($a){
+			$query = $this->consulta("SELECT id_cpss, codigo_cpss, tipo_cpss, nombre_pss, horaCap_cpss, cargaHoraria_pss, turno_pss FROM checkPss_mant
+									INNER JOIN pss_mant ON codigo_cpss = codigo_pss
+									WHERE semana_cpss = '$a[sem]' AND anio_cpss = '$a[anio]'
+									ORDER BY turno_pss, nombre_pss,dia_cpss,tipo_cpss");
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
 		public function repMes($a,$b){
 			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per

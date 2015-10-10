@@ -33,9 +33,11 @@
 			    <td align=center>Vi</td>
 			    <td align=center>Sa</td>
 			</tr>
-			<tr>
+			<tr><?php $dia = $arr['dia_ac']+1; $mes = $arr['mes_hoy']; $anio = $arr['anio_hoy'];
+					$semana = date('W',  mktime(0,0,0,$mes,$dia,$anio));
+					$dia_con = date('d', strtotime($anio.'W'.str_pad($semana, 2, '0', STR_PAD_LEFT))); ?>
 				<td class="gray" style="cursor:pointer;">
-					<p class="link_negro" ><?=$arr['nd_semana']?></p>
+					<p class="link_negro" onclick="abrirVentana('index.php/repSemaSS?sem=<?=$semana?>&anio=<?=$arr["anio_hoy"]?>')"><?=$arr['nd_semana']?></p>
 				</td>
 				<?php for ($i=0; $i<7 ; $i++):?>
 					<?php if($i < $arr['n_dias']):?>
@@ -82,9 +84,11 @@
 			</tr>
 			<?php while ( $arr['dia_ac']<= $arr['nd_mes']):?>
 				<?php if($arr['nd_dias'] == 0):?>
-					<tr>
+					<tr><?php $dia = $arr['dia_ac']+1; $mes = $arr['mes_hoy']; $anio = $arr['anio_hoy'];
+					$semana = date('W',  mktime(0,0,0,$mes,$dia,$anio));
+					$dia_con = date('d', strtotime($anio.'W'.str_pad($semana, 2, '0', STR_PAD_LEFT))); ?>
 						<td class="gray" style="cursor:pointer;">
-							<p class="link_negro" ><?=$arr['nd_semana']?></p>
+							<p class="link_negro" onclick="abrirVentana('index.php/repSemaSS?sem=<?=$semana?>&anio=<?=$arr["anio_hoy"]?>')"><?=$arr['nd_semana']?></p>
 						</td>
 				<?php endif;?>
 					<?php if($arr['nd_dias'] == 0 || $arr['nd_dias'] == 6):?>

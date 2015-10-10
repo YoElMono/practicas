@@ -601,35 +601,58 @@
 					}
 					$per = $value['nombre_pss'];
 				}
-				//echo '<pre>';print_r($data);echo '</pre>';exit();
-				/*$i=0;
+				return render_to_response(vista::pageWhite('recordAsisSS.html',$data,'Reporte de asistencia (Servicio Social)'));
+			}
+		}
+
+		public function reporteSemaPSS(){
+			if($_POST){
+				$fecha = $_POST['fecha'];
+				unset($_POST['fecha']);
+				unset($_POST['reporte']);
+				$this->pdfRS($_POST,$fecha);
+				//echo"<pre>";print_r($_POST);echo"</pre>";
+			}else{
+				//echo '<pre>';print_r($_GET);echo '</pre>';exit();
+				$a = 0; 
+				$data = array();
+				$repo = $this->data->repSemaPSS($_GET);
+				//echo '<pre>';print_r($repo);echo '</pre>';exit();
 				foreach ($repo as $key => $value) {
-					if($per != $value['nombre_per']){
-						$hora=$value['hor_check'];
-						$ho[1]=str_replace(":","",$value['hor_check']);
+					if($cod != $value['codigo_cpss']){
+						$a++;
+						$conH[$a-1] = 0;
+						$value['horaCap_cpss'] = substr($value['horaCap_cpss'], 0,-3);
+						$ho[1]=str_replace(":","",$value['horaCap_cpss']);
 						$ho[2]=substr($ho[1], 0, -2);$ho[1]=substr($ho[1], -2);
 						$ho[1]+=($ho[2]*=60);
-						$data[$i] = array('horE'=>$value['hor_check'],'notE'=>$value['notas_check']);
 					}else{
-						if(!$hora) $ho[3] = 'Entrada';
-						else{
-							if(!$value['hor_check']) $ho[3]='Salida';
-							else{
-								$ho[2]=str_replace(":","",$value['hor_check']);
-								$ho[3]=substr($ho[2], 0, -2);$ho[2]=substr($ho[2], -2);
-								if($value['turno_per'] == 3) $ho[3]+=24;
-								$ho[2]+=($ho[3]*=60);$ho[0] = $ho[2]-$ho[1];
-								$ho[1]=floor(($ho[0]/60));$ho[2]=($ho[0]%60);
-								if($ho[2]<0)$ho[2]=0;
-								if($ho[2]<10)$ho[2]="0".$ho[2];
-								$ho[3]=$ho[1].":".$ho[2];
-							}
-						} 
-						$data[$i]['horS']=$value['hor_check'];$data[$i]['notS']=$value['notas_check'];
-						$data[$i]['nom']=$per;$data[$i]['hor']=$ho[3];$data[$i]['turno']=$value['turno_per'];$i++;
+						if($value['tipo_cpss']==1){
+							$value['horaCap_cpss'] = substr($value['horaCap_cpss'], 0,-3);
+							$ho[1]=str_replace(":","",$value['horaCap_cpss']);
+							$ho[2]=substr($ho[1], 0, -2);$ho[1]=substr($ho[1], -2);
+							$ho[1]+=($ho[2]*=60);
+						}else{
+							$value['horaCap_cpss'] = substr($value['horaCap_cpss'], 0,-3);
+							$ho[2]=str_replace(":","",$value['horaCap_cpss']);
+							$ho[3]=substr($ho[2], 0, -2);$ho[2]=substr($ho[2], -2);
+							if($value['turno_pss'] == 3) $ho[3]+=24;
+							$ho[2]+=($ho[3]*=60);
+							$ho[0] = $ho[2]-$ho[1];
+							if ($ho[0]>0)
+							$conH[$a-1]+=$ho[0];
+						}
+						$data[$a-1] = array('nom'=>$value['nombre_pss'],'ch'=>$value['cargaHoraria_pss']);
 					}
-					$per = $value['nombre_per'];
-				}*/
+					$cod = $value['codigo_cpss'];
+				}
+				for ($i=0; $i<count($conH); $i++) { 
+					$Sho[1]=floor($conH[$i]/60);$Sho[2]=($conH[$i]%60);
+					if($Sho[2]<10)$Sho[2]="0".$Sho[2];
+					$conH[$i]=$Sho[1].":".$Sho[2];
+					$data[$i]['hor'] = $conH[$i];
+				}
+				//echo '<pre>';print_r($data);echo '</pre>';exit();
 				return render_to_response(vista::pageWhite('recordAsisSS.html',$data,'Reporte de asistencia (Servicio Social)'));
 			}
 		}
@@ -1056,12 +1079,19 @@
 			$pdf->body($data,$fecha);
 			$pdf->Output('prueba','i');
 		}
+		public function pdfRSSS($data,$fecha){
+			require_once 'main/templates/complementos/fpdf/udgpdf.php';
+			$pdf=new RSSS('P');
+			$pdf->AddPage();
+			$pdf->body($data,$fecha);
+			$pdf->Output('prueba','i');
+		}
 		public function pdfRM($data,$faltas,$fecha){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
 			$pdf=new RM('P');
 			$pdf->AddPage();
 			$pdf->body($data,$faltas,$fecha);
-			$pdf->Output('reporte-mensual.pdf','f');
+			$pdf->Output('reporte-mensual.pdf','f');//'f');
 		}
 		public function repDia(){
 			if($_POST){
@@ -1729,7 +1759,7 @@
     						"Servicio_Social_Registro",
     						"Servicio_Social_Adm",
     						"Servicio_Social_Tarjetas",
-    						//"Servicio_Social_Reportes",
+    						"Servicio_Social_Reportes",
     						"Servicio_Social_Check",
     						"appAdmin"];
 				return render_to_response(vista::pageChosen('adapp.html',$app));

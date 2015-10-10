@@ -316,6 +316,26 @@
 			}
 		}
 	}
+	class RSSS extends FPDF{
+		public function header(){
+			$this->SetFont('Arial','B',10);
+			$this->Cell(0,5,'REPORTE DE ASISTENCIA SEMANAL',0,1,'C');
+		}
+		public function body($data,$fecha){
+			$this->Cell(0,10,'',0,1);
+			$this->Cell(0,5,$fecha,1,1);
+			$this->Cell(0,5,'',0,1);
+			$this->Cell(70,5,'NOMBRE',1,0,'C');
+			$this->Cell(60,5,'CARGA HORARIA',1,0,'C');
+			$this->Cell(60,5,'HORAS',1,1,'C');
+			$this->SetFont('Arial','',10);
+			foreach ($data as $key => $value) {
+				$this->Cell(70,5,utf8_decode($value['nom']),1,0);
+				$this->Cell(60,5,$value['ch'],1,0,'C');
+				$this->Cell(60,5,$value['hor'],1,1,'C');
+			}
+		}
+	}
 	class RM extends FPDF{
 		public function header(){
 			$this->SetFont('Arial','B',10);

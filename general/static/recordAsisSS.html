@@ -1,8 +1,7 @@
-<?php 
-	$per;
-	$mes = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
-?>
+<?php $mes = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');?>
 <br>
+<?php if($_GET['dia'] && $arr){ ?>
+<?php if(date('d-m-Y') >= date('d-m-Y',mktime(0,0,0,$_GET['mes'],$_GET['dia'],$_GET['anio']))){?>
 <div class="panel panel-warning">
 	<div class="panel-heading">[dia]-><?=$_GET['dia']?> de <?=$mes[$_GET['mes']-1]?> de <?=$_GET['anio']?></div>
 	<div class="panel-body">
@@ -39,3 +38,44 @@
 </div>
 <button name="reporte" class="btn btn-info" type="submit">[imp]</button>
 </form><br>
+<?php }else{?>
+<div class="panel panel-danger">
+	<div class="panel-heading">Aún no se llega esta fecha</div>
+</div><br>
+<?php } ?>
+<?php }elseif($_GET['sem'] && $arr){?>
+<?php if(date('YW') >= $_GET['anio'].$_GET['sem']){?>
+<?php $hoy='Semana '.$_GET['sem'].' de '.$_GET['anio'];?>
+<div class="panel panel-warning">
+	<div class="panel-heading">[Sem]-><?=$hoy?></div>
+	<div class="panel-body">
+		<table class="table table-bordered">
+			<tr>
+				<td><strong>[nombre]</strong></td>
+				<td><strong>[CH]</strong></td>
+				<td><strong>[ho]</strong></td>
+			</tr>
+			<form method="POST" action="">
+			<input type="hidden" name="fecha" value="<?=$hoy?>">
+			<?php foreach ($arr as $key => $value){?>
+			<tr>
+				<td><?=utf8_decode($value['nom'])?></td><input type="hidden" value="<?=utf8_decode($value['nom'])?>" name="<?=$key?>[nom]">
+				<td><?=$value['ch']?></td><input type="hidden" value="<?=$value['ch']?>" name="<?=$key?>[ch]">
+				<td><?=$value['hor']?></td><input type="hidden" value="<?=$value['hor']?>" name="<?=$key?>[hor]">
+			</tr>
+			<?php } ?>
+		</table>
+	</div>
+</div>
+<button name="reporte" class="btn btn-info" type="submit">[imp]</button>
+</form><br>
+<?php }else{ ?>
+<div class="panel panel-danger">
+	<div class="panel-heading">Aún no se llega esta semana</div>
+</div><br>
+<?php } ?>
+<?php }elseif(!$arr){ ?>
+<div class="panel panel-danger">
+	<div class="panel-heading"><h3>No hay información :(</h3></div>
+</div><br>	
+<?php } ?>

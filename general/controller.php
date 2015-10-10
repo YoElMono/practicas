@@ -560,6 +560,80 @@
 			return render_to_response(vista::page('reportePSS.html',$cal));
 		}
 
+		public function reporteDiaPSS(){
+			if($_POST){
+				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+				$fecha = $_POST['fecha'];
+				unset($_POST['fecha']);
+				unset($_POST['reporte']);
+				$this->pdfRDSS($_POST,$fecha);
+			}else{
+				$repo = $this->data->repDiaPSS($_GET);
+				$data = array();
+				$i = 0;
+				$per = '';
+				foreach ($repo as $key => $value) {
+					if($per != $value['nombre_pss']){
+						$hora = explode(":", $value['horaCap_cpss']);
+						$hora = ($hora[0]*60)+$hora[1];
+						$data[$i]['horE'] = $value['horaCap_cpss'];
+						$data[$i]['notE'] = $value['notas_cpss'];
+					}
+					else{
+						if($hora == 0) $horaExt = 'Entrada';
+						else{
+							if($value['horaCap_cpss'] == '00:00:00') $horaExt = 'Salida';
+							else{
+								$horas = explode(':', $value['horaCap_cpss']);
+								$horas = ($horas[0]*60)+$horas[1];
+								$horaExt = $horas-$hora;
+								$horasExt[0] = floor($horaExt/60); 
+								$horasExt[1] = $horaExt%60;
+								$horaExt = $horasExt[0].':'.(($horasExt[1]<10)?'0'.$horasExt[1]:$horasExt[1]).':00';
+								//date('H:i:s',mktime(date('H:i:s',$hora)-date('H:i:s',$value['horaCap_cpss'])));//($salida-$entrada));
+								//$horaExt = strtotime('-'.strtotime($hora), strtotime($value['horaCap_cpss']);// - $hora;
+							}
+						}
+
+						$data[$i]['horS'] = $value['horaCap_cpss'];
+						$data[$i]['notS'] = $value['notas_cpss'];
+						$data[$i]['nom'] = $per;$data[$i]['hor']=$horaExt;$data[$i]['turno']=$value['turno_pss'];$i++;
+					}
+					$per = $value['nombre_pss'];
+				}
+				//echo '<pre>';print_r($data);echo '</pre>';exit();
+				/*$i=0;
+				foreach ($repo as $key => $value) {
+					if($per != $value['nombre_per']){
+						$hora=$value['hor_check'];
+						$ho[1]=str_replace(":","",$value['hor_check']);
+						$ho[2]=substr($ho[1], 0, -2);$ho[1]=substr($ho[1], -2);
+						$ho[1]+=($ho[2]*=60);
+						$data[$i] = array('horE'=>$value['hor_check'],'notE'=>$value['notas_check']);
+					}else{
+						if(!$hora) $ho[3] = 'Entrada';
+						else{
+							if(!$value['hor_check']) $ho[3]='Salida';
+							else{
+								$ho[2]=str_replace(":","",$value['hor_check']);
+								$ho[3]=substr($ho[2], 0, -2);$ho[2]=substr($ho[2], -2);
+								if($value['turno_per'] == 3) $ho[3]+=24;
+								$ho[2]+=($ho[3]*=60);$ho[0] = $ho[2]-$ho[1];
+								$ho[1]=floor(($ho[0]/60));$ho[2]=($ho[0]%60);
+								if($ho[2]<0)$ho[2]=0;
+								if($ho[2]<10)$ho[2]="0".$ho[2];
+								$ho[3]=$ho[1].":".$ho[2];
+							}
+						} 
+						$data[$i]['horS']=$value['hor_check'];$data[$i]['notS']=$value['notas_check'];
+						$data[$i]['nom']=$per;$data[$i]['hor']=$ho[3];$data[$i]['turno']=$value['turno_per'];$i++;
+					}
+					$per = $value['nombre_per'];
+				}*/
+				return render_to_response(vista::pageWhite('recordAsisSS.html',$data,'Reporte de asistencia (Servicio Social)'));
+			}
+		}
+
 
 		public function admPer(){
 			global $url_array;
@@ -964,6 +1038,13 @@
 		public function pdfRD($data,$fecha){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
 			$pdf=new RD('P');
+			$pdf->AddPage();
+			$pdf->body($data,$fecha);
+			$pdf->Output('prueba','i');
+		}
+		public function pdfRDSS($data,$fecha){
+			require_once 'main/templates/complementos/fpdf/udgpdf.php';
+			$pdf=new RDSS('P');
 			$pdf->AddPage();
 			$pdf->body($data,$fecha);
 			$pdf->Output('prueba','i');

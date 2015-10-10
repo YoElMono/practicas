@@ -259,6 +259,43 @@
 			}
 		}
 	}
+	class RDSS extends FPDF{
+		public function header(){
+			$this->SetFont('Arial','B',10);
+			$this->Cell(0,5,'REPORTE DE ASISTENCIA DIARIO',0,1,'C');
+		}
+		public function body($data,$fecha){
+			$turno = "";
+			//$turnos = array('Matutino','Vespertino','Mixto','Nocturno');
+			$this->Cell(0,10,'',0,1);
+			$this->Cell(0,5,utf8_decode('Día: ').$fecha,1,1);
+			$this->Cell(0,5,'',0,1);
+			$this->SetFont('Arial','',10);
+			foreach ($data as $key => $value) {
+				if($turno!=$value['turno']){
+					$this->SetFont('','B');
+					$this->SetTextColor(77,139,245);
+					$this->Cell(0,5,$value['turno'],1,1);
+					$this->SetTextColor(0);
+					$this->Cell(60,5,'NOMBRE',1,0,'C');
+					$this->Cell(20,5,'ENTRADA',1,0,'C');
+					$this->Cell(35,5,'NOTAS',1,0,'C');
+					$this->Cell(20,5,'SALIDA',1,0,'C');
+					$this->Cell(35,5,'NOTAS',1,0,'C');
+					$this->Cell(20,5,'HORAS',1,1,'C');
+				}
+				$this->SetFont('','');
+				if(strlen($value['nom']) > 25) $value['nom'] = substr($value['nom'], 0,25);
+				$this->Cell(60,5,utf8_decode($value['nom']),1,0);
+				$this->Cell(20,5,$value['horEn'],1,0);
+				$this->Cell(35,5,utf8_decode($value['notE']),1,0);
+				$this->Cell(20,5,$value['horSa'],1,0);
+				$this->Cell(35,5,utf8_decode($value['notS']),1,0);
+				$this->Cell(20,5,$value['hor'],1,1);
+				$turno = $value['turno'];
+			}
+		}
+	}
 	class RS extends FPDF{
 		public function header(){
 			$this->SetFont('Arial','B',10);

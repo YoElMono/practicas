@@ -1068,5 +1068,22 @@
 				return '';
 			}
 		}
+		public function repDiaPSS($a){
+			$a['dia'] = ($a['dia']<10)?'0'.$a['dia']:$a['dia'];
+			$a['mes'] = ($a['mes']<10)?'0'.$a['mes']:$a['mes'];
+			$fecha = trim(htmlspecialchars($a['anio'].'-'.$a['mes'].'-'.$a['dia']));
+			$query = $this->consulta("SELECT id_cpss, codigo_cpss, tipo_cpss, nombre_pss, horaCap_cpss, notas_cpss, turno_pss FROM checkPss_mant
+									INNER JOIN pss_mant ON codigo_cpss = codigo_pss
+									WHERE dia_cpss = '$a[dia]' AND mes_cpss = '$a[mes]' AND anio_cpss = '$a[anio]' ".$a['fal']."
+									ORDER BY turno_pss,nombre_pss ");
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
 	}
 ?>

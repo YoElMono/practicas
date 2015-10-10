@@ -1,0 +1,41 @@
+<?php 
+	$per;
+	$mes = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
+?>
+<br>
+<div class="panel panel-warning">
+	<div class="panel-heading">[dia]-><?=$_GET['dia']?> de <?=$mes[$_GET['mes']-1]?> de <?=$_GET['anio']?></div>
+	<div class="panel-body">
+		<table class="table table-bordered">
+			<form method="POST" action="">
+			<input type="hidden" name="fecha" value="<?=$_GET['dia']?> de <?=$mes[$_GET['mes']-1]?> de <?=$_GET['anio']?>">
+			<?php 
+			foreach ($arr as $key => $value) {
+				if($turno != $value['turno']){ ?>
+				<tr>
+					<td colspan="6" style="font-weight: bold;color:#73CCD6"><?=$value['turno']?></td>
+				</tr>
+				<tr>
+					<td><strong>[nombre]</strong></td>
+					<td><strong>[ent]</strong></td>
+					<td><strong>[not]</strong></td>
+					<td><strong>[sal]</strong></td>
+					<td><strong>[not]</strong></td>
+					<td><strong>[ho]</strong></td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td><?=utf8_decode($value['nom'])?></td><input type="hidden" value="<?=utf8_decode($value['nom'])?>" name="<?=$key?>[nom]">
+					<td><?=$value['horE']?></td><input type="hidden" value="<?=$value['horE']?>" name="<?=$key?>[horEn]">
+					<td><?=$value['notE']?></td><input type="hidden" value="<?=$value['notE']?>" name="<?=$key?>[notE]">
+					<td><?=$value['horS']?></td><input type="hidden" value="<?=$value['horS']?>" name="<?=$key?>[horSa]">
+					<td><?=$value['notS']?></td><input type="hidden" value="<?=$value['noteS']?>" name="<?=$key?>[notS]">
+					<td><?=$value['hor']?></td><input type="hidden" value="<?=$value['hor']?>" name="<?=$key?>[hor]">
+					<input type="hidden" value="<?=$value['turno']?>" name="<?=$key?>[turno]">
+				</tr>
+			<?php $turno = $value['turno']; } ?>
+		</table>
+	</div>
+</div>
+<button name="reporte" class="btn btn-info" type="submit">[imp]</button>
+</form><br>

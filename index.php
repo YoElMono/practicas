@@ -86,7 +86,6 @@
 	
 	if ($argv[1] == 'horarios') {
 		$objects["principal"]->genHorarios();
-	}elseif($argv[1] == 'horariosSS'){
 		$objects["principal"]->genHorariosSS();
 	}
 ?>

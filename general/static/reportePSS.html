@@ -8,7 +8,7 @@
 	  			</a>
 	  		</div>
 	  		<div class="col-md-4">
-	  			<p class="text-center" onclick="eventos(0,<?=$arr["mes_hoy"]?>,<?=$arr["anio_hoy"]?>)" style="cursor:pointer;">
+	  			<p class="text-center"  style="cursor:pointer;">
 	  				<?=$arr['name_mes']."-".$arr['anio_hoy']?>
 	  			</p>
 	  		</div>
@@ -35,7 +35,7 @@
 			</tr>
 			<tr>
 				<td class="gray" style="cursor:pointer;">
-					<p class="link_negro" onclick="eventos('','',<?=$arr["anio_hoy"]?>,<?=$arr["nd_semana"]?>)"><?=$arr['nd_semana']?></p>
+					<p class="link_negro" ><?=$arr['nd_semana']?></p>
 				</td>
 				<?php for ($i=0; $i<7 ; $i++):?>
 					<?php if($i < $arr['n_dias']):?>
@@ -44,13 +44,13 @@
 						<?php if(($i == 0) || ($i == 6)):?>
 							<?php if($arr['dia'] == $arr['dia_ac']):?>
 								<td class="hoy-rss">
-									<a class="link_black" onclick="abrirVentana('index.php/repDia?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
+									<a class="link_black" onclick="abrirVentana('index.php/repDiaSS?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
 										<?=$arr['dia_ac']?>
 									</a>
 								</td>
 							<?php else:?>
 								<td class="WES">
-									<a class="link_blanco" onclick="abrirVentana('index.php/repDia?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
+									<a class="link_blanco" onclick="abrirVentana('index.php/repDiaSS?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
 										<?=$arr['dia_ac']?>
 									</a>
 								</td>
@@ -58,13 +58,13 @@
 						<?php else:?>
 							<?php if($arr['dia'] == $arr['dia_ac']):?>
 								<td class="hoy-rss">
-									<a class="link_black" onclick="abrirVentana('index.php/repDia?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
+									<a class="link_black" onclick="abrirVentana('index.php/repDiaSS?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
 										<?=$arr['dia_ac']?>
 									</a>
 								</td>
 							<?php else:?>
 								<td>
-									<a class="link_black" onclick="abrirVentana('index.php/repDia?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
+									<a class="link_black" onclick="abrirVentana('index.php/repDiaSS?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
 										<?=$arr['dia_ac']?>
 									</a>
 								</td>
@@ -84,19 +84,19 @@
 				<?php if($arr['nd_dias'] == 0):?>
 					<tr>
 						<td class="gray" style="cursor:pointer;">
-							<p class="link_negro" onclick="abrirVentana('index.php/repDia?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')"><?=$arr['nd_semana']?></p>
+							<p class="link_negro" ><?=$arr['nd_semana']?></p>
 						</td>
 				<?php endif;?>
 					<?php if($arr['nd_dias'] == 0 || $arr['nd_dias'] == 6):?>
 						<?php if($arr['dia'] == $arr['dia_ac']):?>
 							<td class="hoy-rss">
-								<a class="link_black" onclick="abrirVentana('index.php/repDia?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
+								<a class="link_black" onclick="abrirVentana('index.php/repDiaSS?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
 									<?=$arr['dia_ac']?>
 								</a>
 							</td>
 						<?php else:?>
 							<td class="WES">
-								<a class="link_blanco" onclick="abrirVentana('index.php/repDia?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
+								<a class="link_blanco" onclick="abrirVentana('index.php/repDiaSS?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
 									<?=$arr['dia_ac']?>
 								</a>
 							</td>
@@ -104,13 +104,13 @@
 					<?php else:?>
 						<?php if($arr['dia'] == $arr['dia_ac']):?>
 							<td class="hoy-rss">
-								<a class="link_black" onclick="abrirVentana('index.php/repDia?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
+								<a class="link_black" onclick="abrirVentana('index.php/repDiaSS?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
 									<?=$arr['dia_ac']?>
 								</a>
 							</td>
 						<?php else:?>
 							<td>
-								<a class="link_black" onclick="abrirVentana('index.php/repDia?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
+								<a class="link_black" onclick="abrirVentana('index.php/repDiaSS?dia=<?=$arr["dia_ac"]?>&mes=<?=$arr["mes_hoy"]?>&anio=<?=$arr["anio_hoy"]?>')">
 									<?=$arr['dia_ac']?>
 								</a>
 							</td>

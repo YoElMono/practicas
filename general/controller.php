@@ -429,7 +429,7 @@
 					}
 					$sql = $a.$b;
 				}
-				$this->data->savePSS($sql);
+				$this->data->saveCheckPSS($sql);
 				//echo '<pre>';print_r($_POST);echo $a.$b;echo '</pre>';exit();
 				return HttpResponse('index.php');
 			}else{

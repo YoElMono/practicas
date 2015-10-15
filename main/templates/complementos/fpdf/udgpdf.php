@@ -400,6 +400,70 @@
 			$this->Cell(0,5,'',0,1);
 		}
 	}
+	class RMSS extends FPDF{
+		public function header(){
+			$this->SetFont('Arial','B',10);
+			$this->Cell(0,5,'REPORTE DE ASISTENCIA MENSUAL',1,1,'C');
+			$this->Cell(0,10,'',0,1);
+		}
+		public function body($data,$faltas,$fecha){
+			$turno = '';
+			$turnos = array('Matutino','Vespertino','Mixto','Nocturno');
+			$i = 0;
+			foreach ($data as $key => $value) {
+				if(strlen($value['nom']) > 25) $value['nom'] = substr($value['nom'], 0,25);
+				if($turno != $value['turno']){
+					$turno = $value['turno'];
+					if($key > 0){
+						$this->Cell(170,5,'FALTAS',1,0);
+						$this->Cell(0,5,$faltas[$i],1,1,'C');
+						$this->Cell(0,5,'',0,1);
+					}
+					$this->SetFont('','B');
+					$this->SetTextColor(77,139,245);
+					$this->Cell(0,5,$turno,1,1);
+					$this->SetTextColor(0);
+					$f = false;
+					$this->Cell(0,5,'',0,1);
+					$this->SetFont('Arial','B',10);
+					$this->Cell(10,5,'DIA',1,0,'C');
+					$this->Cell(50,5,'NOMBRE',1,0,'C');
+					$this->Cell(20,5,'ENTRADA',1,0,'C');
+					$this->Cell(35,5,'NOTAS',1,0,'C');
+					$this->Cell(20,5,'SALIDA',1,0,'C');
+					$this->Cell(35,5,'NOTAS',1,0,'C');
+					$this->Cell(20,5,'HORAS',1,1,'C');
+				}
+				if($per != $value['nom'] and $key > 0 and $f){
+					$this->Cell(170,5,'FALTAS',1,0);
+					$this->Cell(0,5,$faltas[$i],1,1,'C');
+					$this->Cell(0,5,'',0,1);
+					$i++;
+					$this->SetFont('Arial','B',10);
+					$this->Cell(10,5,'DIA',1,0,'C');
+					$this->Cell(50,5,'NOMBRE',1,0,'C');
+					$this->Cell(20,5,'ENTRADA',1,0,'C');
+					$this->Cell(35,5,'NOTAS',1,0,'C');
+					$this->Cell(20,5,'SALIDA',1,0,'C');
+					$this->Cell(35,5,'NOTAS',1,0,'C');
+					$this->Cell(20,5,'HORAS',1,1,'C');
+				}
+				$this->SetFont('Arial','',10);
+				$this->Cell(10,5,$value['dia'],1,0);
+				$this->Cell(50,5,utf8_decode(utf8_decode($value['nom'])),1,0);
+				$this->Cell(20,5,$value['ent'],1,0);
+				$this->Cell(35,5,utf8_decode($value['notEnt']),1,0);
+				$this->Cell(20,5,$value['sal'],1,0);
+				$this->Cell(35,5,utf8_decode($value['notSal']),1,0);
+				$this->Cell(20,5,$value['hor'],1,1,'C');
+				$per = $value['nom'];
+				$f = true;
+			}
+			$this->Cell(170,5,'FALTAS',1,0);
+			$this->Cell(0,5,$faltas[$i],1,1,'C');
+			$this->Cell(0,5,'',0,1);
+		}
+	}
 	class DL extends FPDF{
 		public function header(){
 			$b = 0;

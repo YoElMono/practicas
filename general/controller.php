@@ -118,7 +118,9 @@
 					//echo'<pre>';print_r($_POST);echo'</pre>';exit();
 					$nombreDirectorio = "main/templates/complementos/fotos/";
 					for($i = 0;$i < 3;$i++){
-						$sis['foto'][$i] = $_POST['codeFecha'].'('.($i+1).').jpg';//$_FILES['foto']['name'][$i];
+						/*$foto = explode(".", $_FILES['foto']['name'][$i]);
+						$ext = strtolower($foto[count($foto)-1]);*/
+						$sis['foto'][$i] = $_POST['codeFecha'].'('.($i+1).').jpg';//.$ext;//$_FILES['foto']['name'][$i];
 						move_uploaded_file($_FILES['foto']['tmp_name'][$i], $nombreDirectorio.$sis['foto'][$i]);
 					}
 					$sis['foto1'] = $sis['foto'][0];
@@ -657,6 +659,57 @@
 			}
 		}
 
+		public function reporteMesPSS(){
+			if($_POST){
+				header('location:../reporte-mensual-Servicio-Social.pdf');
+			}else{
+				$repo = $this->data->repMesPSS($_GET);
+				//echo '<pre>';print_r($repo);echo'</pre>';exit();
+				$faltasen = $faltassal = $i = $j = 0;
+				foreach ($repo as $key => $value){
+					if($per != $value['nombre_pss']){
+						if($faltasen > $faltassal){
+							$datos['faltas'][$j] = $faltasen;
+							$faltasen = 0; $faltassal = 0;$j++;
+						}else{
+							$datos['faltas'][$j] = $faltassal;
+							$faltasen = 0; $faltassal = 0;$j++;
+						}
+					}
+					$per = $value['nombre_pss'];
+					if($dia == $value['dia_cpss']){
+						$datos[$i]['sal'] = $value['horaCap_cpss'];
+						$datos[$i]['notSal'] = $value['notas_cpss'];
+						$hora = explode(':', $value['horaCap_cpss']);
+						$horaS = ($hora[0]*60)+$hora[1];
+						$horas[0] = floor(($horaS-$horaE)/60);
+						$horas[1] = ($horaS-$horaE)%60;
+						$datos[$i]['hor'] = $horas[0].':'.(($horas[1]<10)?'0'.$horas[1]:$horas[1]).':00';
+						if($value['verifica_cpss'] == 3) $faltassal++;
+						$i++;
+					}else{
+						$datos[$i]['dia'] = $value['dia_cpss'];
+						$datos[$i]['nom'] = $value['nombre_pss'];
+						$datos[$i]['ent'] = $value['horaCap_cpss'];
+						$datos[$i]['notEnt'] = $value['notas_cpss'];
+						$datos[$i]['turno'] = $value['turno_pss'];
+						$hora = explode(':', $value['horaCap_cpss']);
+						$horaE = ($hora[0]*60)+$hora[1];
+						if($value['verifica_cpss'] == 3) $faltasen++;
+					}
+					$dia = $value['dia_cpss'];
+				}
+				$fecha = $_GET['mes'];
+				for($i=0;$i<count($datos['faltas']);$i++){ $faltas[$i] = $datos['faltas'][$i];} 
+				unset($datos['faltas']);
+				//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
+				$this->pdfRMSS($datos,$faltas,$fecha);
+				for($i=0;$i<count($faltas);$i++){ $datos['faltas'][$i] = $faltas[$i];} 
+				//echo'<pre>';print_r($datos);echo '</pre>';exit();
+				return render_to_response(vista::pageWhite('recordAsisSS.html',$datos,'Reporte de asistencia'));
+			}
+		}
+
 
 		public function admPer(){
 			global $url_array;
@@ -1091,7 +1144,14 @@
 			$pdf=new RM('P');
 			$pdf->AddPage();
 			$pdf->body($data,$faltas,$fecha);
-			$pdf->Output('reporte-mensual.pdf','f');//'f');
+			$pdf->Output('reporte-mensual.pdf','f');
+		}
+		public function pdfRMSS($data,$faltas,$fecha){
+			require_once 'main/templates/complementos/fpdf/udgpdf.php';
+			$pdf=new RMSS('P');
+			$pdf->AddPage();
+			$pdf->body($data,$faltas,$fecha);
+			$pdf->Output('reporte-mensual-Servicio-Social.pdf','f');
 		}
 		public function repDia(){
 			if($_POST){

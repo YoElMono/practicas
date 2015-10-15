@@ -806,6 +806,20 @@
 				return '';
 			}
 		}
+		public function repMesPSS($a){
+			$query = $this->consulta("SELECT turno_pss, id_cpss, codigo_cpss, tipo_cpss, dia_cpss, horaCap_cpss,notas_cpss, nombre_pss,verifica_cpss,fechaCon_cpss FROM checkPss_mant
+									INNER JOIN pss_mant ON codigo_cpss = codigo_pss
+									WHERE mes_cpss = '$a[mes]' AND anio_cpss = '$a[anio]' AND fechaCon_cpss <= '".date('Y-m-d H:i:s')."'
+									ORDER BY turno_pss, nombre_pss,dia_cpss,tipo_cpss ");
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
 		public function deleDepe($id){
 			$this->consulta("DELETE FROM depe_mant WHERE id_depe = '$id' ");
 		}

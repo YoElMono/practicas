@@ -74,6 +74,77 @@
 	<div class="panel-heading">Aún no se llega esta semana</div>
 </div><br>
 <?php } ?>
+<?php }elseif($_GET['mes'] && $arr){?>
+<?php for($i=0;$i<count($arr['faltas']);$i++) $faltas[$i] = $arr['faltas'][$i]; unset($arr['faltas']);$turno = '';?>
+<?php $i=0; $hoy = $_GET['anio'].((strlen($_GET['mes'])<2)?'0'.$_GET['mes']:$_GET['mes']);?>
+<?php if(date('Ym') >= $hoy){?>
+<!--<pre><?=print_r($arr)?></pre>-->
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				[mes]-><?=$mes[$_GET['mes']-1]?> de <?=$_GET['anio']?>
+			</div>
+  			<div class="panel-body">
+				<table class="table table-bordered">
+				<form method="POST" action="">
+				<input type="hidden" name="fecha" value="<?=$mes[$_GET['mes']-1]?>">
+					<?php foreach($arr as $key => $value){?>
+					<?php if($per != $value['nom']){?>
+						<?php if($key > 0){?>
+							<tr>
+								<td colspan="6">
+									Total de faltas
+								</td>
+								<td>
+									<?= $faltas[$i]?><input type="hidden" value="<?=$faltas[$i]?>" name="faltas[<?=$i?>]">
+ 								</td>
+							</tr>
+							<tr><td style="border:0px;"></td></tr>
+						<?php $i++; }?>
+						<?php if($turno != $value['turno']){?>
+							<tr>
+								<td colspan="7" style="font-weight: bold;color:#73CCD6"><?=$value['turno']?></td>
+							</tr>
+							<tr>
+								<td><strong>[dia]</strong></td>
+								<td><strong>[nombre]</strong></td>
+								<td><strong>[ent]</strong></td>
+								<td><strong>[not]</strong></td>
+								<td><strong>[sal]</strong></td>
+								<td><strong>[not]</strong></td>
+								<td><strong>[ho]</strong></td>
+							</tr>
+						<?php }?>
+					<?php }?>
+						<tr>
+							<td><?=$value['dia']?></td><input type="hidden" value="<?=$value['dia']?>" name="<?=$key?>[day]">
+							<td><?=utf8_decode($value['nom'])?></td><input type="hidden" value="<?=utf8_decode($value['nom'])?>" name="<?=$key?>[nom]">
+							<td><?=$value['ent']?></td><input type="hidden" value="<?=$value['ent']?>" name="<?=$key?>[horEn]">
+							<td><?=utf8_decode($value['notEnt'])?></td><input type="hidden" value="<?=utf8_decode($value['notEnt'])?>" name="<?=$key?>[notEnt]">
+							<td><?=$value['sal']?></td><input type="hidden" value="<?=$value['sal']?>" name="<?=$key?>[horSa]">
+							<td><?=utf8_decode($value['notSal'])?></td><input type="hidden" value="<?=utf8_decode($value['notSal'])?>" name="<?=$key?>[notSal]">
+							<td><?=$value['hor']?></td><input type="hidden" value="<?=$value['hor']?>" name="<?=$key?>[hor]">
+							<input type="hidden" value="<?=$value['turno']?>" name="<?=$key?>[turno]">
+						</tr>
+						<?php $per = $value['nom']?>
+					<?php $turno = $value['turno'];}?>
+					<tr>
+						<td colspan="6">
+							Total de faltas
+						</td>
+						<td>
+							<?= $faltas[$i]?><input type="hidden" value="<?=$faltas[$i]?>" name="faltas[<?=$i?>]">
+						</td>
+					</tr>
+				</table>
+  			</div>
+  		</div>
+		<button name="reporte" class="btn btn-info" type="submit">[imp]</button>
+	</form><br>
+<?php }else{?>
+<div class="panel panel-danger">
+	<div class="panel-heading">Aún no se llega este mes</div>
+</div><br>
+<?php } ?>
 <?php }elseif(!$arr){ ?>
 <div class="panel panel-danger">
 	<div class="panel-heading"><h3>No hay información :(</h3></div>

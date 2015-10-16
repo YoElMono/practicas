@@ -118,9 +118,9 @@
 					//echo'<pre>';print_r($_POST);echo'</pre>';exit();
 					$nombreDirectorio = "main/templates/complementos/fotos/";
 					for($i = 0;$i < 3;$i++){
-						/*$foto = explode(".", $_FILES['foto']['name'][$i]);
-						$ext = strtolower($foto[count($foto)-1]);*/
-						$sis['foto'][$i] = $_POST['codeFecha'].'('.($i+1).').jpg';//.$ext;//$_FILES['foto']['name'][$i];
+						$foto = explode(".", $_FILES['foto']['name'][$i]);
+						$ext = strtolower($foto[count($foto)-1]);
+						$sis['foto'][$i] = $_POST['codeFecha'].'('.($i+1).').'.$ext;//.').jpg';//.$ext;//$_FILES['foto']['name'][$i];
 						move_uploaded_file($_FILES['foto']['tmp_name'][$i], $nombreDirectorio.$sis['foto'][$i]);
 					}
 					$sis['foto1'] = $sis['foto'][0];
@@ -132,6 +132,7 @@
 					if ($_POST['options'] == 0) {
 						$_POST['options'] = 1;
 					}
+					//echo '<pre>';print_r($_POST);print_r($sis);echo '</pre>';exit();
 					$this->data->saveEn($_POST,$sis);
 					$this->barcode($_POST['codeFecha'],$_POST['depen'],$_POST['des']);//exit();
 					return HttpResponse('index.php');

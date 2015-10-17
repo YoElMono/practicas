@@ -668,7 +668,7 @@
 				//echo '<pre>';print_r($repo);echo'</pre>';exit();
 				$faltasen = $faltassal = $i = $j = 0;
 				foreach ($repo as $key => $value){
-					if($per != $value['nombre_pss']){
+					if(($per != $value['nombre_pss'] and $key > 0 )|| $key == count($repo)-1){
 						if($faltasen > $faltassal){
 							$datos['faltas'][$j] = $faltasen;
 							$faltasen = 0; $faltassal = 0;$j++;
@@ -686,7 +686,8 @@
 						$horas[0] = floor(($horaS-$horaE)/60);
 						$horas[1] = ($horaS-$horaE)%60;
 						$datos[$i]['hor'] = $horas[0].':'.(($horas[1]<10)?'0'.$horas[1]:$horas[1]).':00';
-						if($value['verifica_cpss'] == 3) $faltassal++;
+						if($value['verifica_cpss'] == 3 || $value['horaCap_cpss'] == "00:00:00") $faltassal++;
+						if($value['horaCap_cpss'] == "00:00:00") $datos[$i]['sal'] = "FALTA";
 						$i++;
 					}else{
 						$datos[$i]['dia'] = $value['dia_cpss'];
@@ -696,7 +697,8 @@
 						$datos[$i]['turno'] = $value['turno_pss'];
 						$hora = explode(':', $value['horaCap_cpss']);
 						$horaE = ($hora[0]*60)+$hora[1];
-						if($value['verifica_cpss'] == 3) $faltasen++;
+						if($value['verifica_cpss'] == 3 || $value['horaCap_cpss'] == "00:00:00") $faltasen++;
+						if($value['horaCap_cpss'] == "00:00:00") $datos[$i]['ent'] = "FALTA";
 					}
 					$dia = $value['dia_cpss'];
 				}

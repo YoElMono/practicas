@@ -540,9 +540,8 @@ border-radius: 5px;
 	clear: both;
 }
 
-aside > div{
+aside > div.list-group{
 	max-height: 450px !important;
-	overflow-y: scroll;
 	border-radius: 6px;
 	border: 1px solid rgb(221, 221, 221);
 }

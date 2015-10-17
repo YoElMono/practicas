@@ -273,12 +273,21 @@ $(function(){
 			var top = $(this).scrollTop();
 			var pos = 385-top;
 			if(pos<30)pos=30;
-			$('.menu,aside').css({'position':'fixed','top':pos+'px'});
-			$('aside').css({'right':'48px','width':'293px'});
+			$('.menu').css({'position':'fixed','top':pos+'px'});
+			if($('aside>div.list-group').length>0){
+				console.log($('aside>div.list-group').height());
+				$('aside').css({'position':'fixed','top':pos+'px'});
+				$('aside').css({'right':'48px','width':'293px'});
+			}
 			//var pos2 = 300-top;
 			//if(pos2<30)pos=300
 		})
 
+			if($('aside>div.list-group').height()>=440){
+				$('aside>div.list-group').css('overflow-y','scroll');
+			}else{
+				$('aside>div.list-group').css('overflow-y','hidden');
+			}
 
 		if(! $("#hord").prop("checked")){$("#hora1").prop("disabled",true); $("#hora2").prop("disabled",true);} 
 		if(! $("#horl").prop("checked")){$("#hora3").prop("disabled",true); $("#hora4").prop("disabled",true);} 

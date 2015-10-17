@@ -144,31 +144,3 @@
 		<?php endif;?>
  	</div>
 </div>
-<div id="pantalla">
-	<div id="eventos_conteiner">
-		<div id="even_title">Eventos<div id="equis"><img src="main/templates/complementos/img/equis.jpg" width="32" height="32"></div></div>
-		<div class="clear"></div>	
-		<div id="lista-eventos">
-			<table class="table">
-				<tr>
-					<td><strong>Nombre</strong></td>
-					<td><strong>Descripción</strong></td>
-					<td><strong>Fecha</strong></td>
-					<td><strong>Archivo</strong></td>
-				</tr>
-			</table>
-		</div>	
-		<div id="not-found" style="display:none">
-			No hay eventos
-		</div>
-	</div>
-</div>
-<script>
-	$(function () {
-		$("#pantalla").css({width:$(document).width()+'px',height:$(document).height()+'px'})
-		$("#equis").click(function () {
-			$("#pantalla").fadeOut(500);
-			$("body").css("overflow-y","scroll");
-		})
-	})
-</script>

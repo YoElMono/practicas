@@ -683,8 +683,9 @@
 						$datos[$i]['notSal'] = $value['notas_cpss'];
 						$hora = explode(':', $value['horaCap_cpss']);
 						$horaS = ($hora[0]*60)+$hora[1];
-						$horas[0] = floor(($horaS-$horaE)/60);
-						$horas[1] = ($horaS-$horaE)%60;
+						$horasR = ($horaE > 0 && $horaS > 0) ? ($horaS-$horaE):0;
+						$horas[0] = floor($horasR / 60);
+						$horas[1] = $horasR % 60;
 						$datos[$i]['hor'] = $horas[0].':'.(($horas[1]<10)?'0'.$horas[1]:$horas[1]).':00';
 						if($value['verifica_cpss'] == 3 || $value['horaCap_cpss'] == "00:00:00") $faltassal++;
 						if($value['horaCap_cpss'] == "00:00:00") $datos[$i]['sal'] = "FALTA";

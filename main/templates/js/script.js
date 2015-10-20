@@ -926,7 +926,7 @@ function abrirVentana(url) {
 					$("#lista-eventos>table").append(head);
 					$.each(data,function (key,value) {
 						url = "'main/templates/complementos/archivos_oficios/"+value.archivo_eve+"'";
-						boton = '<button class="boton-archivo" onclick="abrirVentana('+url+');">Archivo</button>'
+						if(value.archivo_eve != "") boton = '<button class="boton-archivo" onclick="abrirVentana('+url+');">Archivo</button>'
 						var fila = '<tr><td>'+value.nombre_eve+'</td><td>'+value.descripcion_eve+'</td><td>'+value.fecha_eve+'</td><td>'+value.hora_eve+'</td><td>'+value.sede_eve+'</td><td>'+boton+'</td></tr>';
 						$("#lista-eventos>table").append(fila);
 					})

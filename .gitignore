@@ -2,7 +2,7 @@
 /phpmyadmin
 main/db.php
 main/settings.php
-main/templates/complementos/img/central.*
+main/templates/complementos/img/*
 main/templates/complementos/img/lateral*
 main/templates/complementos/fotos/*
 main/templates/complementos/firmas/*

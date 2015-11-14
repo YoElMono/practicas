@@ -29,21 +29,38 @@
 </form>
 <?php if($arr['a'] == TRUE):?>
     <h5><b>[pD<?= $arr['pes']?>]</b></h5>
-    <?php if($arr['pes'] != 3):?>
-    	<table class="table table-hover">
-    		<tr>
-    			<td><strong>[nombre]</strong></td>
-    			<td><strong>[tel]</strong></td>
-    			<td><strong>[v+]</strong></td>
-    		</tr>
-    		<?php foreach ($arr['m'] as $key => $value):?>
-    			<tr>
-    				<td><?= $value['nom_dir']?></td>
-    				<td><?= $value['tel_dir']?></td>
-    				<td><a href="index.php/mdir/<?= $value['id_dir']?>"><span class="label label-success">[v+]</span></a></td>
-    			</tr>
-    		<?php endforeach;?>
-    	</table>
+    <?php if($arr['pes'] == 1):?>
+        <table class="table table-hover">
+            <tr>
+                <td><strong>[nombre]</strong></td>
+                <td><strong>[tel]</strong></td>
+                <td><strong>[ext]</strong></td>
+                <td><strong>[v+]</strong></td>
+            </tr>
+            <?php foreach ($arr['m'] as $key => $value):?>
+                <tr>
+                    <td><?= $value['nom_dir']?></td>
+                    <td><?= $value['tel_dir']?></td>
+                    <td><?= $value['ex_dir']?></td>
+                    <td><a href="index.php/mdir/<?= $value['id_dir']?>"><span class="label label-success">[v+]</span></a></td>
+                </tr>
+            <?php endforeach;?>
+        </table>
+    <?php elseif($arr['pes'] != 3):?>
+        <table class="table table-hover">
+            <tr>
+                <td><strong>[nombre]</strong></td>
+                <td><strong>[tel]</strong></td>
+                <td><strong>[v+]</strong></td>
+            </tr>
+            <?php foreach ($arr['m'] as $key => $value):?>
+                <tr>
+                    <td><?= $value['nom_dir']?></td>
+                    <td><?= $value['tel_dir']?></td>
+                    <td><a href="index.php/mdir/<?= $value['id_dir']?>"><span class="label label-success">[v+]</span></a></td>
+                </tr>
+            <?php endforeach;?>
+        </table>
     <?php else:?>
         <table class="table table-hover">
             <tr>

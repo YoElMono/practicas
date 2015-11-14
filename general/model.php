@@ -667,11 +667,12 @@
 			$this->consulta("DELETE FROM directorio_mant WHERE id_dir = '$id' ");
 		}
 		public function mdirs($tip){
-			if($tip != 3 || $tip != 5)
+			if($tip != "3" && $tip != "5")
 				$ord = 'nom_dir';
 			else
 				$ord = 'piso_dir';
-			$query = $this->consulta("SELECT id_dir, nom_dir, tel_dir, ex_dir, depa_dir, piso_dir FROM directorio_mant WHERE pes_dir = '$tip' ORDER BY '".$ord."' ASC ");
+			//echo "SELECT `id_dir`, `nom_dir`, `tel_dir`, `ex_dir`, `depa_dir`, `piso_dir` FROM `directorio_mant` WHERE `pes_dir` = '".$tip."' ORDER BY `".$ord."` ASC ";exit();
+			$query = $this->consulta("SELECT id_dir, nom_dir, tel_dir, ex_dir, depa_dir, piso_dir FROM directorio_mant WHERE pes_dir = '$tip' ORDER BY `".$ord."` ASC ");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;

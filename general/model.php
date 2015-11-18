@@ -1114,5 +1114,16 @@
 				return '';
 			}
 		}
+		public function query($consulta){
+			$query = $this->consulta($consulta);
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
 	}
 ?>

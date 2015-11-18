@@ -915,7 +915,12 @@
 				$dat = $this->data->dir($url_array[2]);
 				return render_to_response(vista::page("juan.mono",$dat));
 			}else{
-				if ($_POST) {
+				if ($_POST['nombre']){
+					$sql = "SELECT * FROM directorio_mant WHERE pes_dir = 1 AND nom_dir LIKE '%".$_POST['nombre']."%' ORDER BY nom_dir ASC";
+					$data = $this->data->query($sql);
+					echo json_encode($data);exit();
+				}
+				elseif ($_POST && !$_POST['nombre']) {
 					if($_POST['options'] == 0){
 						$_POST['options'] = 1;
 					}

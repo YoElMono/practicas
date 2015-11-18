@@ -30,6 +30,18 @@
 <?php if($arr['a'] == TRUE):?>
     <h5><b>[pD<?= $arr['pes']?>]</b></h5>
     <?php if($arr['pes'] == 1):?>
+        <form action="" method="POST" onsubmit="JSBuscarDirectorio();return false;">
+            <div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" onfocus="removerVacio('nombre_dir')" id="nombre_dir" class="form-control" placeholder="Buscar por Nombre...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Buscar</button>
+                        </span>
+                    </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+        </form>
         <table class="table table-hover">
             <tr>
                 <td><strong>[nombre]</strong></td>

@@ -949,6 +949,46 @@ function abrirVentana(url) {
 		console.log(fecha);
 	}
 
+	function JSBuscarDirectorio () {
+		var nombre = $('#nombre_dir');
+		if(nombre.val() == ""){
+			nombre.addClass("vacio");
+			console.log("error");
+		}else{
+			$.ajax({
+				url:'index.php/mdir',
+				dataType:'json',
+				type:'POST',
+				data:'nombre='+nombre.val(),
+				success:function (data) {
+					//console.log(data);
+					if(data != ""){
+						console.log($('table.table.table-hover'))
+						$('table.table.table-hover').html('');
+						var head = "<tr><td><strong>Nombre</strong></td><td><strong>Teléfono</strong></td><td><strong>Extención</strong></td><td><strong>Ver más</strong></td></tr>";
+						$("table.table.table-hover").append(head);
+						$.each(data,function (key,value) {
+							var fila = '<tr><td>'+value.nom_dir+'</td><td>'+value.tel_dir+'</td><td>'+value.ex_dir+'</td><td><a href="index.php/mdir/'+value.id_dir+'"><span class="label label-success">Ver más</span></a></td></tr>';
+							$("table.table.table-hover").append(fila);
+						})
+					}else{
+
+					}
+
+				},
+				error:function () {
+					console.log('error')
+				}
+			})
+			console.log(nombre.val());
+		}
+		return false;
+	}
+
+	function removerVacio (id) {
+		$('#'+id).removeClass("vacio");
+	}
+
 	function in_array(needle, haystack, argStrict) {
 	  //  discuss at: http://phpjs.org/functions/in_array/
 	  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)

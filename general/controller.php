@@ -473,14 +473,13 @@
 									$datos[$i]['verifica_cpss'] = $_POST['verifica'][$i];
 									$datos[$i]['horaCap_cpss'] = '00:00:00';
 									$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
-
-									break;
+								break;
 								case 4:
 									$datos[$i]['id_cpss'] = $_POST['id'][$i];
 									$datos[$i]['verifica_cpss'] = $_POST['verifica'][$i];
 									$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
 									$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
-									break;
+								break;
 								default:
 									$hora1 = explode(':', $_POST['check'][$i]);
 									$hora1 = ($hora1[0]*60)+$hora1[1];
@@ -499,7 +498,7 @@
 									$datos[$i]['verifica_cpss'] = $verifica;
 									$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
 									$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
-									break;
+								break;
 							}
 						}else{
 							$hora1 = explode(':', $_POST['check'][$i]);

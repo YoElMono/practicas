@@ -363,6 +363,17 @@
 				return '';
 			}
 		}
+		public function perespSS($id){
+			$query = $this->consulta("SELECT * FROM pss_mant WHERE codigo_pss = $id and status_pss != 'Inactivo'");
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
 		public function horarios($hor){
 			$this->consulta("INSERT INTO check_mant (codigo_check, dia_check, mes_check, anio_check, semana_check, tipo_check, horcap_check, fechcon_check)
 								VALUES ('$hor[cod]','$hor[dia]','$hor[mes]','$hor[anio]','$hor[semana]','$hor[tipo]','$hor[hor]','$hor[fec]')");

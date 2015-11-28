@@ -915,7 +915,7 @@
 				return render_to_response(vista::page("juan.mono",$dat));
 			}else{
 				if ($_POST['nombre']){
-					$sql = "SELECT * FROM directorio_mant WHERE pes_dir = 1 AND nom_dir LIKE '%".$_POST['nombre']."%' ORDER BY nom_dir ASC";
+					$sql = "SELECT * FROM directorio_mant WHERE pes_dir = ".$_POST['pestaña']." AND nom_dir LIKE '%".$_POST['nombre']."%' ORDER BY nom_dir ASC";
 					$data = $this->data->query($sql);
 					echo json_encode($data);exit();
 				}
@@ -1370,12 +1370,24 @@
 				}
 			}
 		}
-		public function genHorariosSS(){
+		public function genHorariosSS($per=""){
 			require_once 'main/templates/complementos/calendario.php';
-			$arr = $this->data->personalSS();
-			$hoy = 1;
+			/*$arr = $this->data->personalSS();
+			$hoy = 1;*/
 			$mes = mes_siguiente(date('n'));
 			$anio = (date('n') == 12)?date('Y')+1:date('Y');
+
+
+			if($per != ''){
+				$arr = $this->data->perespSS($per);
+				$mes = date('n');
+				$anio = date('Y');
+				$hoy = date('j');
+			}else{
+				$arr = $this->data->personalSS();
+				$hoy = 1;
+			}
+
 			foreach ($arr as $key => $value) {
 				for ($i=$hoy;$i<=ultimoDia($mes,$anio);$i++) { 
 					$s = date('W',  mktime(0,0,0,$mes,$i,$anio));

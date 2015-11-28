@@ -792,7 +792,10 @@
 		}
 
 		public function tarjetasPSS(){
-			if($_POST['todos']){
+			if ($_POST['btn']){
+				$this->pdft($_POST['no'],$_POST['nom'],'',$_POST['hE'],$_POST['hS'],$_POST['cod']);
+				$this->genHorariosSS($_POST['cod']);
+			}elseif($_POST['todos']){
 				$arr = $this->data->allPSS();
 				//echo '<pre>';print_r($arr);echo '</pre>';exit();
 				require_once 'main/templates/complementos/fpdf/udgpdf.php';

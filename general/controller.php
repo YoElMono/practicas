@@ -1378,7 +1378,7 @@
 			/*$arr = $this->data->personalSS();
 			$hoy = 1;*/
 			$mes = mes_siguiente(date('n'));
-			$anio = (date('n') == 12)?date('Y')+1:date('Y');
+			$anio = ($mes == 1)?date('Y')+1:date('Y');
 
 
 			if($per != ''){
@@ -1434,7 +1434,7 @@
 		public function genHorarios($per=""){
 			require_once 'main/templates/complementos/calendario.php';
 			$mes = mes_siguiente(date('n'));
-			if (date('n') == 12) {
+			if ($mes == 1) {
 				$anio = date('Y')+1;
 			} else {
 				$anio = date('Y');
@@ -1789,8 +1789,8 @@
 				foreach ($_FILES as $key => $value) {
 					$a = 'main/templates/complementos/img-tmp/';
 					$dir = $a.$key.'.jpg';
-					move_uploaded_file($value['tmp_name'], $dir);
-					rename($dir,'main/templates/complementos/img/'.$key.'.jpg');
+					@move_uploaded_file($value['tmp_name'], $dir);
+					@rename($dir,'main/templates/complementos/img/'.$key.'.jpg');
 				}
 				//echo '<pre>';print_r($_FILES);print_r($dirs);print_r($names);echo '</pre>';exit();
 				return HttpResponse('index.php');

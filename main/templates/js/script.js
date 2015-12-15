@@ -275,7 +275,7 @@ $(function(){
 			if(pos<30)pos=30;
 			$('.menu').css({'position':'fixed','top':pos+'px'});
 			if($('aside>div.list-group').length>0){
-				console.log($('aside>div.list-group').height());
+				//console.log($('aside>div.list-group').height());
 				$('aside').css({'position':'fixed','top':pos+'px'});
 				$('aside').css({'right':'48px','width':'293px'});
 			}
@@ -283,10 +283,13 @@ $(function(){
 			//if(pos2<30)pos=300
 		})
 
+
+		$("aside>div.list-group").mCustomScrollbar({autoHideScrollbar:true,theme:"dark"});
+
 			if($('aside>div.list-group').height()>=440){
-				$('aside>div.list-group').css('overflow-y','scroll');
+				//$('aside>div.list-group').css('overflow-y','scroll');
 			}else{
-				$('aside>div.list-group').css('overflow-y','hidden');
+				//$('aside>div.list-group').css('overflow-y','hidden');
 			}
 
 		if(! $("#hord").prop("checked")){$("#hora1").prop("disabled",true); $("#hora2").prop("disabled",true);} 

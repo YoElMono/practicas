@@ -284,13 +284,7 @@ $(function(){
 		})
 
 
-		$("aside>div.list-group").mCustomScrollbar({autoHideScrollbar:true,theme:"dark"});
-
-			if($('aside>div.list-group').height()>=440){
-				//$('aside>div.list-group').css('overflow-y','scroll');
-			}else{
-				//$('aside>div.list-group').css('overflow-y','hidden');
-			}
+		$("aside>div.list-group").mCustomScrollbar({autoHideScrollbar:true,theme:"dark-thick"});
 
 		if(! $("#hord").prop("checked")){$("#hora1").prop("disabled",true); $("#hora2").prop("disabled",true);} 
 		if(! $("#horl").prop("checked")){$("#hora3").prop("disabled",true); $("#hora4").prop("disabled",true);} 

@@ -101,7 +101,7 @@
 					break;
 			}
 			$m = $meses[$m];
-			$an = date('y');
+			$an = (date('n') == 12)?date('y')+1:date('y');
 			$this->SetFont('Arial','B',22);
 			$this->Cell(0,4,'',$bor,1);
 			//$this->Cell(3,5,'',$bor,0);

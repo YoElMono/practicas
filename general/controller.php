@@ -1284,6 +1284,7 @@
 				if(!$_GET['fal']){
 					$repo = $this->data->repMes($_GET,$b);
 					$faltasen = $faltassal = $i = $j = 0;
+					//echo '<pre>';print_r($repo);echo '</pre>';exit();
 					foreach ($repo as $key => $value){
 						if($per != $value['nombre_per']){
 							if($faltasen > $faltassal){

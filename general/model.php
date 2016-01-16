@@ -311,7 +311,8 @@
 			$this->consulta("UPDATE personal_mant SET  iniPerC_per = '$dat[perInicio1]', finPerC_per = '$dat[perFin1]', horEn_per = '$hor[0]', horSal_per = '$hor[1]', nombre_per = '$dat[nom]', cod_per = '$dat[cod]', nombra_per = '$dat[nombra]', area_per = '$dat[area]', tc_per = '$dat[tc]', ch_per = '$dat[carHor]', turno_per = '$dat[turno]', checkD_per = '$horD[0]', horED_per = '$horD[1]', horSD_per = '$horD[2]', checkL_per = '$horL[0]', horEL_per = '$horL[1]', horSL_per = '$horL[2]', checkMa_per = '$horMa[0]', horEMa_per = '$horMa[1]', horSMa_per = '$horMa[2]', checkMi_per = '$horMi[0]', horEMi_per = '$horMi[1]', horSMi_per = '$horMi[2]', checkJ_per = '$horJ[0]', horEJ_per = '$horJ[1]', horSJ_per = '$horJ[2]', checkV_per = '$horV[0]', horEV_per = '$horV[1]', horSV_per = '$horV[2]', checkS_per = '$horS[0]', horES_per = '$horS[1]', horSS_per = '$horS[2]', calle_per = '$dat[calle]', col_per = '$dat[colonia]', cp_per = '$dat[CP]', mun_per = '$dat[Mun]', telcas_per = '$dat[telCas]', telcel_per = '$dat[telCel]', fecN_per = '$dat[fecN]', rfc_per = '$dat[rfc]', curp_per = '$dat[curp]', nss_per = '$dat[nss]', diaE_per = '$dat[diaE]', email_per = '$dat[email]', foto_per ='$dat[foto]', status_per = '$dat[carga]', licencia_per = '$dat[licencia]', iniPer_per = '$dat[perInicio]', finPer_per = '$dat[perFin]' WHERE id_per = '$id'");
 		}
 		public function deletePer($id){
-			$this->consulta("DELETE FROM personal_mant WHERE id_per = '$id' ");
+			//$this->consulta("DELETE FROM personal_mant WHERE id_per = '$id' ");
+			$this->consulta("UPDATE personal_mant SET status_per = 4 WHERE id_per = '$id' ");
 		}
 		public function conPer(){
 			$query = $this->consulta("SELECT nombre_per, cod_per, name_area, nombra_per, tc_per, turno_per, horEn_per, horSal_per FROM personal_mant
@@ -1069,7 +1070,11 @@
 			return $data;
 		}
 		public function checksSS(){
-			$query = $this->consulta("SELECT id_cpss,hora_cpss,id_pss,nombre_pss,dia_cpss,mes_cpss,anio_cpss,tipo_cpss FROM checkPss_mant INNER JOIN pss_mant ON idPss_cpss = id_pss WHERE fechaCon_cpss < '".date('Y-m-d H:i:s')."' AND verifica_cpss = 0 ORDER BY turno_pss ASC, nombre_pss ASC,fechaCon_cpss ASC");
+			$query = $this->consulta("SELECT id_cpss,hora_cpss,id_pss,nombre_pss,dia_cpss,mes_cpss,anio_cpss,tipo_cpss 
+									FROM checkPss_mant INNER JOIN pss_mant ON idPss_cpss = id_pss 
+									WHERE fechaCon_cpss < '".date('Y-m-d H:i:s')."' AND verifica_cpss = 0 
+									ORDER BY turno_pss ASC, nombre_pss ASC,fechaCon_cpss ASC
+									LIMIT 0, 25");
 			if($this->numero_de_filas($query) > 0){
 				while ($datos = $this->fetch_assoc($query)) {
 					$data[] = $datos;
@@ -1131,6 +1136,17 @@
 		}
 		public function query($consulta){
 			$query = $this->consulta($consulta);
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
+		public function getPersonal(){
+			$query = $this->consulta("SELECT nombre_per,cod_per FROM personal_mant WHERE status_per != 4 ");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;

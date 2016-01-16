@@ -1113,6 +1113,7 @@
 			}else{
 				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
 			}
+			$cal['data'] = $this->data->getPersonal();
 			return render_to_response(vista::page('reportesFal.html',$cal));
 		}
 		public function repFal(){

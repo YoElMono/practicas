@@ -1038,13 +1038,16 @@
 				if($_POST['extra']){
 					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 					$dia = $_GET['dia'];$mes = $_GET['mes'];$anio = $_GET['anio'];
-					if($dia<10 and strlen($dia)>1){
-						$dia[0] = $dia[1];
-						$dia[1] = '';
-					}if($mes<10 and strlen($mes)>1){
-						$mes[0] = $mes[1];
-						$mes[1] = '';
+					if((int)$dia<10 and strlen($dia)>1){
+						$dia = substr($dia, strlen($dia)-1);
+						//$dia[0] = $dia[1];
+						//$dia[1] = '';
+					}if((int)$mes<10 and strlen($mes)>1){
+						$mes = substr($mes, strlen($mes)-1);
+						//$mes[0] = $mes[1];
+						//$mes[1] = '';
 					}
+
 					foreach ($_POST['extra'] as $key => $value){
 						$value['semana'] = numeroDeSemana2($dia,$mes,$anio);
 						if($dia<10) $dia = '0'.$dia;
@@ -1055,9 +1058,9 @@
 							for ($i=1; $i < 3; $i++) {
 								$value['tipo'] = $i;
 								if($i==2){
-									$value['fec'] = (int)$mes.$dia.str_replace(':', '', $value['Salida']);
+									$value['fec'] = /*$mes.*/$dia.(str_replace(':', '', $value['Salida']));
 								}else{
-									$value['fec'] = (int)$mes.$dia.str_replace(':', '', $value['Entrada']);//.str_replace(':','',$value['Entrada']);
+									$value['fec'] = $mes.$dia.(str_replace(':', '', $value['Entrada']));//.str_replace(':','',$value['Entrada']);
 									//echo '<pre>';print_r($value);echo '</pre>';exit();
 								}
 								if($yaexiste){

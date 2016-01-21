@@ -1001,8 +1001,9 @@
 			else
 				$hor = 'Salida';
 			$fecha = $value['fecha'];
+			$fec = (($fecha[1]<10)?substr($fecha[1], 1):$fecha[1]).(($fecha[0]<10)?"0".$fecha[0]:$fecha[0]).str_replace(':', "", $value[$hor]);
 			$this->consulta("INSERT INTO check_mant (codigo_check, dia_check, mes_check, anio_check, semana_check, tipo_check, fechcon_check, horcap_check, notas_check)
-											VALUES('$value[codigo]','$fecha[0]','$fecha[1]','$fecha[2]','$value[semana]','$value[tipo]','$value[fec]','$value[$hor]','$value[nota]')");
+											VALUES('$value[codigo]','$fecha[0]','$fecha[1]','$fecha[2]','$value[semana]','$value[tipo]','$fec','$value[$hor]','$value[nota]')");
 		}
 		public function busCheck($value){
 			$fecha = $value['fecha'];
@@ -1020,7 +1021,8 @@
 			else
 				$hor = 'Salida';
 			$fecha = $value['fecha'];
-			$this->consulta("UPDATE check_mant SET fechcon_check = '$value[fec]', horcap_check = '$value[$hor]', notas_check = '$value[nota]' WHERE dia_check = '$fecha[0]' and mes_check = '$fecha[1]' and anio_check = '$fecha[2]' and codigo_check = '$value[codigo]' and tipo_check = '$value[tipo]' ");
+			$fec = (($fecha[1]<10)?substr($fecha[1], 1):$fecha[1]).(($fecha[0]<10)?"0".$fecha[0]:$fecha[0]).str_replace(':', "", $value[$hor]);
+			$this->consulta("UPDATE check_mant SET fechcon_check = '$fec', horcap_check = '$value[$hor]', notas_check = '$value[nota]' WHERE dia_check = '$fecha[0]' and mes_check = '$fecha[1]' and anio_check = '$fecha[2]' and codigo_check = '$value[codigo]' and tipo_check = '$value[tipo]' ");
 		}
 		public function savePDFofi($archivo,$id){
 			$this->consulta("UPDATE oficios_mant SET archivo_ofi = '$archivo' WHERE id_ofi = '$id'");

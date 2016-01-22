@@ -823,6 +823,16 @@
 				return '';
 			}
 		}
+
+		public function repEsp($a){
+			$inicio = split("/", $a['inicio']);
+			$fin = split("/", $a['fin']);
+			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
+									INNER JOIN personal_mant ON codigo_check = cod_per
+									WHERE mes_check = '$a[mes]' AND anio_check = '$a[anio]'".$a['fal'].(($a['anio']<date('Y'))?"":" AND fechcon_check <= '$b'").
+									" ORDER BY turno_per, nombre_per,dia_check,tipo_check ");
+		}
+
 		public function repMesPSS($a){
 			$query = $this->consulta("SELECT turno_pss, id_cpss, codigo_cpss, tipo_cpss, dia_cpss, horaCap_cpss,notas_cpss, nombre_pss,verifica_cpss,fechaCon_cpss FROM checkPss_mant
 									INNER JOIN pss_mant ON codigo_cpss = codigo_pss
@@ -1158,5 +1168,21 @@
 				return '';
 			}
 		}
+
+
+		public function checkmaster()
+		{
+			$query = $this->consulta("SELECT id_check,dia_check,mes_check,anio_check,fecha_check FROM check_mant");
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
+
+
 	}
 ?>

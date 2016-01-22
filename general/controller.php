@@ -1378,6 +1378,111 @@
 				}
 			}
 		}
+
+		public function repEspecial(){
+			$datos = array();
+			$faltas = array();
+			if($_POST){
+				header('location:../reporte-mensual.pdf');
+				//unlink('reporte-mensual-'.$_GET['mes'].'.pdf');
+			}else{
+				$b = date('ndHi');
+				$repo = $this->data->repEsp($_GET,$b);
+				$data = array();
+				if(!$_GET['fal']){
+					$repo = $this->data->repMes($_GET,$b);
+					$faltasen = $faltassal = $i = $j = 0;
+					//echo '<pre>';print_r($repo);echo '</pre>';exit();
+					foreach ($repo as $key => $value){
+						if($per != $value['nombre_per']){
+							if($faltasen > $faltassal){
+								$datos['faltas'][$j] = $faltasen;
+								$faltasen = 0; $faltassal = 0;$j++;
+							}else{
+								$datos['faltas'][$j] = $faltassal;
+								$faltasen = 0; $faltassal = 0;$j++;
+							}
+						}
+						$per = $value['nombre_per'];
+						if($dia == $value['dia_check']){
+							$datos[$i]['sal'] = $value['hor_check'];
+							$datos[$i]['notSal'] = $value['notas_check'];
+							//$data[$i]['turno'] = $value['turno_per'];
+							$ho[2]=str_replace(":","",$value['hor_check']);
+							$ho[3]=substr($ho[2], 0, -2);$ho[2]=substr($ho[2], -2);
+							if($value['turno_per'] == 3) $ho[3]+=24;
+							$ho[2]+=($ho[3]*=60);$ho[0] = $ho[2]-$ho[1];
+							$ho[1]=floor(($ho[0]/60));$ho[2]=($ho[0]%60);
+							if($ho[2]<0)$ho[2]=0;
+							if($ho[2]<10)$ho[2]="0".$ho[2];
+							$ho[3]=$ho[1].":".$ho[2];
+							$datos[$i]['hor'] = $ho[3];
+							if($value['verifica_check'] == 4) $faltassal++;
+							$i++;
+						}else{
+							$datos[$i]['dia'] = $value['dia_check'];
+							$datos[$i]['nom'] = $value['nombre_per'];
+							$datos[$i]['ent'] = $value['hor_check'];
+							$datos[$i]['notEnt'] = $value['notas_check'];
+							$datos[$i]['turno'] = $value['turno_per'];
+							$hora=$value['hor_check'];
+							$ho[1]=str_replace(":","",$value['hor_check']);
+							$ho[2]=substr($ho[1], 0, -2);$ho[1]=substr($ho[1], -2);
+							$ho[1]+=($ho[2]*=60);
+							if($value['verifica_check'] == 4) $faltasen++;
+						}
+						$dia = $value['dia_check'];
+					}
+					$fecha = $_GET['mes'];
+					for($i=0;$i<count($datos['faltas']);$i++){ $faltas[$i] = $datos['faltas'][$i];} 
+					unset($datos['faltas']);
+					//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
+					$this->pdfRM($datos,$faltas,$fecha);
+					for($i=0;$i<count($faltas);$i++){ $datos['faltas'][$i] = $faltas[$i];} 
+					//echo'<pre>';print_r($datos);echo '</pre>';exit();
+					return render_to_response(vista::pageWhite('recordAsis.html',$datos,'Reporte de asistencia'));
+				}else{
+					//echo '<pre>'.$dia.'</pre>';exit();
+					//echo '<pre>';print_r($repo);echo '</pre>';exit();
+					foreach ($repo as $key => $value) {
+						if($nom != $value['nombre_per']){
+							$nom = $value['nombre_per'];
+							$dia = $value['dia_check'];
+							$datos[$nom]['totalE'] = $datos[$nom]['totalS'] = 0;
+							if($value['tipo_check'] == 1){
+								$datos[$nom][$dia]['entrada'] = true;
+								$datos[$nom]['totalE']++;
+							}else{
+								$datos[$nom][$dia]['salida'] = true;
+								$datos[$nom]['totalS']++;
+							}
+						}else{
+							if($dia == $value['dia_check']){
+								if($value['tipo_check'] == 1){
+									$datos[$nom][$dia]['entrada'] = true;
+									$datos[$nom]['totalE']++;
+								}else{
+									$datos[$nom][$dia]['salida'] = true;
+									$datos[$nom]['totalS']++;
+								}
+							}else{
+								$dia = $value['dia_check'];
+								if($value['tipo_check'] == 1){
+									$datos[$nom][$dia]['entrada'] = true;
+									$datos[$nom]['totalE']++;
+								}else{
+									$datos[$nom][$dia]['salida'] = true;
+									$datos[$nom]['totalS']++;
+								}
+							}
+						}
+						$nom = $value['nombre_per'];
+					}
+					return render_to_response(vista::pageWhite('recordFaltas.html',$datos,'Reporte de Faltas'));
+				}
+			}
+		}
+
 		public function genHorariosSS($per=""){
 			require_once 'main/templates/complementos/calendario.php';
 			/*$arr = $this->data->personalSS();
@@ -1954,6 +2059,32 @@
 		public function diaRegalo(){
 			echo "Juan";
 		}
+
+
+
+
+		public function especial()
+		{
+			//echo "Iniciando...\n\n";
+			$data = $this->data->checkmaster();
+			//echo '<pre>';print_r($data);echo '</pre>';
+			$sql = "";
+			foreach ($data as $key => $value) {
+				$fecha = $value['anio_check']."-".($value['mes_check']<10?'0'.$value['mes_check']:$value['mes_check'])."-".($value['dia_check']<10?'0'.$value['dia_check']:$value['dia_check']);
+				//echo '<pre>';print_r($value);echo "fecha:".$fecha."</pre>";
+				$sql.= "UPDATE check_mant SET fecha_check = '$fecha' WHERE id_check = '$value[id_check]';\n";
+			}
+			echo '<pre>'.$sql.'</pre>';
+			//$this->data->query($sql);
+			//echo "\nListo :)";
+			exit();
+		}
+
+
+
+
+
+
 		/*Funciones del sistema*/
 		public function url_p($url){
 			global $url_array;

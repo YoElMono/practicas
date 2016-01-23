@@ -2063,7 +2063,7 @@
 
 
 
-		public function especial()
+		/*public function especial()
 		{
 			//echo "Iniciando...\n\n";
 			$data = $this->data->checkmaster();
@@ -2078,7 +2078,7 @@
 			//$this->data->query($sql);
 			//echo "\nListo :)";
 			exit();
-		}
+		}*/
 
 
 

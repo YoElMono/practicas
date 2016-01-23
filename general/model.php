@@ -1168,21 +1168,5 @@
 				return '';
 			}
 		}
-
-
-		public function checkmaster()
-		{
-			$query = $this->consulta("SELECT id_check,dia_check,mes_check,anio_check,fecha_check FROM check_mant");
-			if($this->numero_de_filas($query) > 0){
-				while ( $tsArray = $this->fetch_assoc($query) ) {
-					$data[] = $tsArray;
-				}
-				return $data;
-			}else{
-				return '';
-			}
-		}
-
-
 	}
 ?>

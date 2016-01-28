@@ -805,11 +805,10 @@
 				return '';
 			}
 		}
-		public function repMes($a,$b){
+		public function repMes($a){
 			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE mes_check = '$a[mes]' AND anio_check = '$a[anio]'".$a['fal'].(($a['anio']<date('Y'))?"":" AND fechcon_check <= '$b'").
-									" ORDER BY turno_per, nombre_per,dia_check,tipo_check ");
+									WHERE codigo_check = '$a[id]' AND (fecha_check BETWEEN '$a[a]' AND '$a[b]') ORDER BY turno_per, nombre_per,dia_check,tipo_check ");
 			/*echo "SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
 									WHERE mes_check = '$a[mes]' AND anio_check = '$a[anio]'".$a['fal'].(($a['anio']<date('Y'))?"":" AND fechcon_check <= '$b'").
@@ -825,12 +824,21 @@
 		}
 
 		public function repEsp($a){
-			$inicio = split("/", $a['inicio']);
-			$fin = split("/", $a['fin']);
 			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE mes_check = '$a[mes]' AND anio_check = '$a[anio]'".$a['fal'].(($a['anio']<date('Y'))?"":" AND fechcon_check <= '$b'").
-									" ORDER BY turno_per, nombre_per,dia_check,tipo_check ");
+									WHERE codigo_check = '$a[id]' AND (fecha_check BETWEEN '$a[a]' AND '$a[b]') ORDER BY turno_per, nombre_per,dia_check,tipo_check ");
+			/*echo "SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
+									INNER JOIN personal_mant ON codigo_check = cod_per
+									WHERE codigo_check = '$a[id]' AND (fecha_check BETWEEN '$a[a]' AND '$a[b]') ORDER BY turno_per, nombre_per,dia_check,tipo_check ";
+			exit();*/
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
 		}
 
 		public function repMesPSS($a){
@@ -1130,8 +1138,8 @@
 			}
 		}
 		public function repDiaPSS($a){
-			$a['dia'] = ($a['dia']<10)?'0'.$a['dia']:$a['dia'];
-			$a['mes'] = ($a['mes']<10)?'0'.$a['mes']:$a['mes'];
+			$a['dia'] = (strlen($a['dia'])<2)?'0'.$a['dia']:$a['dia'];
+			$a['mes'] = (strlen($a['mes'])<2)?'0'.$a['mes']:$a['mes'];
 			$fecha = trim(htmlspecialchars($a['anio'].'-'.$a['mes'].'-'.$a['dia']));
 			$query = $this->consulta("SELECT id_cpss, codigo_cpss, tipo_cpss, nombre_pss, horaCap_cpss, notas_cpss, turno_pss FROM checkPss_mant
 									INNER JOIN pss_mant ON codigo_cpss = codigo_pss

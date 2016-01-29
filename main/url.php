@@ -40,6 +40,7 @@
 		case 'repDia':{$objects["principal"]->repDia();}break;
 		case 'repSema':{$objects["principal"]->repSema();}break;
 		case 'repMes':{$objects["principal"]->repMes();}break;
+		case 'repEs':{$objects["principal"]->repEspecial();}break;
 		case 'segSer':{$objects["principal"]->segSer();}break;
 		case 'restringido':{$objects["principal"]->staticPage('restringido.html');}break;
 		case 'diaLibre':{$objects["principal"]->diaLibre();}break;
@@ -61,6 +62,7 @@
 		case 'repDiaSS':{$objects["principal"]->reporteDiaPSS();}break;
 		case 'repSemaSS':{$objects["principal"]->reporteSemaPSS();}break;
 		case 'repMesSS':{$objects["principal"]->reporteMesPSS();}break;
+		case 'especial':{$objects["principal"]->especial();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

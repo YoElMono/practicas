@@ -824,7 +824,7 @@
 		}
 
 		public function repEsp($a){
-			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
+			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, mes_check, anio_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
 									WHERE codigo_check = '$a[id]' AND (fecha_check BETWEEN '$a[a]' AND '$a[b]') ORDER BY turno_per, nombre_per,dia_check,tipo_check ");
 			/*echo "SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
@@ -1176,5 +1176,20 @@
 				return '';
 			}
 		}
+
+
+		public function checkmaster(){
+			$query = $this->consulta("SELECT id_check,anio_check,mes_check,dia_check FROM check_mant WHERE fecha_check = '0000-00-00'");
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
+
+
 	}
 ?>

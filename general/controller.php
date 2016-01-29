@@ -1161,6 +1161,13 @@
 			$pdf->body($data,$faltas,$fecha);
 			$pdf->Output('reporte-mensual.pdf','f');
 		}
+		public function pdfREs($data,$faltas,$fecha){
+			require_once 'main/templates/complementos/fpdf/udgpdf.php';
+			$pdf=new RM('P');
+			$pdf->AddPage();
+			$pdf->body($data,$faltas,$fecha);
+			$pdf->Output('reporte-especial.pdf','f');
+		}
 		public function pdfRMSS($data,$faltas,$fecha){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
 			$pdf=new RMSS('P');
@@ -1383,16 +1390,77 @@
 			$datos = array();
 			$faltas = array();
 			if($_POST){
-				header('location:../reporte-mensual.pdf');
+				header('location:../reporte-especial.pdf');
 				//unlink('reporte-mensual-'.$_GET['mes'].'.pdf');
 			}else{
-				$b = date('ndHi');
-				$repo = $this->data->repEsp($_GET,$b);
+				$fecha = explode("-", $_GET['inicio']);
+				$_GET['a'] = $fecha[2]."-".($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
+				$fecha = explode("-", $_GET['fin']);
+				$_GET['b'] = $fecha[2]."-".($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
+				$repo = $this->data->repEsp($_GET);
 				$data = array();
-				if(!$_GET['fal']){
-					$repo = $this->data->repMes($_GET,$b);
+				//if(!$_GET['fal']){
+					//$repo = $this->data->repMes($_GET);
 					$faltasen = $faltassal = $i = $j = 0;
-					//echo '<pre>';print_r($repo);echo '</pre>';exit();
+					#echo '<pre>';print_r($repo);echo '</pre>';exit();
+#################### Proceso de calculo de horas trabajadas ####################
+					$_mes = $_anio = $_dia = 0;
+
+					foreach ($repo as $key => $value) {
+						if($_anio != $value['anio_check']){
+							$_anio = $value['anio_check'];
+							$_mes = $value['mes_check'];
+							$_dia = $value['dia_check'];
+							//$entrada = $salida = 0;
+						}else{
+							if($_mes != $value['mes_check']){
+								$_mes = $value['mes_check'];
+								$_dia = $value['dia_check'];
+								//$entrada = $salida = 0;
+							}else{
+								if($_dia != $value['dia_check']){
+									$_dia = $value['dia_check'];
+									//$entrada = $salida = 0;
+								}
+							}
+						}
+
+						if($value['tipo_check'] == 1){
+							$array['entrada'] = ($value['hor_check'] != "")?$value['hor_check']:"nada";
+							$array['notas_ent'] = $value['notas_check'];
+							$array['fechcon_ent'] = $value['fechcon_check'];
+							if($array['entrada'] != "nada"){
+								$entrada = explode(":", $array['entrada']);
+								$entrada = mktime($entrada[0],$entrada[1],0,0,0,0);
+							}else{
+								$entrada = 0;
+							}
+						}else{
+							$array['salida'] = ($value['hor_check'] != "")?$value['hor_check']:"nada";
+							$array['notas_sal'] = $value['notas_check'];
+							$array['fechcon_sal'] = $value['fechcon_check'];
+							if($array['entrada'] != "nada"){
+								$salida = explode(":", $array['salida']);
+								$salida = mktime($salida[0],$salida[1],0,0,0,0);
+							}else{
+								$salida = 0;
+							}
+							if($entrada != 0 && $salida != 0){
+								$resultado = $salida-$entrada;
+								$resultado = $resultado/60;
+								$res1 = floor($resultado/60);
+								$res2 = $resultado%60;
+								$resultado = ((strlen($res1)<2)?"0".$res1:$res1).":".((strlen($res2)<2)?"0".$res2:$res2);
+							}else{
+								$resultado = "Faltan datos";
+							}
+							$array['resultado'] = $resultado;
+							$datos[$_anio][$_mes][$_dia] = $array;
+						}
+
+					}
+					echo '<pre>';print_r($datos);echo '</pre>';exit();
+#################### ************************************* ####################
 					foreach ($repo as $key => $value){
 						if($per != $value['nombre_per']){
 							if($faltasen > $faltassal){
@@ -1437,11 +1505,11 @@
 					for($i=0;$i<count($datos['faltas']);$i++){ $faltas[$i] = $datos['faltas'][$i];} 
 					unset($datos['faltas']);
 					//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
-					$this->pdfRM($datos,$faltas,$fecha);
+					//$this->pdfREs($datos,$faltas,$fecha);
 					for($i=0;$i<count($faltas);$i++){ $datos['faltas'][$i] = $faltas[$i];} 
-					//echo'<pre>';print_r($datos);echo '</pre>';exit();
+					echo'<pre>';print_r($datos);echo '</pre>';exit();
 					return render_to_response(vista::pageWhite('recordAsis.html',$datos,'Reporte de asistencia'));
-				}else{
+				/*}else{
 					//echo '<pre>'.$dia.'</pre>';exit();
 					//echo '<pre>';print_r($repo);echo '</pre>';exit();
 					foreach ($repo as $key => $value) {
@@ -1479,7 +1547,7 @@
 						$nom = $value['nombre_per'];
 					}
 					return render_to_response(vista::pageWhite('recordFaltas.html',$datos,'Reporte de Faltas'));
-				}
+				}*/
 			}
 		}
 
@@ -2063,11 +2131,11 @@
 
 
 
-		/*public function especial()
+		public function especial()
 		{
 			//echo "Iniciando...\n\n";
 			$data = $this->data->checkmaster();
-			//echo '<pre>';print_r($data);echo '</pre>';
+			echo '<pre>';print_r($data);echo '</pre>';
 			$sql = "";
 			foreach ($data as $key => $value) {
 				$fecha = $value['anio_check']."-".($value['mes_check']<10?'0'.$value['mes_check']:$value['mes_check'])."-".($value['dia_check']<10?'0'.$value['dia_check']:$value['dia_check']);
@@ -2078,7 +2146,7 @@
 			//$this->data->query($sql);
 			//echo "\nListo :)";
 			exit();
-		}*/
+		}
 
 
 

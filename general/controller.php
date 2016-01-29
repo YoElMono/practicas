@@ -2135,7 +2135,7 @@
 		{
 			//echo "Iniciando...\n\n";
 			$data = $this->data->checkmaster();
-			echo '<pre>';print_r($data);echo '</pre>';
+			//echo '<pre>';print_r($data);echo '</pre>';
 			$sql = "";
 			foreach ($data as $key => $value) {
 				$fecha = $value['anio_check']."-".($value['mes_check']<10?'0'.$value['mes_check']:$value['mes_check'])."-".($value['dia_check']<10?'0'.$value['dia_check']:$value['dia_check']);

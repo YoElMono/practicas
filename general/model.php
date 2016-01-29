@@ -376,8 +376,9 @@
 			}
 		}
 		public function horarios($hor){
-			$this->consulta("INSERT INTO check_mant (codigo_check, dia_check, mes_check, anio_check, semana_check, tipo_check, horcap_check, fechcon_check)
-								VALUES ('$hor[cod]','$hor[dia]','$hor[mes]','$hor[anio]','$hor[semana]','$hor[tipo]','$hor[hor]','$hor[fec]')");
+			$fecha = $hor['anio'].'-'.((strlen($hor['mes'])<2)?"0".$hor['mes']:$hor['mes']).'-'.((strlen($hor['dia'])<2)?"0".$hor['dia']:$hor['dia']);
+			$this->consulta("INSERT INTO check_mant (codigo_check, dia_check, mes_check, anio_check, semana_check, tipo_check, horcap_check, fechcon_check,fecha_check)
+								VALUES ('$hor[cod]','$hor[dia]','$hor[mes]','$hor[anio]','$hor[semana]','$hor[tipo]','$hor[hor]','$hor[fec]','$fecha')");
 		}
 		public function permat(){
 			$query = $this->consulta("SELECT nombre_per, cod_per, name_area, nombra_per, tc_per, turno_per, horEn_per, horSal_per FROM personal_mant

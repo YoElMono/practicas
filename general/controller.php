@@ -925,7 +925,7 @@
 				return render_to_response(vista::page("juan.mono",$dat));
 			}else{
 				if ($_POST['nombre']){
-					$sql = "SELECT * FROM directorio_mant WHERE pes_dir = ".$_POST['pestaña']." AND nom_dir LIKE '%".$_POST['nombre']."%' ORDER BY nom_dir ASC";
+					$sql = "SELECT * FROM directorio_mant WHERE pes_dir = ".$_POST['pestana']." AND nom_dir LIKE '%".$_POST['nombre']."%' ORDER BY nom_dir ASC";
 					$data = $this->data->query($sql);
 					echo json_encode($data);exit();
 				}

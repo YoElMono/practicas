@@ -1555,7 +1555,7 @@
 			require_once 'main/templates/complementos/calendario.php';
 			/*$arr = $this->data->personalSS();
 			$hoy = 1;*/
-			$mes = mes_siguiente(date('n'));
+			$mes = date('n');//mes_siguiente(date('n'));
 			$anio = ($mes == 1)?date('Y')+1:date('Y');
 
 

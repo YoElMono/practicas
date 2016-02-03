@@ -85,7 +85,7 @@
 	require_once 'main/settings.php';
 	
 	if ($argv[1] == 'horarios') {
-		$objects["principal"]->genHorarios();
+		//$objects["principal"]->genHorarios();
 		$objects["principal"]->genHorariosSS();
 	}
 ?>

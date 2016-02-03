@@ -952,11 +952,12 @@ function abrirVentana(url) {
 			nombre.addClass("vacio");
 			console.log("error");
 		}else{
+			console.log($(':checked'));
 			$.ajax({
 				url:'index.php/mdir',
 				dataType:'json',
 				type:'POST',
-				data:'nombre='+nombre.val(),
+				data:'nombre='+nombre.val()+"&pestana=1",
 				success:function (data) {
 					//console.log(data);
 					if(data != ""){
@@ -1027,6 +1028,26 @@ function abrirVentana(url) {
 	  return false;
 	}
 
+function getReporte () {
+	var personal = $('#personal');
+	var inicio = $('#inicio');
+	var fin = $('#fin');
+	
+	if(personal.val() != "" && inicio.val() != "" && fin.val() != ""){
+		console.log("bien :)");
+		var _inicio = inicio.val().replace('/','-');_inicio = _inicio.replace('/','-');
+		var _fin = fin.val().replace('/','-');_fin = _fin.replace('/','-');
+		console.log('personal='+personal.val()+'\ninicio='+_inicio+'\nfin='+_fin);
+		abrirVentana('index.php/repEs?id='+personal.val()+'&inicio='+_inicio+'&fin='+_fin);
+	}else{
+		if(personal.val() == "") personal.css('border','solid 1px red');
+		if(inicio.val() == "") inicio.css('border','solid 1px red');
+		if(fin.val() == "") fin.css('border','solid 1px red');
+		console.log("mal :(");
+		alert("Faltan algunos datos :(");
+		return false;
+	}
+}
 
 
 

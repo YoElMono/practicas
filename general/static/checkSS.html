@@ -1,5 +1,17 @@
 <h1>[Servicio_Social_Check]</h1>
-<?php if($arr){ ?>
+
+<form method="post" action="" id="form-per">
+<div style="float:right; margin: 30px;">
+	<select class="form-control" name='codigo'>
+		<option></option>
+		<?php foreach ($arr['per'] as $key => $value) {?>
+			<option value="<?=$value['codigo_pss']?>"><?=utf8_decode($value['nombre_pss'])?></option>
+		<?php }?>
+	</select>
+</div>
+</form>
+
+<?php if($arr['check']){ ?>
 <form method="POST" action="">
 <table class="table table-bordered">
 	<tr>
@@ -10,7 +22,7 @@
   		<td><strong>[falt]</strong></td>
   		<td><strong>[h]</strong></td>
 	</tr>
-	<?php $i=0; foreach ($arr as $key => $value) { ?>
+	<?php $i=0; foreach ($arr['check'] as $key => $value) { ?>
 	<tr>
 		<td><?= utf8_decode($value['nombre_pss'])?></td>
 		<td> <?= $value['dia_cpss']."/".$value['mes_cpss']."/".$value['anio_cpss']?> </td>
@@ -39,7 +51,7 @@
 	<input type="hidden" name="tipo[<?=$i?>]" value="<?=$value['tipo_cpss']?>">
 	<?php $i++;} ?>
 </table>
-<button type="submit" class="btn btn-primary">[enviar]</button>
+<button type="submit" name="todo" class="btn btn-primary">[enviar]</button>
 </form>
 <?php }else{ ?>
 <div id="no-registros">
@@ -73,6 +85,12 @@
 			primo.hide().val('').attr('required',false);
 			console.log(esto)
 		})
+
+		
+		$('select').change(function () {
+			$('#form-per').submit()
+		})
+
 	})
 
 	function validarHora (id,id_msg,id_sec) {

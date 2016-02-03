@@ -1095,10 +1095,11 @@
 			$data = $this->fetch_array($query);
 			return $data;
 		}
-		public function checksSS(){
+		public function checksSS($personal=""){
+			$a = $personal!=""?" and codigo_cpss = '$personal' ":$personal;
 			$query = $this->consulta("SELECT id_cpss,hora_cpss,id_pss,nombre_pss,dia_cpss,mes_cpss,anio_cpss,tipo_cpss 
 									FROM checkPss_mant INNER JOIN pss_mant ON idPss_cpss = id_pss 
-									WHERE fechaCon_cpss < '".date('Y-m-d H:i:s')."' AND verifica_cpss = 0 
+									WHERE fechaCon_cpss < '".date('Y-m-d H:i:s')."' AND verifica_cpss = 0 $a
 									ORDER BY turno_pss ASC, nombre_pss ASC,fechaCon_cpss ASC
 									LIMIT 0, 25");
 			if($this->numero_de_filas($query) > 0){

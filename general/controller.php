@@ -304,12 +304,12 @@
 			$pdf->Footer($nCap,$nAut);
 			$pdf->Output('prueba','i');
 		}
-		public function pdft($no,$nom,$dep,$hE,$hS,$cod){
+		public function pdft($no,$nom,$dep,$hE,$hS,$cod,$ind = false){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
 			$pdf=new tarjetas('P');
 			$pdf->SetMargins(60,5,0);
 			$pdf->AddPage();
-			$pdf->tarjeta($no,$nom,$dep,$hE,$hS,$cod);
+			$pdf->tarjeta($no,$nom,$dep,$hE,$hS,$cod,$ind);
 			$pdf->Output('tarjeta','i');
 		}
 		public function pdfs($no,$dep,$sol,$ser,$des,$hor,$fec,$ext,$asi,$nom){
@@ -763,7 +763,7 @@
 		public function tarjetas(){
 			global $url_array;
 			if ($_POST['btn']){
-				$this->pdft($_POST['no'],$_POST['nom'],$_POST['dep'],$_POST['hE'],$_POST['hS'],$_POST['cod']);
+				$this->pdft($_POST['no'],$_POST['nom'],$_POST['dep'],$_POST['hE'],$_POST['hS'],$_POST['cod'],true);
 				$this->genHorarios($_POST['cod']);
 			}elseif($_POST['todos']){
 				$arr = $this->data->personal();
@@ -793,7 +793,7 @@
 
 		public function tarjetasPSS(){
 			if ($_POST['btn']){
-				$this->pdft($_POST['no'],$_POST['nom'],'',$_POST['hE'],$_POST['hS'],$_POST['cod']);
+				$this->pdft($_POST['no'],$_POST['nom'],'',$_POST['hE'],$_POST['hS'],$_POST['cod'],true);
 				$this->genHorariosSS($_POST['cod']);
 			}elseif($_POST['todos']){
 				$arr = $this->data->allPSS();
@@ -1555,7 +1555,7 @@
 			require_once 'main/templates/complementos/calendario.php';
 			/*$arr = $this->data->personalSS();
 			$hoy = 1;*/
-			$mes = date('n');//mes_siguiente(date('n'));
+			$mes = mes_siguiente(date('n'));
 			$anio = ($mes == 1)?date('Y')+1:date('Y');
 
 

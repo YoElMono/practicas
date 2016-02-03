@@ -70,10 +70,11 @@
 		}
 	}
 	class tarjetas extends FPDF{
-		public function tarjeta($no,$nom,$dep,$hE,$hS,$cod){
+		public function tarjeta($no,$nom,$dep,$hE,$hS,$cod,$ind){
 			$bor = 0;
 			$meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 			$m = date('n');
+			if($ind) $m = $m-1;
 			if($m == 12) $m = 0;
 			switch ($m) {
 				case 0:

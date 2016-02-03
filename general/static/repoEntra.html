@@ -55,13 +55,13 @@
 			<dt>[foto]</dt>
 		  	<dd><?php $foto = explode('.', $arr['foto_entrada']); if($foto[count($foto)-1] != 'pdf'){?><img src="main/templates/complementos/fotos/<?= $arr['foto_entrada']?>" width="500" heigth="350"><?php }else{ ?><button class="btn btn-success" onclick="abrirVentana('main/templates/complementos/fotos/<?= $arr['foto_entrada']?>');"> Ver Archivo </button> <?php } ?></dd></div>
 		<div>
-		<?php if($arr['foto2_entrada']):?>
+		<?php if($arr['foto2_entrada']!=""):?>
 		<div style="padding:10px;">
 			<dt></dt>
 		  	<dd><?php $foto = explode('.', $arr['foto2_entrada']); if($foto[count($foto)-1] != 'pdf'){?><img src="main/templates/complementos/fotos/<?= $arr['foto2_entrada']?>" width="500" heigth="350"><?php }else{ ?><button class="btn btn-success" onclick="abrirVentana('main/templates/complementos/fotos/<?= $arr['foto2_entrada']?>');"> Ver Archivo </button> <?php } ?></dd></div>
 		<div>
 		<?php endif;?>
-		<?php if($arr['foto3_entrada']):?>
+		<?php if($arr['foto3_entrada']!=""):?>
 		<div style="padding:10px;">
 			<dt></dt>
 		  	<dd><?php $foto = explode('.', $arr['foto3_entrada']); if($foto[count($foto)-1] != 'pdf'){?><img src="main/templates/complementos/fotos/<?= $arr['foto3_entrada']?>" width="500" heigth="350"><?php }else{ ?><button class="btn btn-success" onclick="abrirVentana('main/templates/complementos/fotos/<?= $arr['foto3_entrada']?>');"> Ver Archivo </button> <?php } ?></dd></div>

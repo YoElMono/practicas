@@ -748,7 +748,8 @@
 			}
 		}
 		public function notrabaja($dia){
-			$query = $this->consulta('SELECT * FROM personal_mant WHERE '.$dia.' = 0');
+			$query = $this->consulta("SELECT * FROM personal_mant WHERE $dia = 0 
+										ORDER BY turno_per,nombre_per ASC");
 			if($this->numero_de_filas($query) > 0){
 				while($datos = $this->fetch_assoc($query))
 					$data[] = $datos;
@@ -1026,8 +1027,10 @@
 				$hor = 'Salida';
 			$fecha = $value['fecha'];
 			$fec = (($fecha[1]<10)?substr($fecha[1], 1):$fecha[1]).(($fecha[0]<10)?"0".$fecha[0]:$fecha[0]).str_replace(':', "", $value[$hor]);
-			$this->consulta("INSERT INTO check_mant (codigo_check, dia_check, mes_check, anio_check, semana_check, tipo_check, fechcon_check, horcap_check, notas_check)
-											VALUES('$value[codigo]','$fecha[0]','$fecha[1]','$fecha[2]','$value[semana]','$value[tipo]','$fec','$value[$hor]','$value[nota]')");
+			if($value['horasSalida'] !="" or $value['horasEntrada'] != ""){ $a = ",hor_check,verifica_check";$b = ",'".$value['horas'.$hor]."',1";}else{$a=$b="";}
+			$fecha2 = $fecha[2]."-".(strlen($fecha[1])<2?"0".$fecha[1]:$fecha[1])."-".(strlen($fecha[0])<2?"0".$fecha[0]:$fecha[0]);
+			$this->consulta("INSERT INTO check_mant (codigo_check, dia_check, mes_check, anio_check, semana_check, tipo_check, fechcon_check, horcap_check, fecha_check, notas_check$a)
+											VALUES('$value[codigo]','$fecha[0]','$fecha[1]','$fecha[2]','$value[semana]','$value[tipo]','$fec','$value[$hor]','$fecha2','$value[nota]'$b)");
 		}
 		public function busCheck($value){
 			$fecha = $value['fecha'];

@@ -1,9 +1,11 @@
 <br>
 <div class="panel panel-warning">
 	<div class="panel-heading">[dia]-><?= $_GET['dia']?><br>
-	<div class="btn-group"> 
-	<button name="op" value="1" class="btn btn-primary">[jur]</button><button class="btn btn-success" name="op" value="2">[Corr]</button><button class="btn btn-warning" value="3" name="op">[ExO]</button>
-	</div>
+		<div class="btn-group"> 
+			<button name="op" value="1" class="btn btn-primary">[jur]</button>
+			<button class="btn btn-success" name="op" value="2">[Corr]</button>
+			<button class="btn btn-warning" value="3" name="op">[ExO]</button>
+		</div>
 	</div>
   	<div class="panel-body">
 			<form method="POST" action="">
@@ -59,7 +61,7 @@
 					<td style="display:none"><strong>[sal]</strong></td>
 					<td style="display:none"><strong>[not]</strong></td>
 				</tr>
-				<?php foreach ($arr['b'] as $key => $value):?>
+				<?php foreach ($arr['b']['extra'] as $key => $value):?>
 				<input type="hidden" name="extra[<?=$key?>][fecha]" value="<?=$_GET['dia'].'/'.$_GET['mes'].'/'.$_GET['anio']?>">
 				<tr>
 					<td><input type="checkbox" name="extra[<?=$key?>][codigo]" id="extrach" value="<?=$value['cod_per']?>"></td>
@@ -71,8 +73,32 @@
 					</td>
 				</tr>
 				<?php endforeach;?>
+				<tr>
+					<td colspan="5">
+						Reponer horas
+					</td>
+				</tr>
+				<tr>
+					<td><strong>[trab]</strong></td>
+					<td><strong>[nombre]</strong></td>
+					<td style="display:none"><strong>[ent]</strong></td>
+					<td style="display:none"><strong>[sal]</strong></td>
+					<td style="display:none"><strong>[not]</strong></td>
+				</tr>
+				<?php foreach ($arr['b']['repo'] as $key => $value):?>
+				<input type="hidden" name="extra[<?=$key+count($arr['b']['extra'])?>][fecha]" value="<?=$_GET['dia'].'/'.$_GET['mes'].'/'.$_GET['anio']?>">
+				<tr>
+					<td><input type="checkbox" name="extra[<?=$key+count($arr['b']['extra'])?>][codigo]" id="extrach" value="<?=$value['cod_per']?>"></td>
+					<td><?=$value['nombre_per']?></td>
+					<td style="display:none" id="extra<?=$key+count($arr['b']['extra'])?>"><input type="text" placeholder="HH:MM" name="extra[<?=$key+count($arr['b']['extra'])?>][Entrada]" class="entraI" id="exE<?=$key+count($arr['b']['extra'])?>" onkeyup="dos_puntos('exE<?=$key+count($arr['b']['extra'])?>')"></td>
+					<td style="display:none" id="extraS<?=$key+count($arr['b']['extra'])?>"><input type="text" placeholder="HH:MM" name="extra[<?=$key+count($arr['b']['extra'])?>][Salida]" class="entraI" id="exS<?=$key+count($arr['b']['extra'])?>" onkeyup="dos_puntos('exS<?=$key+count($arr['b']['extra'])?>')"></td>
+					<td style="display:none" id="extraN<?=$key+count($arr['b']['extra'])?>">
+						<strong><textarea class="textnotjus" name="extra[<?=$key+count($arr['b']['extra'])?>][nota]"></textarea></strong>
+					</td>
+				</tr>
+				<?php endforeach;?>
 			</table>
-			<button class="btn btn-warning" type="submit" id="boton1" style="display: none;" onclick="window.close()">[enviar]</button>
+			<button class="btn btn-warning" type="submit" id="boton1" name="botonExtra" value="<?=count($arr['b']['extra'])?>" style="display: none;" onclick="window.close()">[enviar]</button>
 		</form>
 		<br>
 			<button class="btn btn-danger" onclick="window.close()">[close]</button>

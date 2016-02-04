@@ -1065,10 +1065,16 @@
 							for ($i=1; $i < 3; $i++) {
 								$value['tipo'] = $i;
 								if($i==2){
-									$value['fec'] = /*$mes.*/$dia.(str_replace(':', '', $value['Salida']));
+									$value['fec'] = $mes.$dia.(str_replace(':', '', $value['Salida']));
+									if($key>$_POST['botonExtra']){
+										$value['horasSalida'] = $value['Salida']; 
+									}
 								}else{
 									$value['fec'] = $mes.$dia.(str_replace(':', '', $value['Entrada']));//.str_replace(':','',$value['Entrada']);
 									//echo '<pre>';print_r($value);echo '</pre>';exit();
+									if($key>$_POST['botonExtra']){
+										$value['horasEntrada'] = $value['Entrada']; 
+									}
 								}
 								if($yaexiste){
 									//echo '<pre>';print_r($value);echo '</pre>';exit();
@@ -1113,7 +1119,8 @@
 				$dia = calcula_numero_dia_semana($_GET['dia'],$_GET['mes'],$_GET['anio']);
 				$dia = dias_semana($dia);
 				$faltantes['a'] = $this->data->faltantes($_GET);
-				$faltantes['b'] = $this->data->notrabaja($dia);
+				$faltantes['b']['extra'] = $this->data->notrabaja($dia);
+				$faltantes['b']['repo'] = $this->data->personal();
 				return render_to_response(vista::pageWhite('faltantes.html',$faltantes,'Justificar faltas'));
 			}
 		}

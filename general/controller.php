@@ -1076,12 +1076,16 @@
 										$value['horasEntrada'] = $value['Entrada']; 
 									}
 								}
-								if($yaexiste){
-									//echo '<pre>';print_r($value);echo '</pre>';exit();
-									$this->data->updateCheck($value);
-									//echo '<pre>';print_r($value);echo '</pre>';exit();
-								}else{
+								if($key>$_POST['botonExtra']){
 									$this->data->agregarCheck($value);
+								}else{
+									if($yaexiste){
+										//echo '<pre>';print_r($value);echo '</pre>';exit();
+										$this->data->updateCheck($value);
+										//echo '<pre>';print_r($value);echo '</pre>';exit();
+									}else{
+										$this->data->agregarCheck($value);
+									}
 								}
 							}
 						}
@@ -1202,7 +1206,7 @@
 				if(!$_GET['fal']){
 					$i=0;
 					foreach ($repo as $key => $value) {
-						if($per != $value['nombre_per']){
+						if($per != $value['nombre_per'] or $value['tipo_check'] == 1){
 							$hora=$value['hor_check'];
 							$ho[1]=str_replace(":","",$value['hor_check']);
 							$ho[2]=substr($ho[1], 0, -2);$ho[1]=substr($ho[1], -2);
@@ -1321,7 +1325,7 @@
 							}
 						}
 						$per = $value['nombre_per'];
-						if($dia == $value['dia_check']){
+						if($value['tipo_check'] == 2){//$dia == $value['dia_check']){
 							$datos[$i]['sal'] = $value['hor_check'];
 							$datos[$i]['notSal'] = $value['notas_check'];
 							//$data[$i]['turno'] = $value['turno_per'];

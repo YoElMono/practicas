@@ -343,7 +343,7 @@ $(function(){
 			}else if ($("#status").val()==2){
 				$("#lic").css('display','none');
 				$("#per").css('display','block');
-			}else if(!$("#status").val()){
+			}else if(!$("#status").val() || $("#status").val() == 4){
 				$("#lic").css('display','none');
 				$("#per").css('display','none');
 			}

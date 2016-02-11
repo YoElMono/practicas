@@ -1177,7 +1177,7 @@
 			$pdf=new RM('P');
 			$pdf->AddPage();
 			$pdf->body($data,$faltas,$fecha);
-			$pdf->Output('reporte-mensual.pdf','f');
+			$pdf->Output(__DIR__.'/../reporte-mensual.pdf','f');
 		}
 		public function pdfREs($data,$faltas,$fecha){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
@@ -1191,7 +1191,7 @@
 			$pdf=new RMSS('P');
 			$pdf->AddPage();
 			$pdf->body($data,$faltas,$fecha);
-			$pdf->Output('reporte-mensual-Servicio-Social.pdf','f');
+			$pdf->Output(__DIR__.'/reporte-mensual-Servicio-Social.pdf','f');
 		}
 		public function repDia(){
 			if($_POST){
@@ -2156,9 +2156,10 @@
 			//echo '<pre>';print_r($data);echo '</pre>';
 			$sql = "";
 			foreach ($data as $key => $value) {
+				$hora = (strlen($value['horcap_check'])<5)?"0".$value['horcap_check']:$value['horcap_check'];
 				$fecha = $value['anio_check']."-".($value['mes_check']<10?'0'.$value['mes_check']:$value['mes_check'])."-".($value['dia_check']<10?'0'.$value['dia_check']:$value['dia_check']);
 				//echo '<pre>';print_r($value);echo "fecha:".$fecha."</pre>";
-				$sql.= "UPDATE check_mant SET fecha_check = '$fecha' WHERE id_check = '$value[id_check]';\n";
+				$sql.= "UPDATE check_mant SET fecha_check = '$fecha $hora' WHERE id_check = '$value[id_check]';\n";
 			}
 			echo '<pre>'.$sql.'</pre>';
 			//$this->data->query($sql);

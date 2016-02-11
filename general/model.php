@@ -1189,7 +1189,7 @@
 
 
 		public function checkmaster(){
-			$query = $this->consulta("SELECT id_check,anio_check,mes_check,dia_check FROM check_mant WHERE fecha_check = '0000-00-00'");
+			$query = $this->consulta("SELECT id_check,anio_check,mes_check,dia_check,horcap_check FROM check_mant");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;

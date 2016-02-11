@@ -2160,6 +2160,7 @@
 				$fecha = $value['anio_check']."-".($value['mes_check']<10?'0'.$value['mes_check']:$value['mes_check'])."-".($value['dia_check']<10?'0'.$value['dia_check']:$value['dia_check']);
 				//echo '<pre>';print_r($value);echo "fecha:".$fecha."</pre>";
 				$hora = $hora=="0"?"00:00":$hora;
+				$hora = str_replace("::", ":", $hora);
 				$sql.= "UPDATE check_mant SET fecha_check = '$fecha $hora' WHERE id_check = '$value[id_check]';\n";
 			}
 			echo '<pre>'.$sql.'</pre>';

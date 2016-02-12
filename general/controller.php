@@ -2162,7 +2162,7 @@
 				$hora = $hora=="0"?"00:00":$hora;
 				$hora = str_replace("::", ":", $hora);
 				$hora = $hora.":00";
-				$sql.= "UPDATE check_mant SET fecha_check = '$fecha $hora' WHERE id_check = '$value[id_check]';\n";
+				$sql.= "UPDATE `check_mant` SET `fecha_check` = '$fecha $hora' WHERE `id_check` = $value[id_check];\n";
 			}
 			echo '<pre>'.$sql.'</pre>';
 			//$this->data->query($sql);

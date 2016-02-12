@@ -381,6 +381,7 @@
 		}
 		public function horarios($hor){
 			$fecha = $hor['anio'].'-'.((strlen($hor['mes'])<2)?"0".$hor['mes']:$hor['mes']).'-'.((strlen($hor['dia'])<2)?"0".$hor['dia']:$hor['dia']);
+			$fecha .= " ".(strlen($hor['hor'])<5?"0".$hor['hor']:$hor['hor']).":00";
 			$this->consulta("INSERT INTO check_mant (codigo_check, dia_check, mes_check, anio_check, semana_check, tipo_check, horcap_check, fechcon_check,fecha_check)
 								VALUES ('$hor[cod]','$hor[dia]','$hor[mes]','$hor[anio]','$hor[semana]','$hor[tipo]','$hor[hor]','$hor[fec]','$fecha')");
 		}
@@ -718,7 +719,7 @@
 				$a = 'and codigo_check = "'.$nom.'"';
 			$query = $this->consulta("SELECT * FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE verifica_check = 0 AND fechcon_check < '$fec'".$a."
+									WHERE verifica_check = 0 AND fecha_check < '$fec'".$a."
 									ORDER BY turno_per, nombre_per ASC 
 									LIMIT 0, 25");
 			if($this->numero_de_filas($query) > 0){
@@ -1029,6 +1030,7 @@
 			$fec = (($fecha[1]<10)?substr($fecha[1], 1):$fecha[1]).(($fecha[0]<10)?"0".$fecha[0]:$fecha[0]).str_replace(':', "", $value[$hor]);
 			if($value['horasSalida'] !="" or $value['horasEntrada'] != ""){ $a = ",hor_check,verifica_check";$b = ",'".$value['horas'.$hor]."',1";}else{$a=$b="";}
 			$fecha2 = $fecha[2]."-".(strlen($fecha[1])<2?"0".$fecha[1]:$fecha[1])."-".(strlen($fecha[0])<2?"0".$fecha[0]:$fecha[0]);
+			$fecha2 .= " ".(strlen($value[$hor])<5?"0".$value[$hor]:$value[$hor]).":00";
 			$this->consulta("INSERT INTO check_mant (codigo_check, dia_check, mes_check, anio_check, semana_check, tipo_check, fechcon_check, horcap_check, fecha_check, notas_check$a)
 											VALUES('$value[codigo]','$fecha[0]','$fecha[1]','$fecha[2]','$value[semana]','$value[tipo]','$fec','$value[$hor]','$fecha2','$value[nota]'$b)");
 		}

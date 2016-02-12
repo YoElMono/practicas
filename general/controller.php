@@ -966,7 +966,7 @@
 			if($_POST['nom']){
 				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 				$arr['per'] = $this->data->personal();
-				$arr['check'] = $this->data->conHor(date('ndHi'),$_POST['nom']);
+				$arr['check'] = $this->data->conHor(date('Y-m-d H:i:s'),$_POST['nom']);
 				return render_to_response(vista::page('checkin.html',$arr));
 			}
 			elseif($_POST['total']){
@@ -1008,7 +1008,7 @@
 				return HttpResponse('index.php/check');
 			}else{
 				$arr['per'] = $this->data->personal();
-				$arr['check'] = $this->data->conHor(date('ndHi'));
+				$arr['check'] = $this->data->conHor(date('Y-m-d H:i:s'));
 				return render_to_response(vista::page('checkin.html',$arr));
 			}
 		}

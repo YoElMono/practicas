@@ -1063,11 +1063,11 @@
 			return $file['archivo_ofi'];
 		}
 		public function newEvent($value){
-			$this->consulta("INSERT INTO eventos_mant (nombre_eve,fecha_eve,descripcion_eve,archivo_eve,num_ofi_eve,hora_eve,sede_eve,semana_eve)
-								VALUES ('$value[nom_eve]','$value[fecha_eve]','$value[des]','$value[foto]','$value[numero]','$value[hora_eve]','$value[sede_eve]','$value[semana_eve]')");
+			$this->consulta("INSERT INTO eventos_mant (nombre_eve,tipo_eve,fecha_eve,descripcion_eve,archivo_eve,num_ofi_eve,hora_eve,sede_eve,semana_eve)
+								VALUES ('$value[nom_eve]','$value[con]','$value[fecha_eve]','$value[des]','$value[foto]','$value[numero]','$value[hora_eve]','$value[sede_eve]','$value[semana_eve]')");
 		}
 		public function getEventosDate($fecha){
-			$query = $this->consulta("SELECT * FROM eventos_mant WHERE fecha_eve LIKE ".$fecha);
+			$query = $this->consulta("SELECT * FROM eventos_mant WHERE fecha_eve LIKE $fecha ORDER BY fecha_eve ASC");
 			if($this->numero_de_filas($query)>0){
 				while($datos = $this->fetch_assoc($query))
 					$data[] = $datos;

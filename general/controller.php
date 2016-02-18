@@ -1130,7 +1130,8 @@
 		}
 		public function repFaltas(){
 			if ($_GET) {
-				$cal = $this->crear_cal(null,$_GET['mes'],$_GET['anio']);
+				$dia = $_GET['mes'] == date('m')?date('d'):null;
+				$cal = $this->crear_cal($dia,$_GET['mes'],$_GET['anio']);
 			}else{
 				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
 			}
@@ -1138,9 +1139,10 @@
 			return render_to_response(vista::page('reportesFal.html',$cal));
 		}
 		public function repFal(){
-			if($_GET)
-				$cal = $this->crear_cal(null,$_GET['mes'],$_GET['anio']);
-			else
+			if($_GET){
+				$dia = $_GET['mes'] == date('m')?date('d'):null;
+				$cal = $this->crear_cal($dia,$_GET['mes'],$_GET['anio']);
+			}else
 				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
 			return render_to_response(vista::page('reporteDeFaltas.html',$cal));
 		}
@@ -1744,16 +1746,24 @@
 					$_POST['cod'] = date('syimHd');
 					$_POST['dp'] = $_POST['depen'];
 					$ya=false;
-					if($_POST['con'] == 6 ){
-						$_POST['options'] = 6;
-						$this->data->solSer($_POST);
-						$_POST['sede_eve'] = utf8_encode($_POST['sede_eve']);
-						$_POST['fecha_eve'] = explode('/',$_POST['fecha_eve']);
-						$_POST['fecha_eve'] = $_POST['fecha_eve'][2].'-'.$_POST['fecha_eve'][1].'-'.$_POST['fecha_eve'][0];
-						$fecha = explode('-', $_POST['fecha_eve']);
-						$dia = $fecha[2];$mes = $fecha[1]; $anio = $fecha[0];
-						$_POST['semana_eve'] = date('W',  mktime(0,0,0,$mes,$dia,$anio));
-						$this->data->newEvent($_POST);
+					if($_POST['con'] == 6 || $_POST['con'] == 1 || $_POST['con'] == 2 || $_POST['con'] == 3){
+						if($_POST['con'] == 6){
+							$_POST['options'] = 6;
+							$this->data->solSer($_POST);
+						}
+						$post = $_POST;
+						//echo '<pre>';print_r($post);echo '</pre>';exit();
+						for($count=0;$count<count($post['sede_eve']);$count++){
+							$_POST['sede_eve'] = utf8_encode($post['sede_eve'][$count]);
+							$_POST['fecha_eve'] = explode('/',$post['fecha_eve'][$count]);
+							$_POST['fecha_eve'] = $_POST['fecha_eve'][2].'-'.$_POST['fecha_eve'][1].'-'.$_POST['fecha_eve'][0];
+							$fecha = explode('-', $_POST['fecha_eve']);
+							$dia = $fecha[2];$mes = $fecha[1]; $anio = $fecha[0];
+							$_POST['semana_eve'] = date('W',  mktime(0,0,0,$mes,$dia,$anio));
+							$_POST['hora_eve'] = $post['hora_eve'][$count];
+							$_POST['nom_eve'] = $post['nom_eve'][$count];
+							$this->data->newEvent($_POST);
+						}
 						$ya = true;
 					}elseif($_POST['ser'] && !$ya){
 						$_POST['options'] = $_POST['tser'];

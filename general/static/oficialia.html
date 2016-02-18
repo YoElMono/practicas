@@ -67,28 +67,35 @@
             </div>
         </div>
         <div id="eventos" style="display:none;">
-            <div class="form-group">
-                <label class="col-sm-4 control-label">Nombre del Evento</label>
-                <div class="col-sm-8">
-                    <input class="form-control" name="nom_eve" value="" id="nombreEve">
+            <div id="evento0" class="panel panel-default">
+                <div class="panel-heading">Evento #1</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Nombre del Evento</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" name="nom_eve[0]" value="" id="nombreEve">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Sede</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" name="sede_eve[0]" value="" id="sedeEve">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Fecha del Evento y Hora</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" name="fecha_eve[0]" value="" id="fechaEve" readonly>
+                        </div>
+                        <label class="col-sm-4 control label">Hora</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="hora_eve[0]" id="hora_eve0" onkeyup="dos_puntos('hora_eve0')" onblur="validarHora('hora_eve0')">                    
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">Sede</label>
-                <div class="col-sm-8">
-                    <input class="form-control" name="sede_eve" value="" id="sedeEve">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">Fecha del Evento y Hora</label>
-                <div class="col-sm-4">
-                    <input class="form-control" name="fecha_eve" value="" id="fechaEve" readonly>
-                </div>
-                <label class="col-sm-4 control label">Hora</label>
-                <div class="col-sm-4">
-                    <input type="text" name="hora_eve" id="hora_eve" onkeyup="dos_puntos('hora_eve')" onblur="validarHora('hora_eve')">                    
-                </div>
-            </div>
+            <button id="agregar" class="btn btn-success">+</button>
+            <button id="quitar" class="btn btn-danger" disabled readonly>-</button>
         </div>
 		<div class="form-group">
             <label class="col-sm-4 control-label">[des]</label>
@@ -160,7 +167,7 @@
             }
         })
         $("#cons").change(function () {
-            if($(this).val()==6){ $('#eventos').show();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',true)
+            if($(this).val() == 6 || $('#cons').val() == 1 || $('#cons').val() == 2 || $('#cons').val() == 3){ $('#eventos').show();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',true)
                                 $('#service').hide()}
             else {$('#eventos').hide();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',false)}
         })
@@ -171,7 +178,7 @@
                 event.preventDefault();
             }
         })
-        if($('#cons').val() == 6){
+        if($('#cons').val() == 6 || $('#cons').val() == 1 || $('#cons').val() == 2 || $('#cons').val() == 3){
             $('#eventos').show();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',true);$('#service').hide();
             $.ajax({
                 url:'index.php/getEventoData',
@@ -196,6 +203,18 @@
         }else if($('#cons').val() == 7){
             $('#nomCon').show();
         }
+
+
+        $("#agregar").click(function () {
+            agregarEvento();
+            return false;
+        })
+        $("#quitar").click(function () {
+            quitarEvento();
+            return false;
+        })
+
+
     })
     function validarForm () {
         if(($("#cons").val() == 7 && ($("#nombreCon").val() == "" || $("#nombreCon").val() == null)) || ($("#cons").val() == 6 && ($("#nombreEve").val() == "" || $("#nombreEve").val() == null))){
@@ -224,6 +243,59 @@
         }else
             return false
         return true
+    }
+    var evento = 0;
+    function quitarEvento () {
+        if(evento>0){
+            $("#quitar,#agregar").attr({disabled:false,readonly:false});
+            $("#evento"+evento).remove();
+            evento--;
+        }
+        if(evento<1){
+            $("#quitar").attr({disabled:true,readonly:true});
+        }
+        console.log("eventos:"+evento);
+    }
+    function agregarEvento () {
+        evento++;
+        if(evento < 5){
+            $('#agregar,#quitar').attr({disabled:false,readonly:false});
+            var html = $('#evento').html();
+            $('#agregar').before(
+                '<div id="evento'+(evento)+'" class="panel panel-default">'+
+                    '<div class="panel-heading">Evento #'+(evento+1)+'</div>'+
+                    '<div class="panel-body">'+
+                        '<div class="form-group">'+
+                            '<label class="col-sm-4 control-label">Nombre del Evento</label>'+
+                            '<div class="col-sm-8">'+
+                                '<input class="form-control" name="nom_eve['+evento+']" value="" id="nombreEve">'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                            '<label class="col-sm-4 control-label">Sede</label>'+
+                            '<div class="col-sm-8">'+
+                                '<input class="form-control" name="sede_eve['+evento+']" value="" id="sedeEve">'+
+                            '</div>'+
+                        '</div>'+
+                        '<div class="form-group">'+
+                            '<label class="col-sm-4 control-label">Fecha del Evento y Hora</label>'+
+                            '<div class="col-sm-4">'+
+                                '<input class="form-control" name="fecha_eve['+evento+']" value="" id="fechaEve'+evento+'" readonly>'+
+                            '</div>'+
+                            '<label class="col-sm-4 control label">Hora</label>'+
+                            '<div class="col-sm-4">'+
+                                '<input type="text" name="hora_eve['+evento+']" id="hora_eve'+evento+'" onkeyup="dos_puntos(\'hora_eve'+evento+'\')" '+  'onblur="validarHora(\'hora_eve'+evento+'\')">'+                
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>');
+            $("#fechaEve"+evento).calendarioDW();
+        }
+        if(evento==4){
+            $('#agregar').attr({disabled:true,readonly:true});
+        }
+        //for(var i=1;i<evento;i++) {$('#fechaEve'+i).calendarioDW();console.log("evento:"+i+"\n");}
+        console.log("eventos:"+evento);
     }
 
 

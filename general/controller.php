@@ -562,7 +562,8 @@
 
 		public function reportePSS(){
 			if ($_GET) {
-				$cal = $this->crear_cal(null,$_GET['mes'],$_GET['anio']);
+				$dia = $_GET['mes'] == date('m')?date('d'):null;
+				$cal = $this->crear_cal($dia,$_GET['mes'],$_GET['anio']);
 			}else{
 				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
 			}
@@ -1031,7 +1032,8 @@
 		}
 		public function jusfal(){
 			if ($_GET) {
-				$cal = $this->crear_cal(null,$_GET['mes'],$_GET['anio']);
+				$dia = $_GET['mes'] == date('m')?date('d'):null;
+				$cal = $this->crear_cal($dia,$_GET['mes'],$_GET['anio']);
 			}else{
 				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
 			}
@@ -1983,7 +1985,8 @@
 				echo json_encode($eventos);exit();
 			}else{
 				if ($_GET) {
-					$cal = $this->crear_cal(null,$_GET['mes'],$_GET['anio']);
+					$dia = $_GET['mes'] == date('m')?date('d'):null;
+					$cal = $this->crear_cal($dia,$_GET['mes'],$_GET['anio']);
 				}else{
 					$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
 				}
@@ -2110,7 +2113,8 @@
 		}
 		public function capVaca(){
 			if ($_GET) {
-				$cal = $this->crear_cal(null,$_GET['mes'],$_GET['anio']);
+				$dia = $_GET['mes'] == date('m')?date('d'):null;
+				$cal = $this->crear_cal($dia,$_GET['mes'],$_GET['anio']);
 			}else{
 				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
 			}

@@ -1887,6 +1887,7 @@
 							$us['con'] = $_POST['con'];
 							$us['num'] = $_POST['num'];
 							$us['cl'] = strtoupper($_POST['cl']);
+							if($us['fec']="0-0-0") unset($us['fec']);
 							if($_POST['fecIni']&&$_POST['fecFin']){
 								$fecha = explode('/', $_POST['fecIni']);
 								$us['inicio'] = $fecha[2].'-';

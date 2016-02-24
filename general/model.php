@@ -941,7 +941,7 @@
 				return '';
 		}
 		public function busofi($arr){
-			$sql = 'SELECT * FROM oficios_mant WHERE';
+			$sql = 'SELECT * FROM oficios_mant WHERE(';
 			foreach ($arr as $key => $value) {
 				if($arr[$key]){
 					switch ($key) {
@@ -974,7 +974,8 @@
 				$sql = substr($sql,0,-2);
 			}
 			if($arr['dp'] != 0 and $arr['num'] != '') $sql ="SELECT * FROM oficios_mant WHERE (dep_ofi = '$arr[dp]' AND no_ofi LIKE '%$arr[num]%') ";
-			$sql.='and no_ofi != 0 ORDER BY id_ofi DESC';
+			$sql.=') and no_ofi != 0 ORDER BY id_ofi DESC';
+			//echo $sql; exit();
 			//return $sql;
 			$query = $this->consulta($sql);
 			if($this->numero_de_filas($query)>0){

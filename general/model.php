@@ -931,6 +931,9 @@
 		public function actOfi($value){
 			$this->consulta("UPDATE oficios_mant SET des_ofi = '$value[des]', foto_ofi = '$value[foto]', dep_ofi = '$value[dp]', no_ofi = '$value[numero]', con_ofi = '$value[con]', nomCon_ofi = '$value[nom_con]' WHERE id_ofi = '$value[edit]' ");
 		}
+		public function eliminarEventosID($id){
+			$this->consulta("DELETE FROM eventos_mant WHERE num_ofi_eve = $id");
+		}
 		public function verOfiHoy()	{
 			$query = $this->consulta("SELECT * FROM oficios_mant WHERE fecha_ofi = '".date('Y-m-d')."' ORDER BY id_ofi DESC");
 			if($this->numero_de_filas($query)>0){
@@ -1078,8 +1081,12 @@
 		}
 		public function getEventoData($id){
 			$query = $this->consulta("SELECT * FROM eventos_mant WHERE num_ofi_eve = '$id'");
-			$sea = $this->fetch_array($query);
-			return $sea;
+			if($this->numero_de_filas($query)>0){
+				while($datos = $this->fetch_assoc($query))
+					$data[] = $datos;
+				return $data;
+			}else
+				return '';
 		}
 		public function saveCheckPSS($sql){
 			$this->consulta($sql);

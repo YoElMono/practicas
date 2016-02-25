@@ -73,19 +73,19 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Nombre del Evento</label>
                         <div class="col-sm-8">
-                            <input class="form-control" name="nom_eve[0]" value="" id="nombreEve">
+                            <input class="form-control" name="nom_eve[0]" value="" id="nombreEve0">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Sede</label>
                         <div class="col-sm-8">
-                            <input class="form-control" name="sede_eve[0]" value="" id="sedeEve">
+                            <input class="form-control" name="sede_eve[0]" value="" id="sedeEve0">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Fecha del Evento y Hora</label>
                         <div class="col-sm-4">
-                            <input class="form-control" name="fecha_eve[0]" value="" id="fechaEve" readonly>
+                            <input class="form-control" name="fecha_eve[0]" value="" id="fechaEve0" readonly>
                         </div>
                         <label class="col-sm-4 control label">Hora</label>
                         <div class="col-sm-4">
@@ -141,6 +141,7 @@
 <div id="msj" class="msj-save">
 </div>
 <script>
+    var evento = 0;
     $(function () {
         var numeros = <?=$arr['nums'];?>;
         console.log(numeros);
@@ -171,7 +172,7 @@
                                 $('#service').hide()}
             else {$('#eventos').hide();$("#nombreEve,#fechaEve,#hora_eve,#sedeEve").attr('required',false)}
         })
-        $("#fechaEve").calendarioDW();
+        $("#fechaEve0").calendarioDW();
         $("#nombreCon, #nombreEve").keypress(function (event) {
             if(event.which == 13){
                 $("#desc").focus()
@@ -187,14 +188,63 @@
                 data:'id='+$("#numero").val(),
                 success:function (data) {
                     console.log(data)
-                    var fecha = data.fecha_eve.split('-');
-                    fecha = ((fecha[2]<10)?fecha[2][1]:fecha[2])+'/'+((fecha[1]<10)?fecha[1][1]:fecha[1])+'/'+fecha[0];
-                    var hora = data.hora_eve.split(':');
-                    hora = hora[0]+':'+hora[1];
-                    $('#nombreEve').val(data.nombre_eve)
-                    $('#sedeEve').val(data.sede_eve)
-                    $('#fechaEve').val(fecha)
-                    $('#hora_eve').val(hora)
+                    if(data.length>0){
+                        for(var i=0;i<data.length;i++){
+                            console.log(data[i].nombre_eve+"\n"+data[i].sede_eve);
+                            var fecha = data[i].fecha_eve.split('-');
+                            fecha = ((fecha[2]<10)?fecha[2][1]:fecha[2])+'/'+((fecha[1]<10)?fecha[1][1]:fecha[1])+'/'+fecha[0];
+                            var hora = data[i].hora_eve.split(':');
+                            hora = hora[0]+':'+hora[1];
+                            console.log("hora:"+hora);
+                            if(i>0){
+                                $('#agregar,#quitar').attr({disabled:false,readonly:false});
+                                var html = $('#evento').html();
+                                $('#agregar').before(
+                                    '<div id="evento'+(i)+'" class="panel panel-default">'+
+                                        '<div class="panel-heading">Evento #'+(i+1)+'</div>'+
+                                        '<div class="panel-body">'+
+                                            '<div class="form-group">'+
+                                                '<label class="col-sm-4 control-label">Nombre del Evento</label>'+
+                                                '<div class="col-sm-8">'+
+                                                    '<input class="form-control" name="nom_eve['+i+']" value="" id="nombreEve'+i+'">'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="form-group">'+
+                                                '<label class="col-sm-4 control-label">Sede</label>'+
+                                                '<div class="col-sm-8">'+
+                                                    '<input class="form-control" name="sede_eve['+i+']" value="" id="sedeEve'+i+'">'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="form-group">'+
+                                                '<label class="col-sm-4 control-label">Fecha del Evento y Hora</label>'+
+                                                '<div class="col-sm-4">'+
+                                                    '<input class="form-control" name="fecha_eve['+i+']" value="" id="fechaEve'+i+'" readonly>'+
+                                                '</div>'+
+                                                '<label class="col-sm-4 control label">Hora</label>'+
+                                                '<div class="col-sm-4">'+
+                                                    '<input type="text" name="hora_eve['+i+']" id="hora_eve'+i+'" onkeyup="dos_puntos(\'hora_eve'+i+'\')" '+  'onblur="validarHora(\'hora_eve'+i+'\')">'+                
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>');
+                                $("#fechaEve"+i).calendarioDW();
+                            }
+                            $('#nombreEve'+i).val(data[i].nombre_eve)
+                            $('#sedeEve'+i).val(data[i].sede_eve)
+                            $('#fechaEve'+i).val(fecha)
+                            $('#hora_eve'+i).val(hora)
+                        }
+                        evento = data.length-1;
+                        if(evento==0){
+                            $('#agregar').attr({disabled:false,readonly:false});
+                            $('#quitar').attr({disabled:true,readonly:true});
+                        }else if(evento==4){
+                            $('#quitar').attr({disabled:false,readonly:false});
+                            $('#agregar').attr({disabled:true,readonly:true});
+                        }else{
+                            $('#agregar,#quitar').attr({disabled:false,readonly:false});
+                        }
+                    }
                 },
                 error:function () {
                     console.log('error');
@@ -217,9 +267,9 @@
 
     })
     function validarForm () {
-        if(($("#cons").val() == 7 && ($("#nombreCon").val() == "" || $("#nombreCon").val() == null)) || ($("#cons").val() == 6 && ($("#nombreEve").val() == "" || $("#nombreEve").val() == null))){
+        if(($("#cons").val() == 7 && ($("#nombreCon").val() == "" || $("#nombreCon").val() == null)) || ($("#cons").val() == 6 && ($("#nombreEve0").val() == "" || $("#nombreEve0").val() == null))){
           // alert("bien")
-           ($("#cons").val()==6) ? $("#nombreEve").focus():$("#nombreCon").focus();
+           ($("#cons").val()==6) ? $("#nombreEve0").focus():$("#nombreCon").focus();
 
            return false;
         }else{
@@ -244,7 +294,6 @@
             return false
         return true
     }
-    var evento = 0;
     function quitarEvento () {
         if(evento>0){
             $("#quitar,#agregar").attr({disabled:false,readonly:false});
@@ -267,13 +316,13 @@
                         '<div class="form-group">'+
                             '<label class="col-sm-4 control-label">Nombre del Evento</label>'+
                             '<div class="col-sm-8">'+
-                                '<input class="form-control" name="nom_eve['+evento+']" value="" id="nombreEve">'+
+                                '<input class="form-control" name="nom_eve['+evento+']" value="" id="nombreEve'+evento+'">'+
                             '</div>'+
                         '</div>'+
                         '<div class="form-group">'+
                             '<label class="col-sm-4 control-label">Sede</label>'+
                             '<div class="col-sm-8">'+
-                                '<input class="form-control" name="sede_eve['+evento+']" value="" id="sedeEve">'+
+                                '<input class="form-control" name="sede_eve['+evento+']" value="" id="sedeEve'+evento+'">'+
                             '</div>'+
                         '</div>'+
                         '<div class="form-group">'+

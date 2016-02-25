@@ -1726,6 +1726,15 @@
 					$_POST['des'] = strtoupper($_POST['des']);
 					$_POST['dp'] = $_POST['depen'];
 					$this->data->actOfi($_POST);
+					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+					if($_POST['con'] == 6){ //|| $_POST['con'] == 1 || $_POST['con'] == 2 || $_POST['con'] == 3){
+						//echo 
+						/*if($_POST['con'] == 6){
+							$_POST['options'] = 6;
+							$this->data->solSer($_POST);
+						}*/
+						//$ya = true;
+					}
 					if($_POST['js']) unset($_POST['js']);
 				}else{
 					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
@@ -1810,15 +1819,34 @@
 					}else{
 						$_POST['foto'] = $_POST['foto1'];
 					}
-					if($_POST['fecha_eve'] != ""){
+					/*if($_POST['fecha_eve'] != ""){
 						$fecha = explode('/', $_POST['fecha_eve']);
 						$_POST['fecha_eve'] = $fecha[2].'-'.(($fecha[1]<10)?'0'.$fecha[1]:$fecha[1]).'-'.(($fecha[0]<10)?'0'.$fecha[0]:$fecha[0]);
 						$_POST['semana_eve'] = date('W',  mktime(0,0,0,$fecha[1],$fecha[0],$fecha[2]));
-					}
+					}*/
 					$_POST['des'] = strtoupper($_POST['des']);
-					//echo '<pre>';print_r($_POST);echo'</pre>';exit();
 					$this->data->actualizarOficios($_POST);
-					if($_POST['con'] == 6) $this->data->actEventoData($_POST);
+					//echo '<pre>';print_r($_POST);echo'</pre>';exit();
+					if($_POST['con'] == 6 || $_POST['con'] == 1 || $_POST['con'] == 2 || $_POST['con'] == 3){
+
+						$post = $_POST;
+						//echo '<pre>';print_r($post);echo '</pre>';exit();
+						$this->data->eliminarEventosID($_POST['numero']);
+						//echo '<pre>';print_r($post);echo '</pre>';exit();
+						for($count=0;$count<count($post['sede_eve']);$count++){
+							//echo '<pre>';print_r($post[$count]);echo '</pre>';exit();
+							$_POST['sede_eve'] = utf8_encode($post['sede_eve'][$count]);
+							$_POST['fecha_eve'] = explode('/',$post['fecha_eve'][$count]);
+							$_POST['fecha_eve'] = $_POST['fecha_eve'][2].'-'.$_POST['fecha_eve'][1].'-'.$_POST['fecha_eve'][0];
+							$fecha = explode('-', $_POST['fecha_eve']);
+							$dia = $fecha[2];$mes = $fecha[1]; $anio = $fecha[0];
+							$_POST['semana_eve'] = date('W',  mktime(0,0,0,$mes,$dia,$anio));
+							$_POST['hora_eve'] = $post['hora_eve'][$count];
+							$_POST['nom_eve'] = $post['nom_eve'][$count];
+							//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+							$this->data->newEvent($_POST);
+						}
+					} //$this->data->actEventoData($_POST);
 					return HttpResponse('index.php/Reporte_ofi');
 				}
 				if($_GET['borrar']){

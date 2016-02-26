@@ -977,7 +977,7 @@
 				$sql = substr($sql,0,-2);
 			}
 			if($arr['dp'] != 0 and $arr['num'] != '') $sql ="SELECT * FROM oficios_mant WHERE (dep_ofi = '$arr[dp]' AND no_ofi LIKE '%$arr[num]%') ";
-			$sql.=') and no_ofi != 0 ORDER BY id_ofi DESC';
+			$sql.=') and no_ofi != "" ORDER BY id_ofi DESC';
 			//echo $sql; exit();
 			//return $sql;
 			$query = $this->consulta($sql);

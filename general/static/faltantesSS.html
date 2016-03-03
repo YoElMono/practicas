@@ -50,7 +50,7 @@
 						</tbody>
 					<?php endif;$nom=$value["nombre_pss"];endforeach; ?>
 				</table>
-				<button class="btn btn-primary" type="sumbit" id="boton" >[jur]</button>
+				<button class="btn btn-primary" type="sumbit" id="boton" onclick="window.close()">[jur]</button>
 			</form>
 		<form method="POST" action="">
 			<table class="table table-bordered" id="extra" style="display: none;">
@@ -100,7 +100,7 @@
 				</tr>
 				<?php endforeach;?>
 			</table>
-			<button class="btn btn-warning" type="submit" id="boton1" name="botonExtra" value="<?=count($arr['b']['extra'])?>" style="display: none;" onclick="">[enviar]</button>
+			<button class="btn btn-warning" type="submit" id="boton1" name="botonExtra" value="<?=count($arr['b']['extra'])?>" style="display: none;" onclick="window.close()">[enviar]</button>
 		</form>
 		<br>
 			<button class="btn btn-danger" onclick="window.close()">[close]</button>

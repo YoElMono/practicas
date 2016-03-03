@@ -134,6 +134,10 @@ aside{
 	background-color: #1D52F1;
 	color: white;
 }
+.justificarSS > .panel-heading{
+	background-color: #0BC4FC;
+	color: white;
+}
 .repoSS > .panel-heading{
 	background-color: #FF7C00;
 	color: white;
@@ -309,6 +313,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0a0a0', end
 .cal_eve{
 	background-color: #678AF3;
 }
+.cal_jss{
+	background-color: #70DCFC;
+}
 .cal_rss{
 	background-color: #FDA859;
 }
@@ -333,6 +340,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0a0a0', end
 .WEE{
 	background-color: #103090;
 }
+.WEJSS{
+	background-color: #087EA2;
+}
 .WES{
 	background-color: #CF6400;
 }
@@ -344,6 +354,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0a0a0', end
 }
 .hoy-rss{
 	background-color: #FEFB58;
+}
+.hoy-jss{
+	background-color: #5B80D0;
 }
 .text-blanco{
 	color: #fff;
@@ -544,6 +557,7 @@ aside > div.list-group{
 	max-height: 450px !important;
 	border-radius: 6px;
 	border: 1px solid rgb(221, 221, 221);
+	overflow-y: auto; 
 }
 aside{z-index: 99;right: 0px;}
 

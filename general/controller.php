@@ -115,12 +115,11 @@
 				}
 			}else{
 				if ($_POST) {
-					//echo'<pre>';print_r($_POST);echo'</pre>';exit();
 					$nombreDirectorio = "main/templates/complementos/fotos/";
 					for($i = 0;$i < 3;$i++){
 						$foto = explode(".", $_FILES['foto']['name'][$i]);
 						$ext = strtolower($foto[count($foto)-1]);
-						$sis['foto'][$i] = $_POST['codeFecha'].'('.($i+1).').'.$ext;//.').jpg';//.$ext;//$_FILES['foto']['name'][$i];
+						$sis['foto'][$i] = $_POST['codeFecha'].'('.($i+1).').'.$ext;
 						move_uploaded_file($_FILES['foto']['tmp_name'][$i], $nombreDirectorio.$sis['foto'][$i]);
 					}
 					$sis['foto1'] = $sis['foto'][0];
@@ -132,9 +131,8 @@
 					if ($_POST['options'] == 0) {
 						$_POST['options'] = 1;
 					}
-					//echo '<pre>';print_r($_POST);print_r($sis);echo '</pre>';exit();
 					$this->data->saveEn($_POST,$sis);
-					$this->barcode($_POST['codeFecha'],$_POST['depen'],$_POST['des']);//exit();
+					$this->barcode($_POST['codeFecha'],$_POST['depen'],$_POST['des']);
 					return HttpResponse('index.php');
 				} else {
 					$ents['data'] = date('syimHd');
@@ -146,7 +144,6 @@
 			$d[0] = $this->data->dpUni($_GET['d']);
 			$d[1] = $this->data->dpF($_GET['d']);
 			echo json_encode($d);exit();
-			//return JsonResponse($d);
 		}
 		public function get_f(){
 			$d = $this->data->nffa($_GET['id']);
@@ -195,15 +192,12 @@
 			if($_GET){
 				if($_POST){
 					$arr = array('id'=>$_POST['cod'],'user'=>$_SESSION['name_user'],'fecha'=>date('j-n-y'),'hora'=>date('H:i'));
-					//echo '<pre>';print_r($arr);echo '</pre>';exit();
 					$this->data->altasSal($arr);
-					//echo '<pre>';print_r($arr);echo "</pre>";exit();
 					return HttpResponse('index.php');
 				}else{
 					$cod = $_GET['codigoBus'];
 					$cod = $this->data->sal($cod);
 					$cod['dda'] = true;
-					//$cod['get'] = $_GET['codigoBus'];
 					return render_to_response(vista::page('repoSalida.html',$cod));
 				}
 			}else{
@@ -215,20 +209,15 @@
 						$arr['foto2'] = $_POST['codeFecha'].'.'.$ext;
 						copy($_FILES['foto2']['tmp_name'], $nombreDirectorio.$arr['foto2']);
 					}
-					//$nombreFichero = $_POST['codeFecha'].'.jpg';
-					//echo '<pre>';print_r($_POST);print_r($_FILES);echo '</pre>';exit();
-					//$arr['foto2'] = ($_FILES['foto2']['name']);
 					if ($_POST['options'] == 0) {
 						$_POST['options'] = 1;
 					}
 					$this->data->salPro($_POST, $arr);
 					$dep = $arr['dep']['nombre_depe'];
 					$nffa = $this->data->nffa($_POST['ffaoptions']);
-					//$this->fpdf($_POST['codeFecha'],$_POST['prod'],$dep,$_POST['des'],$_POST['nCap'], $nffa['nombre_ffa']);
-				}//else{
-					$arr['data'] = date('syimHd');
-					return render_to_response(vista::page('salidas.html',$arr));
-				//}
+				}
+				$arr['data'] = date('syimHd');
+				return render_to_response(vista::page('salidas.html',$arr));
 			}
 		}
 		public function reporteSal(){
@@ -251,7 +240,6 @@
 					$us['fec'] = $_POST['dia']."-".$_POST['mes']."-".$_POST['anio'];
 					$sali['inf'] = $this->data->busali($us);
 					$sali['dat'] = true;
-					//echo '<pre>'.print_r($sali).'</pre>';exit();
 				}
 				return render_to_response(vista::page('ReporteSal.html',$sali));
 			}
@@ -270,7 +258,7 @@
 			$arr['dep'] = $this->data->depSel();
 			if($_POST){
 				$nombreDirectorio = "main/templates/complementos/firmas/";
-				$nombreFichero = $_POST['nom'].'-'.$_POST['dp'].'.jpg';//$_FILES['foto']['name'];
+				$nombreFichero = $_POST['nom'].'-'.$_POST['dp'].'.jpg';
 				move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
 				$arr['foto'] = $nombreFichero;
 				$this->data->ffasSave($_POST, $arr);
@@ -285,7 +273,6 @@
 				$arr['ffas'] = $this->data->dpF($_GET['depen']);
 			}
 			if($_POST){
-				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 				for ($i=0; $i < count($_POST['ffas']) ; $i++){ 
 					$f = $this->data->busffa($_POST['ffas'][$i]);
 					unlink('main/templates/complementos/firmas/'.$f['foto_ffa']);
@@ -329,30 +316,21 @@
 		}
 		public function services(){
 			if ($_POST) {
-				//echo '<pre>';print_r($_POST);echo'</pre>';exit();
 				if($_POST['options'] == 0){
 					$_POST['options'] = 1;
 				}
 				$_POST['fecha'] = date('j-n-y');
 				$_POST['hora'] = date('H:m');
 				$this->data->solSer($_POST);
-				//$_POST['cod'] = date('syimHd');
 				$_POST['newCod'] = date('syimHd');
 				if($_POST['js'] == 1){
 					echo json_encode($_POST);exit();
 				}else{
 					return render_to_response(vista::page('sersSol.html', $_POST));
-				}/*else{
-					if($_POST['options'] == 0){
-						$_POST['options'] = 1;
-					}
-					$_POST['fecha'] = date('j-n-y');
-					$_POST['hora'] = date('H:m');
-					$this->data->solSer($_POST);
-				}*/
+				}
 			}else{
 				$arr['data'] = date('syimHd');
-				$arr['dep'] = $this->data->depSel();//dpSal($_SESSION['depen_user']);
+				$arr['dep'] = $this->data->depSel();
 				return render_to_response(vista::page('servicios.html',$arr));
 			}
 
@@ -370,7 +348,7 @@
 				$nombreDirectorio = "main/templates/complementos/fotos_per/";
 				$foto = explode('.', $_FILES['foto']['name']);
 				$ext = $foto[count($foto)-1];
-				$nombreFichero = $_POST['cod'].'.'.$ext;//$_FILES['foto']['name'];
+				$nombreFichero = $_POST['cod'].'.'.$ext;
 				move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
 				$_POST['foto'] = $nombreFichero;
 				$horD = $_POST['hor']['d'];
@@ -414,7 +392,6 @@
 					}
 					$sql = substr($sql, 0,-2);
 					$sql.= " WHERE id_pss = '".$id."'";
-					//echo '<pre>';print_r($_POST);echo $sql. '</pre>';exit();
 				}else{
 					$a = "INSERT INTO pss_mant (";
 					$b = "VALUES (";
@@ -433,14 +410,12 @@
 					$sql = $a.$b;
 				}
 				$this->data->saveCheckPSS($sql);
-				//echo '<pre>';print_r($_POST);echo $a.$b;echo '</pre>';exit();
 				return HttpResponse('index.php');
 			}else{
 				if($_GET){
 					$arr = $this->data->getDataPSS($_GET['pss']);
 					$fecha = explode('-',$arr['fechaIngreso_pss']);
 					$arr['fechaIngreso_pss'] = (($fecha[2]<10)?substr($fecha[2],-1):$fecha[2]).'/'.(($fecha[1]<10)?substr($fecha[1],-1):$fecha[1]).'/'.$fecha[0];
-					//echo '<pre>';print_r($arr);echo '</pre>';exit();
 				}else{
 					$arr = null;
 				}
@@ -463,10 +438,8 @@
 		public function checkPSS(){
 			if($_POST){
 				if($_POST['todo']){
-					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 					for($i=0;$i<count($_POST['nota']);$i++){
 						if($_POST['horc'][$i] != ""){
-							//echo 'Hora: '.$_POST['horc'][$i].'<br>';
 							if(isset($_POST['verifica']) && $_POST['verifica'][$i] !=""){
 								switch ($_POST['verifica'][$i]) {
 									case 3:
@@ -515,16 +488,13 @@
 									if($hora2>=$hora1+60) $verifica = 5;
 									if($hora2<$hora1) $verifica = 3;
 								}
-								//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 								$datos[$i]['id_cpss'] = $_POST['id'][$i];
 								$datos[$i]['verifica_cpss'] = $verifica;
 								$datos[$i]['horaCap_cpss'] = $_POST['horc'][$i].':00';
 								$datos[$i]['notas_cpss'] = $_POST['nota'][$i];
 							}
 						}
-						//$datos[$_POST['id'][$i]] = ['']
 					}
-					//echo '<pre>';print_r($datos);echo '</pre>';exit();
 					foreach ($datos as $key => $value) {
 						$sql = "UPDATE checkPss_mant SET ";
 						$i = 0;
@@ -543,10 +513,7 @@
 						}
 						$this->data->saveCheckPSS($sql.$final);
 						$consultas[] = $sql.$final;
-						//echo 'Consulta:<br>'.$sql.$final.'<br>';
 					}
-					//exit();
-					//echo '<pre>';print_r($_POST);print_r($datos);print_r($consultas); echo '</pre>';exit();
 					return HttpResponse('index.php/Servicio_Social_Check');
 				}elseif($_POST['codigo']){
 					$arr['per'] = $this->data->personalSS();
@@ -572,7 +539,6 @@
 
 		public function reporteDiaPSS(){
 			if($_POST){
-				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 				$fecha = $_POST['fecha'];
 				unset($_POST['fecha']);
 				unset($_POST['reporte']);
@@ -600,11 +566,8 @@
 								$horasExt[0] = floor($horaExt/60); 
 								$horasExt[1] = $horaExt%60;
 								$horaExt = $horasExt[0].':'.(($horasExt[1]<10)?'0'.$horasExt[1]:$horasExt[1]).':00';
-								//date('H:i:s',mktime(date('H:i:s',$hora)-date('H:i:s',$value['horaCap_cpss'])));//($salida-$entrada));
-								//$horaExt = strtotime('-'.strtotime($hora), strtotime($value['horaCap_cpss']);// - $hora;
 							}
 						}
-
 						$data[$i]['horS'] = $value['horaCap_cpss'];
 						$data[$i]['notS'] = $value['notas_cpss'];
 						$data[$i]['nom'] = $per;$data[$i]['hor']=$horaExt;$data[$i]['turno']=$value['turno_pss'];$i++;
@@ -621,13 +584,10 @@
 				unset($_POST['fecha']);
 				unset($_POST['reporte']);
 				$this->pdfRS($_POST,$fecha);
-				//echo"<pre>";print_r($_POST);echo"</pre>";
 			}else{
-				//echo '<pre>';print_r($_GET);echo '</pre>';exit();
 				$a = 0; 
 				$data = array();
 				$repo = $this->data->repSemaPSS($_GET);
-				//echo '<pre>';print_r($repo);echo '</pre>';exit();
 				foreach ($repo as $key => $value) {
 					if($cod != $value['codigo_cpss']){
 						$a++;
@@ -662,7 +622,6 @@
 					$conH[$i]=$Sho[1].":".$Sho[2];
 					$data[$i]['hor'] = $conH[$i];
 				}
-				//echo '<pre>';print_r($data);echo '</pre>';exit();
 				return render_to_response(vista::pageWhite('recordAsisSS.html',$data,'Reporte de asistencia (Servicio Social)'));
 			}
 		}
@@ -672,7 +631,6 @@
 				header('location:../reporte-mensual-Servicio-Social.pdf');
 			}else{
 				$repo = $this->data->repMesPSS($_GET);
-				//echo '<pre>';print_r($repo);echo'</pre>';exit();
 				$faltasen = $faltassal = $i = $j = 0;
 				foreach ($repo as $key => $value){
 					if(($per != $value['nombre_pss'] and $key > 0 )|| $key == count($repo)-1){
@@ -712,11 +670,9 @@
 				}
 				$fecha = $_GET['mes'];
 				for($i=0;$i<count($datos['faltas']);$i++){ $faltas[$i] = $datos['faltas'][$i];} 
-				unset($datos['faltas']);
-				//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
+				unset($datos['faltas']);	
 				$this->pdfRMSS($datos,$faltas,$fecha);
 				for($i=0;$i<count($faltas);$i++){ $datos['faltas'][$i] = $faltas[$i];} 
-				//echo'<pre>';print_r($datos);echo '</pre>';exit();
 				return render_to_response(vista::pageWhite('recordAsisSS.html',$datos,'Reporte de asistencia'));
 			}
 		}
@@ -737,7 +693,7 @@
 				if ($_POST) {
 					$nombreDirectorio = "main/templates/complementos/fotos_per/";
 					if($_FILES['foto']['name'] != ''){
-						$nombreFichero = $_POST['cod'].'.jpg';//$_FILES['foto']['name'];
+						$nombreFichero = $_POST['cod'].'.jpg';
 						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
 						$_POST['foto'] = $nombreFichero;
 					}else 
@@ -805,7 +761,6 @@
 				$this->genHorariosSS($_POST['cod']);
 			}elseif($_POST['todos']){
 				$arr = $this->data->allPSS();
-				//echo '<pre>';print_r($arr);echo '</pre>';exit();
 				require_once 'main/templates/complementos/fpdf/udgpdf.php';
 				$pdf=new tarjetas('P');
 				$pdf->SetMargins(60,5,0);
@@ -872,16 +827,13 @@
 			}else{
 				if ($url_array[2]) {
 					$serv = $this->data->servic($url_array[2]);
-					//echo '<pre>';print_r($serv);echo '</pre>';exit();
 					$ar[0] = 4;
 					if ($serv['tipo_ser'] == 4) {
 						$ar[0] = 6;
 					}elseif($serv['tipo_ser'] >4){
 						$ar[1] = 6;
 					}
-					//echo '<pre>';print_r($serv);echo '</pre>';exit();
 					if(is_numeric($serv['asig_ser']) && $serv['asig_ser'] != '0') $serv = $this->data->busSerAsig($serv['id_ser']);
-					//$serv['per'] = $this->data->selecper($ar);
 					return render_to_response(vista::page('asigser.html',$serv));
 				}else{
 					if($_SESSION['depen_user'] == 14 && $_SESSION['area_user'] != 5){ $depen = '';}
@@ -894,7 +846,6 @@
 					foreach ($seg['pen'] as $clave => $valor) {
 						if(is_numeric($valor['asig_ser'])) $seg['pen'][$clave] = $this->data->busSerAsig($valor['id_ser']);
 					}
-					//echo '<pre>';print_r($seg['pen']);echo '</pre>';exit();
 					return render_to_response(vista::page('asigsers.html',$seg));
 				}
 			}
@@ -965,7 +916,6 @@
 		public function check(){
 			$arr['per'] = $this->data->personal();
 			if($_POST['nom']){
-				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 				$arr['per'] = $this->data->personal();
 				$arr['check'] = $this->data->conHor(date('Y-m-d H:i:s'),$_POST['nom']);
 				return render_to_response(vista::page('checkin.html',$arr));
@@ -1043,25 +993,18 @@
 			require_once 'main/templates/complementos/calendario.php';
 			if($_POST){
 				if($_POST['ver'] == 1)unset($_POST['jus']);elseif($_POST['ver'] == 0) unset($_POST['cor']);
-				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 				if($_POST['extra']){
-					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 					$dia = $_GET['dia'];$mes = $_GET['mes'];$anio = $_GET['anio'];
 					if((int)$dia<10 and strlen($dia)>1){
 						$dia = substr($dia, strlen($dia)-1);
-						//$dia[0] = $dia[1];
-						//$dia[1] = '';
 					}if((int)$mes<10 and strlen($mes)>1){
 						$mes = substr($mes, strlen($mes)-1);
-						//$mes[0] = $mes[1];
-						//$mes[1] = '';
 					}
 
 					foreach ($_POST['extra'] as $key => $value){
 						$value['semana'] = numeroDeSemana2($dia,$mes,$anio);
 						if($dia<10) $dia = '0'.$dia;
 						$value['fecha'] = split('/', $value['fecha']);
-						//if($value['fecha'][1]<10) $value['fecha'][1][0] = '';
 						if($value['codigo']){
 							$yaexiste = $this->data->busCheck($value);
 							for ($i=1; $i < 3; $i++) {
@@ -1072,8 +1015,7 @@
 										$value['horasSalida'] = $value['Salida']; 
 									}
 								}else{
-									$value['fec'] = $mes.$dia.(str_replace(':', '', $value['Entrada']));//.str_replace(':','',$value['Entrada']);
-									//echo '<pre>';print_r($value);echo '</pre>';exit();
+									$value['fec'] = $mes.$dia.(str_replace(':', '', $value['Entrada']));
 									if($key>$_POST['botonExtra']){
 										$value['horasEntrada'] = $value['Entrada']; 
 									}
@@ -1082,9 +1024,7 @@
 									$this->data->agregarCheck($value);
 								}else{
 									if($yaexiste){
-										//echo '<pre>';print_r($value);echo '</pre>';exit();
 										$this->data->updateCheck($value);
-										//echo '<pre>';print_r($value);echo '</pre>';exit();
 									}else{
 										$this->data->agregarCheck($value);
 									}
@@ -1092,10 +1032,8 @@
 							}
 						}
 					}
-					//echo '<pre>';print_r($_POST['extra']);echo '</pre>';exit();
 				}elseif($_POST['ver'] == 0){foreach ($_POST['jus'] as $key => $value){if($value['id']){$this->data->jusf($value['id'],$value['nota'],$value['hor'],$_POST['ver']);}}}
 				elseif($_POST['ver'] == 1){
-					//echo '<pre>';print_r($_POST['cor']);echo '</pre>';exit();
 					foreach ($_POST['cor'] as $key => $value){
 						if($value['id']){
 							for($i=$value['id'];$i<=($value['id']+1);$i++){
@@ -1107,15 +1045,12 @@
 								$check['horcap_check'] = (int)$hor[1]+($hor[0]*60);
 								if($check['tipo_check'] == 1){
 									if($value['comparar']<=$check['horcap_check']+30) $value['verifica'] = 1;
-									//elseif($value['comparar']<=($check['horcap_check'])+30) $value['verifica'] = 3;
 									else $value['verifica'] = 3;
 								}else{
 									if($value['comparar']<$check['horcap_check']) $value['verifica'] = 3;
 									elseif($value['comparar']>=$check['horcap_check'] && $value['comparar']<($check['horcap_check']+60)) $value['verifica'] = 1;
-									//elseif($value['comparar']>=($check['horcap_check'])+30) $value['verifica'] = 3;
 									else $value['verifica'] = 5;
 								}
-								//echo '<pre>'.$value['comparar'].'</pre>';exit();
 								$this->data->jusf($i,$value['verifica'],$value[$pos],$_POST['ver']);
 							}
 						}
@@ -1130,6 +1065,110 @@
 				return render_to_response(vista::pageWhite('faltantes.html',$faltantes,'Justificar faltas'));
 			}
 		}
+
+
+		public function justificarPSS(){
+			if ($_GET) {
+				$dia = $_GET['mes'] == date('m')?date('d'):null;
+				$cal = $this->crear_cal($dia,$_GET['mes'],$_GET['anio']);
+			}else{
+				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
+			}
+			return render_to_response(vista::page('justificarPSSCalendar.html',$cal));
+		}
+
+
+
+		public function jufalSS(){
+			require_once 'main/templates/complementos/calendario.php';
+			if($_POST){
+				if($_POST['ver'] == 1)unset($_POST['jus']);elseif($_POST['ver'] == 0) unset($_POST['cor']);
+				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+				if($_POST['extra']){
+					$dia = $_GET['dia'];$mes = $_GET['mes'];$anio = $_GET['anio'];
+					if((int)$dia<10 and strlen($dia)>1){
+						$dia = substr($dia, strlen($dia)-1);
+					}if((int)$mes<10 and strlen($mes)>1){
+						$mes = substr($mes, strlen($mes)-1);
+					}
+
+					foreach ($_POST['extra'] as $key => $value){
+						$value['semana'] = numeroDeSemana2($dia,$mes,$anio);
+						$dia = str_pad($dia, 2,"0",STR_PAD_LEFT);
+						$mes = str_pad($mes, 2,"0",STR_PAD_LEFT);
+						$value['fecha'] = split('/', $value['fecha']);
+						if($value['codigo']){
+							$yaexiste = $this->data->busCheckSS($value);
+							for ($i=1; $i < 3; $i++) {
+								$value['tipo'] = $i;
+								if($i==2){
+									//$value['fec'] = $mes.$dia.(str_replace(':', '', $value['Salida']));
+									if($key>$_POST['botonExtra']){
+										$value['horasSalida'] = $value['Salida']; 
+									}
+								}else{
+									//$value['fec'] = $mes.$dia.(str_replace(':', '', $value['Entrada']));
+									if($key>$_POST['botonExtra']){
+										$value['horasEntrada'] = $value['Entrada']; 
+									}
+								}
+								if($key>$_POST['botonExtra']){
+									$this->data->agregarCheckSS($value);
+								}else{
+									if($yaexiste){
+										$this->data->updateCheckSS($value);
+									}else{
+										$this->data->agregarCheckSS($value);
+									}
+								}
+							}
+						}
+					}
+				}elseif($_POST['ver'] == 0) {
+					foreach ($_POST['jus'] as $key => $value){
+						if($value['id']){
+							$this->data->jusfSS($value['id'],$value['nota'],$value['hor'],$_POST['ver']);
+						}
+					}
+				}elseif($_POST['ver'] == 1){
+					//echo 'holas';exit();
+					foreach ($_POST['cor'] as $key => $value){
+						if($value['id']){
+							for($i=$value['id'];$i<=($value['id']+1);$i++){
+								$check = $this->data->unicheckSS($i);
+								//echo 'holas<pre>';print_r($check);echo '</pre>';exit();
+								if($check['tipo_cpss'] == 1)$pos = 'entrada';else $pos = 'salida';
+								$hor = split(':',$value[$pos]);
+								$value['comparar'] = (int)$hor[1]+($hor[0]*60);
+								$hor = split(':',$check['hora_cpss']);
+								$check['hora_cpss'] = (int)$hor[1]+($hor[0]*60);
+								if($check['tipo_cpss'] == 1){
+									if($value['comparar']<=$check['hora_cpss']+30) $value['verifica'] = 1;
+									else $value['verifica'] = 3;
+								}else{
+									if($value['comparar']<$check['hora_cpss']) $value['verifica'] = 3;
+									elseif($value['comparar']>=$check['hora_cpss'] && $value['comparar']<($check['hora_cpss']+60)) $value['verifica'] = 1;
+									else $value['verifica'] = 5;
+								}
+								$this->data->jusfSS($i,$value['verifica'],$value[$pos],$_POST['ver']);
+							}
+						}
+					} 
+				}
+			}else{
+				$dia = calcula_numero_dia_semana($_GET['dia'],$_GET['mes'],$_GET['anio']);
+				$dia = dias_semanaSS($dia);
+				$_GET['dia'] = str_pad($_GET['dia'], 2,"0",STR_PAD_LEFT);
+				$_GET['mes'] = str_pad($_GET['mes'], 2,"0",STR_PAD_LEFT);
+				$faltantes['a'] = $this->data->faltantesSS($_GET);
+				$faltantes['b']['extra'] = $this->data->notrabajaSS($dia);
+				$faltantes['b']['repo'] = $this->data->personalSS();
+				//echo '<pre>';print_r($faltantes);echo '</pre>';exit();
+				return render_to_response(vista::pageWhite('faltantesSS.html',$faltantes,'Justificar faltas'));
+			}
+		}
+
+
 		public function repFaltas(){
 			if ($_GET) {
 				$dia = $_GET['mes'] == date('m')?date('d'):null;
@@ -1203,7 +1242,6 @@
 				unset($_POST['fecha']);
 				unset($_POST['reporte']);
 				$this->pdfRD($_POST,$fecha);
-				//echo"<pre>";print_r($_POST);echo"</pre>";
 			}else{
 				$repo = $this->data->repDia($_GET);
 				$data = array();
@@ -1236,10 +1274,8 @@
 						}
 						$per = $value['nombre_per'];
 					}
-					//echo"<pre>";print_r($data);echo"</pre>";exit();
 					return render_to_response(vista::pageWhite('recordAsis.html',$data,'Reporte de asistencia'));
 				}else{
-					//$nom = $repo[0]['nombre_per'];
 					foreach ($repo as $key => $value) {
 						$nom = $value['nombre_per'];
 						if($value['tipo_check'] == 1)
@@ -1254,7 +1290,6 @@
 						if(!isset($data[$key]['salida']))
 							$data[$key]['salida'] = false;
 					}
-					//echo '<pre>';print_r($data);echo '</pre>';exit();
 					return render_to_response(vista::pageWhite('recordFaltas.html',$data,'Reporte de Faltas'));
 				}
 			}
@@ -1265,7 +1300,6 @@
 				unset($_POST['fecha']);
 				unset($_POST['reporte']);
 				$this->pdfRS($_POST,$fecha);
-				//echo"<pre>";print_r($_POST);echo"</pre>";
 			}else{
 				$a = 0; 
 				$data = array();
@@ -1309,7 +1343,6 @@
 			$faltas = array();
 			if($_POST){
 				header('location:../reporte-mensual.pdf');
-				//unlink('reporte-mensual-'.$_GET['mes'].'.pdf');
 			}else{
 				$b = date('ndHi');
 				$repo = $this->data->repMes($_GET,$b);
@@ -1317,7 +1350,6 @@
 				if(!$_GET['fal']){
 					$repo = $this->data->repMes($_GET,$b);
 					$faltasen = $faltassal = $i = $j = 0;
-					//echo '<pre>';print_r($repo);echo '</pre>';exit();
 					foreach ($repo as $key => $value){
 						if($per != $value['nombre_per']){
 							if($faltasen > $faltassal){
@@ -1329,10 +1361,9 @@
 							}
 						}
 						$per = $value['nombre_per'];
-						if($value['tipo_check'] == 2){//$dia == $value['dia_check']){
+						if($value['tipo_check'] == 2){
 							$datos[$i]['sal'] = $value['hor_check'];
 							$datos[$i]['notSal'] = $value['notas_check'];
-							//$data[$i]['turno'] = $value['turno_per'];
 							$ho[2]=str_replace(":","",$value['hor_check']);
 							$ho[3]=substr($ho[2], 0, -2);$ho[2]=substr($ho[2], -2);
 							if($value['turno_per'] == 3) $ho[3]+=24;
@@ -1361,14 +1392,10 @@
 					$fecha = $_GET['mes'];
 					for($i=0;$i<count($datos['faltas']);$i++){ $faltas[$i] = $datos['faltas'][$i];} 
 					unset($datos['faltas']);
-					//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
 					$this->pdfRM($datos,$faltas,$fecha);
 					for($i=0;$i<count($faltas);$i++){ $datos['faltas'][$i] = $faltas[$i];} 
-					//echo'<pre>';print_r($datos);echo '</pre>';exit();
 					return render_to_response(vista::pageWhite('recordAsis.html',$datos,'Reporte de asistencia'));
 				}else{
-					//echo '<pre>'.$dia.'</pre>';exit();
-					//echo '<pre>';print_r($repo);echo '</pre>';exit();
 					foreach ($repo as $key => $value) {
 						if($nom != $value['nombre_per']){
 							$nom = $value['nombre_per'];
@@ -1413,7 +1440,6 @@
 			$faltas = array();
 			if($_POST){
 				header('location:../reporte-especial.pdf');
-				//unlink('reporte-mensual-'.$_GET['mes'].'.pdf');
 			}else{
 				$fecha = explode("-", $_GET['inicio']);
 				$_GET['a'] = $fecha[2]."-".($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
@@ -1421,10 +1447,7 @@
 				$_GET['b'] = $fecha[2]."-".($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
 				$repo = $this->data->repEsp($_GET);
 				$data = array();
-				//if(!$_GET['fal']){
-					//$repo = $this->data->repMes($_GET);
 					$faltasen = $faltassal = $i = $j = 0;
-					#echo '<pre>';print_r($repo);echo '</pre>';exit();
 #################### Proceso de calculo de horas trabajadas ####################
 					$_mes = $_anio = $_dia = 0;
 
@@ -1433,16 +1456,13 @@
 							$_anio = $value['anio_check'];
 							$_mes = $value['mes_check'];
 							$_dia = $value['dia_check'];
-							//$entrada = $salida = 0;
 						}else{
 							if($_mes != $value['mes_check']){
 								$_mes = $value['mes_check'];
 								$_dia = $value['dia_check'];
-								//$entrada = $salida = 0;
 							}else{
 								if($_dia != $value['dia_check']){
 									$_dia = $value['dia_check'];
-									//$entrada = $salida = 0;
 								}
 							}
 						}
@@ -1497,7 +1517,6 @@
 						if($dia == $value['dia_check']){
 							$datos[$i]['sal'] = $value['hor_check'];
 							$datos[$i]['notSal'] = $value['notas_check'];
-							//$data[$i]['turno'] = $value['turno_per'];
 							$ho[2]=str_replace(":","",$value['hor_check']);
 							$ho[3]=substr($ho[2], 0, -2);$ho[2]=substr($ho[2], -2);
 							if($value['turno_per'] == 3) $ho[3]+=24;
@@ -1526,57 +1545,14 @@
 					$fecha = $_GET['mes'];
 					for($i=0;$i<count($datos['faltas']);$i++){ $faltas[$i] = $datos['faltas'][$i];} 
 					unset($datos['faltas']);
-					//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
-					//$this->pdfREs($datos,$faltas,$fecha);
 					for($i=0;$i<count($faltas);$i++){ $datos['faltas'][$i] = $faltas[$i];} 
 					echo'<pre>';print_r($datos);echo '</pre>';exit();
 					return render_to_response(vista::pageWhite('recordAsis.html',$datos,'Reporte de asistencia'));
-				/*}else{
-					//echo '<pre>'.$dia.'</pre>';exit();
-					//echo '<pre>';print_r($repo);echo '</pre>';exit();
-					foreach ($repo as $key => $value) {
-						if($nom != $value['nombre_per']){
-							$nom = $value['nombre_per'];
-							$dia = $value['dia_check'];
-							$datos[$nom]['totalE'] = $datos[$nom]['totalS'] = 0;
-							if($value['tipo_check'] == 1){
-								$datos[$nom][$dia]['entrada'] = true;
-								$datos[$nom]['totalE']++;
-							}else{
-								$datos[$nom][$dia]['salida'] = true;
-								$datos[$nom]['totalS']++;
-							}
-						}else{
-							if($dia == $value['dia_check']){
-								if($value['tipo_check'] == 1){
-									$datos[$nom][$dia]['entrada'] = true;
-									$datos[$nom]['totalE']++;
-								}else{
-									$datos[$nom][$dia]['salida'] = true;
-									$datos[$nom]['totalS']++;
-								}
-							}else{
-								$dia = $value['dia_check'];
-								if($value['tipo_check'] == 1){
-									$datos[$nom][$dia]['entrada'] = true;
-									$datos[$nom]['totalE']++;
-								}else{
-									$datos[$nom][$dia]['salida'] = true;
-									$datos[$nom]['totalS']++;
-								}
-							}
-						}
-						$nom = $value['nombre_per'];
-					}
-					return render_to_response(vista::pageWhite('recordFaltas.html',$datos,'Reporte de Faltas'));
-				}*/
 			}
 		}
 
 		public function genHorariosSS($per=""){
 			require_once 'main/templates/complementos/calendario.php';
-			/*$arr = $this->data->personalSS();
-			$hoy = 1;*/
 			$mes = mes_siguiente(date('n'));
 			$anio = ($mes == 1)?date('Y')+1:date('Y');
 
@@ -1711,12 +1687,10 @@
 			$arr[0] = $cod;
 			$arr[1] = $this->data->selDep($dep);
 			$arr[2] = $des;
-			//echo '<pre>';print_r($arr);echo'</pre>';exit();
 			return render_to_response(vista::page('barcode.html',$arr));
 		}
 		public function oficialia(){
 			if($_POST){
-					//echo '<pre>';print($_POST);echo '</pre>';exit();
 				if($_POST['edit']){
 					$oficio = $this->data->verOficio($_POST['edit']);
 					if($_FILES['foto']['name'] != '' && $_FILES['foto']['name'] != $oficio['foto_ofi']){
@@ -1726,22 +1700,13 @@
 					$_POST['des'] = strtoupper($_POST['des']);
 					$_POST['dp'] = $_POST['depen'];
 					$this->data->actOfi($_POST);
-					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-					if($_POST['con'] == 6){ //|| $_POST['con'] == 1 || $_POST['con'] == 2 || $_POST['con'] == 3){
-						//echo 
-						/*if($_POST['con'] == 6){
-							$_POST['options'] = 6;
-							$this->data->solSer($_POST);
-						}*/
-						//$ya = true;
+					if($_POST['con'] == 6){ 
+						
 					}
 					if($_POST['js']) unset($_POST['js']);
 				}else{
-					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-					//echo json_encode($_FILES);exit();
 					if($_FILES['foto']['name'] != ""){
 						$nombreDirectorio = "main/templates/complementos/archivos_oficios/";
-						//$nombreFichero = $_POST['numero'].'.jpg';
 						$archivo = explode('.',$_FILES['foto']['name']);
 						$ext = strtolower($archivo[count($archivo)-1]);
 						$replace = array('-','/',' ','.',',');
@@ -1763,7 +1728,6 @@
 							$this->data->solSer($_POST);
 						}
 						$post = $_POST;
-						//echo '<pre>';print_r($post);echo '</pre>';exit();
 						for($count=0;$count<count($post['sede_eve']);$count++){
 							$_POST['sede_eve'] = utf8_encode($post['sede_eve'][$count]);
 							$_POST['fecha_eve'] = explode('/',$post['fecha_eve'][$count]);
@@ -1796,17 +1760,8 @@
 		public function Reporte_ofi(){
 			if($_GET){
 				if($_POST['edit']){
-					/*$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
-					$nombreFichero = $_FILES['foto']['name'];
-					if($_POST['foto1'] != $nombreFichero){
-						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
-						$_POST['foto'] = $_FILES['foto']['name'];
-					}else{
-						$_POST['foto'] = $_POST['foto1'];
-					}*/
 					if($_FILES['foto']['name'] != ''){
 						$nombreDirectorio = "main/templates/complementos/archivos_oficios/";
-						//$nombreFichero = $_POST['numero'].'.jpg';
 						$archivo = explode('.',$_FILES['foto']['name']);
 						$ext = strtolower($archivo[count($archivo)-1]);
 						$replace = array('-','/',' ','.',',');
@@ -1814,27 +1769,16 @@
 						$archivo.= '.'.$ext;
 						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$archivo);
 						$_POST['foto'] = $archivo;
-						//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-						//echo 'holas';exit();
 					}else{
 						$_POST['foto'] = $_POST['foto1'];
 					}
-					/*if($_POST['fecha_eve'] != ""){
-						$fecha = explode('/', $_POST['fecha_eve']);
-						$_POST['fecha_eve'] = $fecha[2].'-'.(($fecha[1]<10)?'0'.$fecha[1]:$fecha[1]).'-'.(($fecha[0]<10)?'0'.$fecha[0]:$fecha[0]);
-						$_POST['semana_eve'] = date('W',  mktime(0,0,0,$fecha[1],$fecha[0],$fecha[2]));
-					}*/
 					$_POST['des'] = strtoupper($_POST['des']);
 					$this->data->actualizarOficios($_POST);
-					//echo '<pre>';print_r($_POST);echo'</pre>';exit();
 					if($_POST['con'] == 6 || $_POST['con'] == 1 || $_POST['con'] == 2 || $_POST['con'] == 3){
 
 						$post = $_POST;
-						//echo '<pre>';print_r($post);echo '</pre>';exit();
 						$this->data->eliminarEventosID($_POST['numero']);
-						//echo '<pre>';print_r($post);echo '</pre>';exit();
 						for($count=0;$count<count($post['sede_eve']);$count++){
-							//echo '<pre>';print_r($post[$count]);echo '</pre>';exit();
 							$_POST['sede_eve'] = utf8_encode($post['sede_eve'][$count]);
 							$_POST['fecha_eve'] = explode('/',$post['fecha_eve'][$count]);
 							$_POST['fecha_eve'] = $_POST['fecha_eve'][2].'-'.$_POST['fecha_eve'][1].'-'.$_POST['fecha_eve'][0];
@@ -1843,14 +1787,12 @@
 							$_POST['semana_eve'] = date('W',  mktime(0,0,0,$mes,$dia,$anio));
 							$_POST['hora_eve'] = $post['hora_eve'][$count];
 							$_POST['nom_eve'] = $post['nom_eve'][$count];
-							//echo '<pre>';print_r($_POST);echo '</pre>';exit();
 							$this->data->newEvent($_POST);
 						}
-					} //$this->data->actEventoData($_POST);
+					} 
 					return HttpResponse('index.php/Reporte_ofi');
 				}
 				if($_GET['borrar']){
-					//echo '<pre>';print_r($_GET);echo '</pre>';exit();
 					$this->data->borrarOficio($_GET['borrar']);
 					return HttpResponse('index.php/Reporte_ofi');
 				}
@@ -1858,7 +1800,6 @@
 				$arr = $this->data->verOficio($_GET[$pos[0]]);
 				if($_GET['id'] || $_GET['elim']){
 					$arr[$pos[0]] = 1;
-					//echo '<pre>';print_r($arr);echo '</pre>';exit();
 					return render_to_response(vista::page('Repo_ofi.html',$arr));
 				}else{
 					$dep['dep'] = $this->data->depSel(); 
@@ -1883,106 +1824,9 @@
 				$arr['nums'] = array_unique($caps);
 				if($_POST){
 					if($_POST['id']){
-						/*$otro['files'] = $_FILES;
-						$otro['post'] = $_POST;
-						//echo json_encode($otro);exit();
-						$replace = array('-','/',' ','.',',');
-						$_POST['no'] = str_replace($replace, '', $_POST['no']);
-						$archivo = $_POST['no'];
-						$id = $_POST['id'];
-						$carpeta = 'main/templates/complementos/archivos_oficios/';
-						@copy($_FILES['archivo']['tmp_name'], $carpeta.$archivo.'.pdf');
-						$this->data->savePDFofi($archivo.'.pdf',$id);
-						$otro['archivo'] = $archivo.'.pdf';
-						echo json_encode($otro);exit();*/
 						$file = $this->data->deleteFile($_POST['id']);
 						unlink('main/templates/complementos/archivos_oficios/'.$file);
 						echo json_encode($file);exit();
-					}else{
-						/*if($_POST['edit']){
-							$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
-							$nombreFichero = $_FILES['foto']['name'];
-							move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
-							$_POST['foto'] = $_FILES['foto']['name'];
-							$_POST['des'] = strtoupper($_POST['des']);
-							//echo '<pre>';print_r($_POST);echo'</pre>';exit();
-							$this->data->actualizarOficio($_POST);
-						}else{*/
-							//echo '<pre>';print_r($_POST);echo'</pre>';exit();
-							$us['pro'] = $_POST['prod'];
-							$us['dp'] = $_POST['dep'];
-							$us['fec'] = $_POST['anio']."-".$_POST['mes']."-".$_POST['dia'];
-							$us['con'] = $_POST['con'];
-							$us['num'] = $_POST['num'];
-							$us['cl'] = strtoupper($_POST['cl']);
-							if($us['fec']=="0-0-0") unset($us['fec']);
-							if($_POST['fecIni']&&$_POST['fecFin']){
-								$fecha = explode('/', $_POST['fecIni']);
-								$us['inicio'] = $fecha[2].'-';
-								$us['inicio'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
-								$us['inicio'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
-								$fecha = explode('/', $_POST['fecFin']);
-								$us['fin'] = $fecha[2].'-';
-								$us['fin'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
-								$us['fin'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
-								$us['rango'] = true;
-							}
-							//echo '<pre>';print_r($us);echo'</pre>';exit();
-							$arr['inf'] = $this->data->busofi($us);
-							foreach ($arr['inf'] as $key => $value) {
-								$fecha = explode('-', $value['fecha_ofi']);
-								$fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
-								$arr['inf'][$key]['fecha_ofi'] = $fecha;
-							}
-							//echo '<pre>'.$arr['inf'].'</pre>';exit();
-							$arr['dat'] = true;
-							//echo '<pre>';print_r($arr);print_r($us);echo'</pre>';exit();
-						//}
-					}
-				}
-				return render_to_response(vista::page('repo_ofi.html',$arr));
-			}
-		}
-		/*public function Reporte_ofi(){
-			if($_GET['edit']){
-				$arr['inf'] = $this->data->verOficio($_GET['edit']);
-				$arr['dep'] = $this->data->depSel();
-				return render_to_response(vista::page('oficialia.html',$arr));
-			}
-			$arr['dh'] = $this->data->verOfiHoy();
-			foreach ($arr['dh'] as $key => $value) {
-				$fecha = explode('-', $value['fecha_ofi']);
-				$fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
-				$arr['dh'][$key]['fecha_ofi'] = $fecha;
-			}
-			$arr['dep'] = $this->data->depSel();
-			$arr['todo'] = $this->data->oficios();
-			foreach ($arr['todo'] as $key => $value) $caps[] = $value['userCap_ofi'];
-			$arr['caps'] = array_unique($caps);
-			foreach ($arr['todo'] as $key => $value) $caps[] = $value['no_ofi'];
-			$arr['nums'] = array_unique($caps);
-			//if($_POST &&)
-			if($_FILES){
-				$otro['files'] = $_FILES;
-				$otro['post'] = $_POST;
-				$archivo = $_POST['no'];
-				$id = $_POST['id'];
-				$carpeta = 'main/templates/complementos/archivos_oficios/';
-				move_uploaded_file($_FILES['archivo']['tmp_name'], $carpeta.$archivo);
-				$this->data->savePDFofi($archivo,$id);
-				echo json_encode($otro);exit();
-			}
-			if($_POST && !$_FILES){
-				if($_POST['id'] && $_POST['delete']){
-					$oficios = $this->data->verOficio($_POST['id']);
-					//$oficios = $this->data->verServicio($oficios['no_ofi'])
-					$oficios = $this->data->elimServOfi($oficios['no_ofi']);
-					$this->data->borrarOficio($_POST['id']);
-				}elseif($_POST['id'] && $_POST['ver']){
-					$oficios = $this->data->verOficio($_POST['id']);
-				}else{
-					if($_POST['all']){
-						$oficios = $this->data->oficios();
 					}else{
 						$us['pro'] = $_POST['prod'];
 						$us['dp'] = $_POST['dep'];
@@ -1990,6 +1834,7 @@
 						$us['con'] = $_POST['con'];
 						$us['num'] = $_POST['num'];
 						$us['cl'] = strtoupper($_POST['cl']);
+						if($us['fec']=="0-0-0") unset($us['fec']);
 						if($_POST['fecIni']&&$_POST['fecFin']){
 							$fecha = explode('/', $_POST['fecIni']);
 							$us['inicio'] = $fecha[2].'-';
@@ -2001,13 +1846,18 @@
 							$us['fin'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
 							$us['rango'] = true;
 						}
-						$oficios = $this->data->busofi($us);
+						$arr['inf'] = $this->data->busofi($us);
+						foreach ($arr['inf'] as $key => $value) {
+							$fecha = explode('-', $value['fecha_ofi']);
+							$fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+							$arr['inf'][$key]['fecha_ofi'] = $fecha;
+						}
+						$arr['dat'] = true;
 					}
 				}
-				echo json_encode($oficios);exit();
+				return render_to_response(vista::page('repo_ofi.html',$arr));
 			}
-			return render_to_response(vista::page('repo_ofi2.html',$arr));
-		}*/
+		}
 		public function eventos(){
 			if($_POST){
 				$eventos = $this->data->getEventosDate($_POST['fecha']);
@@ -2030,7 +1880,6 @@
 					@move_uploaded_file($value['tmp_name'], $dir);
 					@rename($dir,'main/templates/complementos/img/'.$key.'.jpg');
 				}
-				//echo '<pre>';print_r($_FILES);print_r($dirs);print_r($names);echo '</pre>';exit();
 				return HttpResponse('index.php');
 			}else{
 				return render_to_response(vista::page('cambiar_imagen.html'));
@@ -2039,7 +1888,8 @@
 		public function appAdmin(){
 			if ($_POST) {
 				$json = json_encode($_POST);
-				file_put_contents("main/templates/complementos/apps.json", $json);
+				//echo $json;exit();
+				@file_put_contents("main/templates/complementos/apps.json", $json);
 				return HttpResponse('index.php/');
 			}else{
 				$str_datos = file_get_contents("main/templates/complementos/apps.json");
@@ -2053,7 +1903,6 @@
     						"repEntra",
     						"salidaProd",
     						"repSalida",
-    						//"repSalidaAut",
     						"ffas",
     						"Delffas",
     						"sers",
@@ -2074,7 +1923,6 @@
     						"diaRegalo",
     						"Oficialia",
     						"Reporte_ofi",
-    						//"Reporte_ofi2",
     						"cambiar_imagen",
     						"eventos",
     						"Servicio_Social_Registro",
@@ -2082,6 +1930,7 @@
     						"Servicio_Social_Tarjetas",
     						"Servicio_Social_Reportes",
     						"Servicio_Social_Check",
+    						"Servicio_Social_Justificar",
     						"appAdmin"];
 				return render_to_response(vista::pageChosen('adapp.html',$app));
 			}
@@ -2194,22 +2043,17 @@
 
 		public function especial()
 		{
-			//echo "Iniciando...\n\n";
 			$data = $this->data->checkmaster();
-			//echo '<pre>';print_r($data);echo '</pre>';
 			$sql = "";
 			foreach ($data as $key => $value) {
 				$hora = (strlen($value['horcap_check'])<5)?"0".$value['horcap_check']:$value['horcap_check'];
 				$fecha = $value['anio_check']."-".($value['mes_check']<10?'0'.$value['mes_check']:$value['mes_check'])."-".($value['dia_check']<10?'0'.$value['dia_check']:$value['dia_check']);
-				//echo '<pre>';print_r($value);echo "fecha:".$fecha."</pre>";
 				$hora = $hora=="0"?"00:00":$hora;
 				$hora = str_replace("::", ":", $hora);
 				$hora = $hora.":00";
 				$sql.= "UPDATE `check_mant` SET `fecha_check` = '$fecha $hora' WHERE `id_check` = $value[id_check];\n";
 			}
 			echo '<pre>'.$sql.'</pre>';
-			//$this->data->query($sql);
-			//echo "\nListo :)";
 			exit();
 		}
 
@@ -2262,4 +2106,347 @@
 			return HttpResponse("");
 		}
 	}
+
+
+				
+					//.').jpg';//.$ext;//$_FILES['foto']['name'][$i];//echo'<pre>';print_r($_POST);echo'</pre>';exit();
+					//echo '<pre>';print_r($_POST);print_r($sis);echo '</pre>';exit();//exit();//return JsonResponse($d);
+					//echo '<pre>';print_r($arr);echo '</pre>';exit();
+					//echo '<pre>';print_r($arr);echo "</pre>";exit();
+					//$cod['get'] = $_GET['codigoBus'];
+					//$nombreFichero = $_POST['codeFecha'].'.jpg';
+					//echo '<pre>';print_r($_POST);print_r($_FILES);echo '</pre>';exit();
+					//$arr['foto2'] = ($_FILES['foto2']['name']);
+					//$this->fpdf($_POST['codeFecha'],$_POST['prod'],$dep,$_POST['des'],$_POST['nCap'], $nffa['nombre_ffa']);//else{//}
+					//echo '<pre>'.print_r($sali).'</pre>';exit();
+				//$_FILES['foto']['name'];
+
+
+
+				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+				//echo '<pre>';print_r($_POST);echo'</pre>';exit();
+				//$_POST['cod'] = date('syimHd');
+				/*else{
+					if($_POST['options'] == 0){
+						$_POST['options'] = 1;
+					}
+					$_POST['fecha'] = date('j-n-y');
+					$_POST['hora'] = date('H:m');
+					$this->data->solSer($_POST);
+				}*/
+				//dpSal($_SESSION['depen_user']);
+				//$_FILES['foto']['name'];
+					//echo '<pre>';print_r($_POST);echo $sql. '</pre>';exit();
+				//echo '<pre>';print_r($_POST);echo $a.$b;echo '</pre>';exit();
+					//echo '<pre>';print_r($arr);echo '</pre>';exit();
+					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+							//echo 'Hora: '.$_POST['horc'][$i].'<br>';
+								//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+						//$datos[$_POST['id'][$i]] = ['']
+					//echo '<pre>';print_r($datos);echo '</pre>';exit();
+						//echo 'Consulta:<br>'.$sql.$final.'<br>';
+					//exit();
+					//echo '<pre>';print_r($_POST);print_r($datos);print_r($consultas); echo '</pre>';exit();
+								//date('H:i:s',mktime(date('H:i:s',$hora)-date('H:i:s',$value['horaCap_cpss'])));//($salida-$entrada));
+								//$horaExt = strtotime('-'.strtotime($hora), strtotime($value['horaCap_cpss']);// - $hora;
+
+
+				//echo"<pre>";print_r($_POST);echo"</pre>";
+				//echo '<pre>';print_r($_GET);echo '</pre>';exit();
+				//echo '<pre>';print_r($repo);echo '</pre>';exit();
+				//echo '<pre>';print_r($data);echo '</pre>';exit();
+				//echo '<pre>';print_r($repo);echo'</pre>';exit();
+				//echo'<pre>';print_r($faltas);echo '</pre>';exit();
+				//echo'<pre>';print_r($datos);echo '</pre>';exit();
+						//$_FILES['foto']['name'];
+				//echo '<pre>';print_r($arr);echo '</pre>';exit();
+					//echo '<pre>';print_r($serv);echo '</pre>';exit();
+					//echo '<pre>';print_r($serv);echo '</pre>';exit();
+					//$serv['per'] = $this->data->selecper($ar);
+					//echo '<pre>';print_r($seg['pen']);echo '</pre>';exit();
+				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+
+					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+
+						//$dia[0] = $dia[1];
+						//$dia[1] = '';
+
+						//$mes[0] = $mes[1];
+						//$mes[1] = '';
+
+						//if($value['fecha'][1]<10) $value['fecha'][1][0] = '';
+//.str_replace(':','',$value['Entrada']);
+
+									//echo '<pre>';print_r($value);echo '</pre>';exit();
+
+										//echo '<pre>';print_r($value);echo '</pre>';exit();
+
+										//echo '<pre>';print_r($value);echo '</pre>';exit();
+
+
+
+					//echo '<pre>';print_r($_POST['extra']);echo '</pre>';exit();
+
+					//echo '<pre>';print_r($_POST['cor']);echo '</pre>';exit();
+
+									//elseif($value['comparar']<=($check['horcap_check'])+30) $value['verifica'] = 3;
+
+									//elseif($value['comparar']>=($check['horcap_check'])+30) $value['verifica'] = 3;
+
+								//echo '<pre>'.$value['comparar'].'</pre>';exit();
+
+				//echo"<pre>";print_r($_POST);echo"</pre>";
+
+					//echo"<pre>";print_r($data);echo"</pre>";exit();
+
+					//$nom = $repo[0]['nombre_per'];
+
+					//echo '<pre>';print_r($data);echo '</pre>';exit();
+
+				//echo"<pre>";print_r($_POST);echo"</pre>";
+
+				//unlink('reporte-mensual-'.$_GET['mes'].'.pdf');
+
+					//echo '<pre>';print_r($repo);echo '</pre>';exit();
+//$dia == $value['dia_check']){
+
+							//$data[$i]['turno'] = $value['turno_per'];
+
+					//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
+
+					//echo'<pre>';print_r($datos);echo '</pre>';exit();
+
+					//echo '<pre>'.$dia.'</pre>';exit();
+					//echo '<pre>';print_r($repo);echo '</pre>';exit();
+
+				//unlink('reporte-mensual-'.$_GET['mes'].'.pdf');
+
+				//if(!$_GET['fal']){
+					//$repo = $this->data->repMes($_GET);
+
+					#echo '<pre>';print_r($repo);echo '</pre>';exit();
+
+							//$entrada = $salida = 0;
+
+								//$entrada = $salida = 0;
+
+									//$entrada = $salida = 0;
+
+							//$data[$i]['turno'] = $value['turno_per'];
+
+
+
+					//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
+					//$this->pdfREs($datos,$faltas,$fecha);
+
+				/*}else{
+					//echo '<pre>'.$dia.'</pre>';exit();
+					//echo '<pre>';print_r($repo);echo '</pre>';exit();
+					foreach ($repo as $key => $value) {
+						if($nom != $value['nombre_per']){
+							$nom = $value['nombre_per'];
+							$dia = $value['dia_check'];
+							$datos[$nom]['totalE'] = $datos[$nom]['totalS'] = 0;
+							if($value['tipo_check'] == 1){
+								$datos[$nom][$dia]['entrada'] = true;
+								$datos[$nom]['totalE']++;
+							}else{
+								$datos[$nom][$dia]['salida'] = true;
+								$datos[$nom]['totalS']++;
+							}
+						}else{
+							if($dia == $value['dia_check']){
+								if($value['tipo_check'] == 1){
+									$datos[$nom][$dia]['entrada'] = true;
+									$datos[$nom]['totalE']++;
+								}else{
+									$datos[$nom][$dia]['salida'] = true;
+									$datos[$nom]['totalS']++;
+								}
+							}else{
+								$dia = $value['dia_check'];
+								if($value['tipo_check'] == 1){
+									$datos[$nom][$dia]['entrada'] = true;
+									$datos[$nom]['totalE']++;
+								}else{
+									$datos[$nom][$dia]['salida'] = true;
+									$datos[$nom]['totalS']++;
+								}
+							}
+						}
+						$nom = $value['nombre_per'];
+					}
+					return render_to_response(vista::pageWhite('recordFaltas.html',$datos,'Reporte de Faltas'));
+				}*/
+
+			/*$arr = $this->data->personalSS();
+			$hoy = 1;*/
+
+			//echo '<pre>';print_r($arr);echo'</pre>';exit();
+
+					//echo '<pre>';print($_POST);echo '</pre>';exit();
+
+					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+//|| $_POST['con'] == 1 || $_POST['con'] == 2 || $_POST['con'] == 3){
+//echo 
+						/*if($_POST['con'] == 6){
+							$_POST['options'] = 6;
+							$this->data->solSer($_POST);
+						}*/
+						//$ya = true;
+
+					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+					//echo json_encode($_FILES);exit();
+
+						//$nombreFichero = $_POST['numero'].'.jpg';
+
+						//echo '<pre>';print_r($post);echo '</pre>';exit();
+
+					/*$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
+					$nombreFichero = $_FILES['foto']['name'];
+					if($_POST['foto1'] != $nombreFichero){
+						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
+						$_POST['foto'] = $_FILES['foto']['name'];
+					}else{
+						$_POST['foto'] = $_POST['foto1'];
+					}*/
+
+						//$nombreFichero = $_POST['numero'].'.jpg';
+
+						//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+						//echo 'holas';exit();
+
+					/*if($_POST['fecha_eve'] != ""){
+						$fecha = explode('/', $_POST['fecha_eve']);
+						$_POST['fecha_eve'] = $fecha[2].'-'.(($fecha[1]<10)?'0'.$fecha[1]:$fecha[1]).'-'.(($fecha[0]<10)?'0'.$fecha[0]:$fecha[0]);
+						$_POST['semana_eve'] = date('W',  mktime(0,0,0,$fecha[1],$fecha[0],$fecha[2]));
+					}*/
+
+					//echo '<pre>';print_r($_POST);echo'</pre>';exit();
+
+						//echo '<pre>';print_r($post);echo '</pre>';exit();
+
+						//echo '<pre>';print_r($post);echo '</pre>';exit();
+
+							//echo '<pre>';print_r($post[$count]);echo '</pre>';exit();
+
+							//echo '<pre>';print_r($_POST);echo '</pre>';exit();
+//$this->data->actEventoData($_POST);
+
+					//echo '<pre>';print_r($_GET);echo '</pre>';exit();
+
+					//echo '<pre>';print_r($arr);echo '</pre>';exit();
+					
+						/*$otro['files'] = $_FILES;
+						$otro['post'] = $_POST;
+						//echo json_encode($otro);exit();
+						$replace = array('-','/',' ','.',',');
+						$_POST['no'] = str_replace($replace, '', $_POST['no']);
+						$archivo = $_POST['no'];
+						$id = $_POST['id'];
+						$carpeta = 'main/templates/complementos/archivos_oficios/';
+						@copy($_FILES['archivo']['tmp_name'], $carpeta.$archivo.'.pdf');
+						$this->data->savePDFofi($archivo.'.pdf',$id);
+						$otro['archivo'] = $archivo.'.pdf';
+						echo json_encode($otro);exit();*/
+
+						/*if($_POST['edit']){
+							$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
+							$nombreFichero = $_FILES['foto']['name'];
+							move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
+							$_POST['foto'] = $_FILES['foto']['name'];
+							$_POST['des'] = strtoupper($_POST['des']);
+							//echo '<pre>';print_r($_POST);echo'</pre>';exit();
+							$this->data->actualizarOficio($_POST);
+						}else{*/
+							//echo '<pre>';print_r($_POST);echo'</pre>';exit();
+
+							//echo '<pre>';print_r($us);echo'</pre>';exit();
+
+							//echo '<pre>'.$arr['inf'].'</pre>';exit();
+
+							//echo '<pre>';print_r($arr);print_r($us);echo'</pre>';exit();
+						//}
+
+		/*public function Reporte_ofi(){
+			if($_GET['edit']){
+				$arr['inf'] = $this->data->verOficio($_GET['edit']);
+				$arr['dep'] = $this->data->depSel();
+				return render_to_response(vista::page('oficialia.html',$arr));
+			}
+			$arr['dh'] = $this->data->verOfiHoy();
+			foreach ($arr['dh'] as $key => $value) {
+				$fecha = explode('-', $value['fecha_ofi']);
+				$fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+				$arr['dh'][$key]['fecha_ofi'] = $fecha;
+			}
+			$arr['dep'] = $this->data->depSel();
+			$arr['todo'] = $this->data->oficios();
+			foreach ($arr['todo'] as $key => $value) $caps[] = $value['userCap_ofi'];
+			$arr['caps'] = array_unique($caps);
+			foreach ($arr['todo'] as $key => $value) $caps[] = $value['no_ofi'];
+			$arr['nums'] = array_unique($caps);
+			//if($_POST &&)
+			if($_FILES){
+				$otro['files'] = $_FILES;
+				$otro['post'] = $_POST;
+				$archivo = $_POST['no'];
+				$id = $_POST['id'];
+				$carpeta = 'main/templates/complementos/archivos_oficios/';
+				move_uploaded_file($_FILES['archivo']['tmp_name'], $carpeta.$archivo);
+				$this->data->savePDFofi($archivo,$id);
+				echo json_encode($otro);exit();
+			}
+			if($_POST && !$_FILES){
+				if($_POST['id'] && $_POST['delete']){
+					$oficios = $this->data->verOficio($_POST['id']);
+					//$oficios = $this->data->verServicio($oficios['no_ofi'])
+					$oficios = $this->data->elimServOfi($oficios['no_ofi']);
+					$this->data->borrarOficio($_POST['id']);
+				}elseif($_POST['id'] && $_POST['ver']){
+					$oficios = $this->data->verOficio($_POST['id']);
+				}else{
+					if($_POST['all']){
+						$oficios = $this->data->oficios();
+					}else{
+						$us['pro'] = $_POST['prod'];
+						$us['dp'] = $_POST['dep'];
+						$us['fec'] = $_POST['anio']."-".$_POST['mes']."-".$_POST['dia'];
+						$us['con'] = $_POST['con'];
+						$us['num'] = $_POST['num'];
+						$us['cl'] = strtoupper($_POST['cl']);
+						if($_POST['fecIni']&&$_POST['fecFin']){
+							$fecha = explode('/', $_POST['fecIni']);
+							$us['inicio'] = $fecha[2].'-';
+							$us['inicio'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
+							$us['inicio'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
+							$fecha = explode('/', $_POST['fecFin']);
+							$us['fin'] = $fecha[2].'-';
+							$us['fin'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
+							$us['fin'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
+							$us['rango'] = true;
+						}
+						$oficios = $this->data->busofi($us);
+					}
+				}
+				echo json_encode($oficios);exit();
+			}
+			return render_to_response(vista::page('repo_ofi2.html',$arr));
+		}*/
+
+				//echo '<pre>';print_r($_FILES);print_r($dirs);print_r($names);echo '</pre>';exit();
+
+    						//"repSalidaAut",
+
+    						//"Reporte_ofi2",
+
+			//echo "Iniciando...\n\n";
+
+			//echo '<pre>';print_r($data);echo '</pre>';
+
+				//echo '<pre>';print_r($value);echo "fecha:".$fecha."</pre>";
+
+			//$this->data->query($sql);
+			//echo "\nListo :)";
 ?>

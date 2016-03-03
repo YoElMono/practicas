@@ -748,6 +748,23 @@
 				return '';
 			}
 		}
+
+		public function faltantesSS($a){
+			$query = $this->consulta("SELECT id_cpss, codigo_cpss, tipo_cpss, nombre_pss, horaCap_cpss, hora_cpss, verifica_cpss FROM checkPss_mant
+									INNER JOIN pss_mant ON codigo_cpss = codigo_pss
+									WHERE dia_cpss = '$a[dia]' AND mes_cpss = '$a[mes]' AND anio_cpss = '$a[anio]' and status_pss = 'Activo'
+									ORDER BY nombre_pss,tipo_cpss ASC");
+			
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
+
 		public function notrabaja($dia){
 			$query = $this->consulta("SELECT * FROM personal_mant WHERE $dia = 0 
 										ORDER BY turno_per,nombre_per ASC");
@@ -758,6 +775,18 @@
 			}else
 				return '';
 		}
+
+		public function notrabajaSS($dia){
+			$query = $this->consulta("SELECT * FROM pss_mant WHERE $dia = 0 and status_pss = 'Activo'
+										ORDER BY turno_pss,nombre_pss ASC");
+			if($this->numero_de_filas($query) > 0){
+				while($datos = $this->fetch_assoc($query))
+					$data[] = $datos;
+				return $data;
+			}else
+				return '';
+		}
+
 		public function jusf($id, $nota, $hor, $ver){
 			if(!$ver)
 				$this->consulta("UPDATE check_mant SET verifica_check = '2',notas_check='$nota',hor_check='$hor' WHERE id_check = '$id'");
@@ -765,11 +794,27 @@
 				$this->consulta("UPDATE check_mant SET hor_check='$hor', verifica_check = '$nota' WHERE id_check = '$id'");
 
 		}
+
+		public function jusfSS($id, $nota, $hor, $ver){
+			if(!$ver)
+				$this->consulta("UPDATE checkPss_mant SET verifica_cpss = '2',notas_cpss='$nota',horaCap_cpss='$hor' WHERE id_cpss = '$id'");
+			else
+				$this->consulta("UPDATE checkPss_mant SET horaCap_cpss='$hor', verifica_cpss = '$nota' WHERE id_cpss = '$id'");
+
+		}
+
 		public function unicheck($id){
 			$query = $this->consulta("SELECT * FROM check_mant WHERE id_check = '$id'");
 			$sea= $this->fetch_array($query);
 				return $sea;
 		}
+
+		public function unicheckSS($id){
+			$query = $this->consulta("SELECT * FROM checkPss_mant WHERE id_cpss = '$id'");
+			$sea= $this->fetch_array($query);
+				return $sea;
+		}
+
 		public function repDia($a){
 			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, hor_check, notas_check, turno_per FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
@@ -1038,6 +1083,27 @@
 			$this->consulta("INSERT INTO check_mant (codigo_check, dia_check, mes_check, anio_check, semana_check, tipo_check, fechcon_check, horcap_check, fecha_check, notas_check$a)
 											VALUES('$value[codigo]','$fecha[0]','$fecha[1]','$fecha[2]','$value[semana]','$value[tipo]','$fec','$value[$hor]','$fecha2','$value[nota]'$b)");
 		}
+
+		public function agregarCheckSS($value){
+			if($value['tipo'] == 1)
+				$hor = 'Entrada';
+			else
+				$hor = 'Salida';
+			$fecha = $value['fecha'];
+
+			if($value['horasSalida'] !="" or $value['horasEntrada'] != ""){ 
+				$a = ",horaCap_cpss,verifica_cpss";
+				$b = ",'".$value['horas'.$hor]."',1";
+			}else{
+				$a=$b="";
+			}
+			$fecha2 = $fecha[2]."-".(strlen($fecha[1])<2?"0".$fecha[1]:$fecha[1])."-".(strlen($fecha[0])<2?"0".$fecha[0]:$fecha[0]);
+			$fecha2 .= " ".(strlen($value[$hor])<5?"0".$value[$hor]:$value[$hor]).":00";
+			$value[$hor] .= ':00';
+			$this->consulta("INSERT INTO checkPss_mant (idPss_cpss, codigo_cpss, dia_cpss, mes_cpss, anio_cpss, semana_cpss, tipo_cpss, hora_cpss, fechaCon_cpss, notas_cpss$a)
+											VALUES('$value[id]','$value[codigo]','$fecha[0]','$fecha[1]','$fecha[2]','$value[semana]','$value[tipo]','$value[$hor]','$fecha2','$value[nota]'$b)");
+		}
+
 		public function busCheck($value){
 			$fecha = $value['fecha'];
 			$query = $this->consulta("SELECT * FROM check_mant WHERE dia_check = '$fecha[0]' and mes_check = '$fecha[1]' and anio_check = '$fecha[2]' and codigo_check = '$value[codigo]' ");
@@ -1048,15 +1114,41 @@
 			}else
 				return '';
 		}
+
+		public function busCheckSS($value){
+			$fecha = $value['fecha'];
+			$fecha[0] = str_pad($fecha[0],2,"0",STR_PAD_LEFT);
+			$fecha[1] = str_pad($fecha[1],2,"0",STR_PAD_LEFT);
+			$query = $this->consulta("SELECT * FROM checkPss_mant WHERE dia_cpss = '$fecha[0]' and mes_cpss = '$fecha[1]' and anio_cpss = '$fecha[2]' and codigo_cpss = '$value[codigo]' ");
+			if($this->numero_de_filas($query)>0){
+				while($datos = $this->fetch_assoc($query))
+					$data[] = $datos;
+				return $data;
+			}else
+				return '';
+		}
+
 		public function updateCheck($value){
 			if($value['tipo'] == 1)
 				$hor = 'Entrada';
 			else
 				$hor = 'Salida';
 			$fecha = $value['fecha'];
+			$fecha2 = $fecha[2]."-".(($fecha[1]<10)?substr($fecha[1], 1):$fecha[1])."-".(($fecha[0]<10)?"0".$fecha[0]:$fecha[0])." ".$value[$hor].":00";
 			$fec = (($fecha[1]<10)?substr($fecha[1], 1):$fecha[1]).(($fecha[0]<10)?"0".$fecha[0]:$fecha[0]).str_replace(':', "", $value[$hor]);
-			$this->consulta("UPDATE check_mant SET fechcon_check = '$fec', horcap_check = '$value[$hor]', notas_check = '$value[nota]' WHERE dia_check = '$fecha[0]' and mes_check = '$fecha[1]' and anio_check = '$fecha[2]' and codigo_check = '$value[codigo]' and tipo_check = '$value[tipo]' ");
+			$this->consulta("UPDATE check_mant SET fechcon_check = '$fec', horcap_check = '$value[$hor]', notas_check = '$value[nota]' fecha_check = '$fecha2' WHERE dia_check = '$fecha[0]' and mes_check = '$fecha[1]' and anio_check = '$fecha[2]' and codigo_check = '$value[codigo]' and tipo_check = '$value[tipo]' ");
 		}
+
+		public function updateCheckSS($value){
+			if($value['tipo'] == 1)
+				$hor = 'Entrada';
+			else
+				$hor = 'Salida';
+			$fecha = $value['fecha'];
+			$fecha2 = $fecha[2]."-".(($fecha[1]<10)?substr($fecha[1], 1):$fecha[1])."-".(($fecha[0]<10)?"0".$fecha[0]:$fecha[0])." ".$value[$hor].":00";
+			$this->consulta("UPDATE checkPss_mant SET fechaCon_cpss = '$fecha2', hora_cpss = '$value[$hor]', notas_cpss = '$value[nota]' WHERE dia_cpss = '$fecha[0]' and mes_cpss = '$fecha[1]' and anio_cpss = '$fecha[2]' and codigo_cpss = '$value[codigo]' and tipo_cpss = '$value[tipo]' ");
+		}
+
 		public function savePDFofi($archivo,$id){
 			$this->consulta("UPDATE oficios_mant SET archivo_ofi = '$archivo' WHERE id_ofi = '$id'");
 		}

@@ -1,0 +1,201 @@
+<br>
+<div class="panel panel-warning">
+	<div class="panel-heading">[dia]-><?= $_GET['dia']?><br>
+		<div class="btn-group"> 
+			<button name="op" value="1" class="btn btn-primary">[jur]</button>
+			<button class="btn btn-success" name="op" value="2">[Corr]</button>
+			<button class="btn btn-warning" value="3" name="op">[ExO]</button>
+		</div>
+	</div>
+  	<div class="panel-body">
+			<form method="POST" action="">
+			<input type='hidden' name="ver" value="0">
+				<table class="table table-bordered" id="jus">
+					<tr>
+						<td><strong>[nombre]</strong></td>
+						<td><strong>[tipo]</strong></td>
+						<td><strong>[jur]</strong></td>
+						<td><strong>[not]</strong></td>
+					</tr>
+					<?php foreach ($arr['a'] as $key => $value):?>
+						<?php if($value['verifica_cpss']==4):?>
+						<tr>
+							<td><strong><?= utf8_decode($value['nombre_pss'])?></strong></td>
+							<td><strong><?= "[checkt".$value['tipo_cpss']."]"?></strong></td>
+							<td><input type="checkbox" name="jus[<?=$key?>][id]" value="<?=$value['id_cpss']?>"></td>
+							<td>
+								<strong><textarea class="textnotjus" name="jus[<?=$key?>][nota]"></textarea></strong>
+							</td>
+						</tr>
+						<input type="hidden" name="jus[<?=$key?>][hor]" value="<?=$value['horaCap_cpss']?>">
+					<?php endif;?>
+					<?php endforeach;?>
+				</table>
+				<table class="table table-bordered" id="cor" style="display: none;">
+					<thead>
+						<th><strong>[Corr]</strong></th>
+						<th><strong>[nombre]</strong></th>
+						<th style="display:none"><strong>[ent]</strong></th>
+						<th style="display:none"><strong>[sal]</strong></th>
+					</thead>
+					<?php foreach($arr['a'] as $key => $value): ?>
+						<?php if($nom != $value['nombre_pss']):?>
+						<tbody>
+							<td><input type="checkbox" name="cor[<?=$key?>][id]" id="ch<?=$key?>" value="<?=$value['id_cpss']?>"></td>
+							<td><strong><?=utf8_decode($value['nombre_pss'])?></strong></td>
+							<td style="display:none" id="<?=$key?>"><input id="E<?=$key?>" type="text" name="cor[<?=$key?>][entrada]" placeholder="HH:MM" class="entraI" onkeyup="dos_puntos('E<?=$key?>')" value="<?=$value['horaCap_cpss']?>"></td>
+						<?php else:?>
+							<!--<input type="hidden" name="cor[<?=$value['id_check']?>]">-->
+							<td style="display:none" id='S<?=($key-1)?>'><input id='S<?=$key?>' type="text" name="cor[<?=($key-1)?>][salida]" placeholder="HH:MM" class="entraI" onkeyup="dos_puntos('S<?=$key?>')" value="<?=$value['horaCap_cpss']?>"></td>
+						</tbody>
+					<?php endif;$nom=$value["nombre_pss"];endforeach; ?>
+				</table>
+				<button class="btn btn-primary" type="sumbit" id="boton" >[jur]</button>
+			</form>
+		<form method="POST" action="">
+			<table class="table table-bordered" id="extra" style="display: none;">
+				<tr>
+					<td><strong>[trab]</strong></td>
+					<td><strong>[nombre]</strong></td>
+					<td style="display:none"><strong>[ent]</strong></td>
+					<td style="display:none"><strong>[sal]</strong></td>
+					<td style="display:none"><strong>[not]</strong></td>
+				</tr>
+				<?php foreach ($arr['b']['extra'] as $key => $value):?>
+				<input type="hidden" name="extra[<?=$key?>][fecha]" value="<?=$_GET['dia'].'/'.$_GET['mes'].'/'.$_GET['anio']?>">
+				<input type="hidden" name="extra[<?=$key?>][id]" value="<?=$value['id_pss']?>">
+				<tr>
+					<td><input type="checkbox" name="extra[<?=$key?>][codigo]" id="extrach" value="<?=$value['codigo_pss']?>"></td>
+					<td><?=utf8_decode($value['nombre_pss'])?></td>
+					<td style="display:none" id="extra<?=$key?>"><input type="text" placeholder="HH:MM" name="extra[<?=$key?>][Entrada]" class="entraI" id="exE<?=$key?>" onkeyup="dos_puntos('exE<?=$key?>')"></td>
+					<td style="display:none" id="extraS<?=$key?>"><input type="text" placeholder="HH:MM" name="extra[<?=$key?>][Salida]" class="entraI" id="exS<?=$key?>" onkeyup="dos_puntos('exS<?=$key?>')"></td>
+					<td style="display:none" id="extraN<?=$key?>">
+						<strong><textarea class="textnotjus" name="extra[<?=$key?>][nota]"></textarea></strong>
+					</td>
+				</tr>
+				<?php endforeach;?>
+				<tr>
+					<td colspan="5">
+						Reponer horas
+					</td>
+				</tr>
+				<tr>
+					<td><strong>[trab]</strong></td>
+					<td><strong>[nombre]</strong></td>
+					<td style="display:none"><strong>[ent]</strong></td>
+					<td style="display:none"><strong>[sal]</strong></td>
+					<td style="display:none"><strong>[not]</strong></td>
+				</tr>
+				<?php foreach ($arr['b']['repo'] as $key => $value):?>
+				<input type="hidden" name="extra[<?=$key+count($arr['b']['extra'])?>][fecha]" value="<?=$_GET['dia'].'/'.$_GET['mes'].'/'.$_GET['anio']?>">
+				<input type="hidden" name="extra[<?=$key+count($arr['b']['extra'])?>][id]" value="<?=$value['id_pss']?>">
+				<tr>
+					<td><input type="checkbox" name="extra[<?=$key+count($arr['b']['extra'])?>][codigo]" id="extrach" value="<?=$value['codigo_pss']?>"></td>
+					<td><?=utf8_decode($value['nombre_pss'])?></td>
+					<td style="display:none" id="extra<?=$key+count($arr['b']['extra'])?>"><input type="text" placeholder="HH:MM" name="extra[<?=$key+count($arr['b']['extra'])?>][Entrada]" class="entraI" id="exE<?=$key+count($arr['b']['extra'])?>" onkeyup="dos_puntos('exE<?=$key+count($arr['b']['extra'])?>')"></td>
+					<td style="display:none" id="extraS<?=$key+count($arr['b']['extra'])?>"><input type="text" placeholder="HH:MM" name="extra[<?=$key+count($arr['b']['extra'])?>][Salida]" class="entraI" id="exS<?=$key+count($arr['b']['extra'])?>" onkeyup="dos_puntos('exS<?=$key+count($arr['b']['extra'])?>')"></td>
+					<td style="display:none" id="extraN<?=$key+count($arr['b']['extra'])?>">
+						<strong><textarea class="textnotjus" name="extra[<?=$key+count($arr['b']['extra'])?>][nota]"></textarea></strong>
+					</td>
+				</tr>
+				<?php endforeach;?>
+			</table>
+			<button class="btn btn-warning" type="submit" id="boton1" name="botonExtra" value="<?=count($arr['b']['extra'])?>" style="display: none;" onclick="">[enviar]</button>
+		</form>
+		<br>
+			<button class="btn btn-danger" onclick="window.close()">[close]</button>
+  	</div>
+</div>
+<script>
+	$(function () {
+		$('button[value=1]').click(function () {
+			if($(':hidden[name=ver]').val() == 1)
+				tabla = '#cor'
+			else
+				tabla = '#extra'
+			$(':hidden[name=ver]').val('0')
+			$(tabla).fadeOut(1000,function () {
+				$('#boton').text('[jus]').removeClass('btn-success').addClass('btn-primary').css('display','block')
+				$('#boton1').css('display','none')
+				$('#cor :input, #extra :input').val('').prop('checked',false)
+				$('#jus').fadeIn(1000)
+			})
+		})
+		$('button[value=2]').click(function () {
+			if($(':hidden[name=ver]').val() == 0)
+				tabla = '#jus'
+			else
+				tabla = '#extra'
+			$(':hidden[name=ver]').val('1')
+			$(tabla).fadeOut(1000,function () {
+				$('#boton').text('[Corr]').removeClass('btn-primary').addClass('btn-success').css('display','block')
+				$('#boton1').css('display','none')
+				$('#jus :input, #extra :input').val('').prop('checked',false)
+				$('#cor').fadeIn(1000)
+			})
+		})
+		$('button[value=3]').click(function () {
+			if($(':hidden[name=ver]').val() == 1)
+				tabla = '#cor'
+			else
+				tabla = '#jus'
+			$(':hidden[name=ver]').val('2')
+			$(tabla).fadeOut(1000,function () {
+				$('#boton1').css('display','block')
+				$('#boton').css('display','none')
+				$('#jus :input, #cor :input').val('').prop('checked',false)
+				$('#extra').fadeIn(1000)
+			})
+		})
+		$(':checkbox[id^=ch]').click(function () {
+			var index = $(this).attr('id')
+			index = index.substring(2)
+			$('tbody:eq('+index+') td:gt(1) :input').val('')
+			if($(this).prop('checked'))
+				$('thead th:gt(1)').fadeIn(500, function () {
+					$('#'+index).fadeIn(500)
+					$('#S'+index).fadeIn(500)
+				})
+			else {
+				$('#'+index).fadeOut(500)
+				$('#S'+index).fadeOut(500)
+			}
+			var index1 = $(':checkbox[id^=ch]').index($(':checked'))
+			if(index1 == -1) 
+				$('thead th:gt(1)').fadeOut(500)
+		})
+		$(':checkbox[id=extrach]').click(function () {
+			var index = $(':checkbox[id=extrach]').index(this)
+			if($(this).prop('checked'))
+				$('#extra tr:eq(0) td:gt(1)').fadeIn(500, function () {
+					$('#extra'+index).fadeIn(500)
+					$('#extraS'+index).fadeIn(500)
+					$('#extraN'+index).fadeIn(500)
+				})
+			else{
+				$('#extra'+index).fadeOut(500)
+				$('#extraS'+index).fadeOut(500)
+				$('#extraN'+index).fadeOut(500)
+			}
+			var index1 = $(':checkbox[id=extrach]').index($(':checked'))
+			if (index1 == -1)
+				$('#extra tr:eq(0) td:gt(1)').fadeOut(500)
+			//alert(index)
+		})
+		$(':text').blur(function () {
+			var index = $(':text').index(this)
+			if(!valHorVer($(':text:eq('+index+')').val())){
+				$(':text:eq('+index+')').val('')
+			}
+		})
+		function valHorVer (hor) {
+			var hora = hor.split(':')
+			if(hora[0] && hora[1]){
+				if(isNaN(hora[0]) || isNaN(hora[1]) || hora[0].length != 2 || hora[1].length != 2 || hora[0] < 0 || hora[0] > 24 || hora[1] > 59 || hora[1] < 0)
+					return false
+			}else
+				return false
+			return true
+		}
+	})
+</script>

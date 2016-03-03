@@ -59,6 +59,8 @@
 		case 'Servicio_Social_Check':{$objects["principal"]->checkPSS();}break;
 		case 'Servicio_Social_Tarjetas':{$objects["principal"]->tarjetasPSS();}break;
 		case 'Servicio_Social_Reportes':{$objects["principal"]->reportePSS();}break;
+		case 'Servicio_Social_Justificar':{$objects["principal"]->justificarPSS();}break;
+		case 'jufalSS':{$objects["principal"]->jufalSS();}break;
 		case 'repDiaSS':{$objects["principal"]->reporteDiaPSS();}break;
 		case 'repSemaSS':{$objects["principal"]->reporteSemaPSS();}break;
 		case 'repMesSS':{$objects["principal"]->reporteMesPSS();}break;

@@ -716,7 +716,7 @@
 		public function conHor($fec,$nom = ''){
 			$a = '';
 			if($nom)
-				$a = 'and codigo_check = "'.$nom.'"';
+				$a = 'and codigo_check = "'.$nom.'" and status_per in (0,1) ';
 			$query = $this->consulta("SELECT * FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
 									WHERE verifica_check = 0 AND fecha_check < '$fec'".$a."

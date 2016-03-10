@@ -37,6 +37,7 @@
 						<th><strong>[nombre]</strong></th>
 						<th style="display:none"><strong>[ent]</strong></th>
 						<th style="display:none"><strong>[sal]</strong></th>
+						<th style="display:none"><strong>[not]</strong></th>
 					</thead>
 					<?php foreach($arr['a'] as $key => $value): ?>
 						<?php if($nom != $value['nombre_per']):?>
@@ -47,6 +48,9 @@
 						<?php else:?>
 							<!--<input type="hidden" name="cor[<?=$value['id_check']?>]">-->
 							<td style="display:none" id='S<?=($key-1)?>'><input id='S<?=$key?>' type="text" name="cor[<?=($key-1)?>][salida]" placeholder="HH:MM" class="entraI" onkeyup="dos_puntos('S<?=$key?>')" value="<?=$value['hor_check']?>"></td>
+							<td style="display:none" id="Nota<?=($key-1)?>">
+								<strong><textarea class="textnotjus" name="cor[<?=($key-1)?>][nota]"><?=utf8_decode($value['notas_check'])?></textarea></strong>
+							</td>
 						</tbody>
 					<?php endif;$nom=$value["nombre_per"];endforeach; ?>
 				</table>
@@ -59,7 +63,6 @@
 					<td><strong>[nombre]</strong></td>
 					<td style="display:none"><strong>[ent]</strong></td>
 					<td style="display:none"><strong>[sal]</strong></td>
-					<td style="display:none"><strong>[not]</strong></td>
 				</tr>
 				<?php foreach ($arr['b']['extra'] as $key => $value):?>
 				<input type="hidden" name="extra[<?=$key?>][fecha]" value="<?=$_GET['dia'].'/'.$_GET['mes'].'/'.$_GET['anio']?>">
@@ -151,11 +154,11 @@
 			$('tbody:eq('+index+') td:gt(1) :input').val('')
 			if($(this).prop('checked'))
 				$('thead th:gt(1)').fadeIn(500, function () {
-					$('#'+index).fadeIn(500)
+					$('#'+index+",#Nota"+index).fadeIn(500)
 					$('#S'+index).fadeIn(500)
 				})
 			else {
-				$('#'+index).fadeOut(500)
+				$('#'+index+",#Nota"+index).fadeOut(500)
 				$('#S'+index).fadeOut(500)
 			}
 			var index1 = $(':checkbox[id^=ch]').index($(':checked'))

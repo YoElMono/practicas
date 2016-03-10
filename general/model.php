@@ -735,7 +735,7 @@
 			$this->consulta("UPDATE check_mant SET verifica_check = '$veri', hor_check = '$hor', notas_check = '$nota' WHERE id_check = '$id'");
 		}
 		public function faltantes($a){
-			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, horcap_check, hor_check,verifica_check FROM check_mant
+			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, horcap_check, hor_check,verifica_check,notas_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
 									WHERE dia_check = '$a[dia]' AND mes_check = '$a[mes]' AND anio_check = '$a[anio]'
 									ORDER BY nombre_per,tipo_check ASC");

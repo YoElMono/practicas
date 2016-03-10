@@ -1034,24 +1034,42 @@
 					}
 				}elseif($_POST['ver'] == 0){foreach ($_POST['jus'] as $key => $value){if($value['id']){$this->data->jusf($value['id'],$value['nota'],$value['hor'],$_POST['ver']);}}}
 				elseif($_POST['ver'] == 1){
+					//echo '<pre>';print_r($_POST['cor']);echo '</pre>';exit();
 					foreach ($_POST['cor'] as $key => $value){
 						if($value['id']){
 							for($i=$value['id'];$i<=($value['id']+1);$i++){
-								$check = $this->data->unicheck($i);
-								if($check['tipo_check'] == 1)$pos = 'entrada';else $pos = 'salida';
-								$hor = split(':',$value[$pos]);
-								$value['comparar'] = (int)$hor[1]+($hor[0]*60);
-								$hor = split(':',$check['horcap_check']);
-								$check['horcap_check'] = (int)$hor[1]+($hor[0]*60);
-								if($check['tipo_check'] == 1){
-									if($value['comparar']<=$check['horcap_check']+30) $value['verifica'] = 1;
-									else $value['verifica'] = 3;
+								$sql = "UPDATE check_mant SET ";
+								if($value['entrada'] != "" and $value["salida"] != ""){
+									$check = $this->data->unicheck($i);
+									if($check['tipo_check'] == 1)$pos = 'entrada';else $pos = 'salida';
+									$hor = split(':',$value[$pos]);
+									$value['comparar'] = (int)$hor[1]+($hor[0]*60);
+									$hor = split(':',$check['horcap_check']);
+									$check['horcap_check'] = (int)$hor[1]+($hor[0]*60);
+									if($check['tipo_check'] == 1){
+										if($value['comparar']<=$check['horcap_check']+30) $value['verifica'] = 1;
+										else $value['verifica'] = 3;
+									}else{
+										if($value['comparar']<$check['horcap_check']) $value['verifica'] = 3;
+										elseif($value['comparar']>=$check['horcap_check'] && $value['comparar']<($check['horcap_check']+60)) $value['verifica'] = 1;
+										else $value['verifica'] = 5;
+									}
+									$sql.= "verifica_check = $value[verifica], hor_check = '$value[$pos]'";
+									if($value['nota'] != "")
+										$sql.= ", notas_check = '$value[nota]'";
+									$sql.=" WHERE id_check = $i ";
+										//echo "$sql\nKey:$key";exit();
+									//$this->data->jusf($i,$value['verifica'],$value[$pos],$_POST['ver']);
+									$this->data->query($sql);
 								}else{
-									if($value['comparar']<$check['horcap_check']) $value['verifica'] = 3;
-									elseif($value['comparar']>=$check['horcap_check'] && $value['comparar']<($check['horcap_check']+60)) $value['verifica'] = 1;
-									else $value['verifica'] = 5;
+									if($value['nota'] != ""){
+										$sql.= "notas_check = '$value[nota]' WHERE id_check = $i ";
+										/*if($key>0){
+											echo "$sql\nKey:$key";exit();
+										}*/
+										$this->data->query($sql);
+									}
 								}
-								$this->data->jusf($i,$value['verifica'],$value[$pos],$_POST['ver']);
 							}
 						}
 					} 

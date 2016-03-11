@@ -1252,7 +1252,7 @@
 			$pdf=new RMSS('P');
 			$pdf->AddPage();
 			$pdf->body($data,$faltas,$fecha);
-			$pdf->Output(__DIR__.'/reporte-mensual-Servicio-Social.pdf','f');
+			$pdf->Output('reporte-mensual-Servicio-Social.pdf','f');
 		}
 		public function repDia(){
 			if($_POST){

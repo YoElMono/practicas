@@ -895,6 +895,7 @@
 		}
 
 		public function repMesPSS($a){
+			$a['mes'] = str_pad($a['mes'], 2, '0', STR_PAD_LEFT);
 			$query = $this->consulta("SELECT turno_pss, id_cpss, codigo_cpss, tipo_cpss, dia_cpss, horaCap_cpss,notas_cpss, nombre_pss,verifica_cpss,fechaCon_cpss FROM checkPss_mant
 									INNER JOIN pss_mant ON codigo_cpss = codigo_pss
 									WHERE mes_cpss = '$a[mes]' AND anio_cpss = '$a[anio]' AND fechaCon_cpss <= '".date('Y-m-d H:i:s')."'

@@ -816,9 +816,9 @@
 		}
 
 		public function repDia($a){
-			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, hor_check, notas_check, turno_per FROM check_mant
+			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, hor_check, notas_check, turno_per,status_per FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE dia_check = '$a[dia]' AND mes_check = '$a[mes]' AND anio_check = '$a[anio]'".$a['fal']."
+									WHERE status_per in(0,1) and dia_check = '$a[dia]' AND mes_check = '$a[mes]' AND anio_check = '$a[anio]'".$a['fal']."
 									ORDER BY turno_per,nombre_per ");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
@@ -830,9 +830,9 @@
 			}
 		}
 		public function repSema($a){
-			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, hor_check, ch_per, turno_per FROM check_mant
+			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, hor_check, ch_per, turno_per,status_per FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE semana_check = '$a[sem]' AND anio_check = '$a[anio]'
+									WHERE status_per in(0,1) and semana_check = '$a[sem]' AND anio_check = '$a[anio]'
 									ORDER BY turno_per, nombre_per,dia_check,tipo_check");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
@@ -844,9 +844,9 @@
 			}
 		}
 		public function repSemaPSS($a){
-			$query = $this->consulta("SELECT id_cpss, codigo_cpss, tipo_cpss, nombre_pss, horaCap_cpss, cargaHoraria_pss, turno_pss FROM checkPss_mant
+			$query = $this->consulta("SELECT id_cpss, codigo_cpss, tipo_cpss, nombre_pss, horaCap_cpss, cargaHoraria_pss, turno_pss,status_pss FROM checkPss_mant
 									INNER JOIN pss_mant ON codigo_cpss = codigo_pss
-									WHERE semana_cpss = '$a[sem]' AND anio_cpss = '$a[anio]'
+									WHERE status_pss = 'Activo' and semana_cpss = '$a[sem]' AND anio_cpss = '$a[anio]'
 									ORDER BY turno_pss, nombre_pss,dia_cpss,tipo_cpss");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
@@ -858,14 +858,10 @@
 			}
 		}
 		public function repMes($a,$b){
-			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
+			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check,status_per FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE mes_check = '$a[mes]' AND anio_check = '$a[anio]'".$a['fal'].(($a['anio']<date('Y'))?"":" AND fechcon_check <= '$b'").
+									WHERE status_per in(0,1) and mes_check = '$a[mes]' AND anio_check = '$a[anio]'".$a['fal'].(($a['anio']<date('Y'))?"":" AND fechcon_check <= '$b'").
 									" ORDER BY turno_per, nombre_per,dia_check,tipo_check ");
-			/*echo "SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
-									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE mes_check = '$a[mes]' AND anio_check = '$a[anio]'".$a['fal'].(($a['anio']<date('Y'))?"":" AND fechcon_check <= '$b'").
-									" ORDER BY turno_per, nombre_per,dia_check,tipo_check ";exit();*/
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;
@@ -880,10 +876,6 @@
 			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, mes_check, anio_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
 									WHERE codigo_check = '$a[id]' AND (fecha_check BETWEEN '$a[a]' AND '$a[b]') ORDER BY turno_per, nombre_per,dia_check,tipo_check ");
-			/*echo "SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
-									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE codigo_check = '$a[id]' AND (fecha_check BETWEEN '$a[a]' AND '$a[b]') ORDER BY turno_per, nombre_per,dia_check,tipo_check ";
-			exit();*/
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;
@@ -896,9 +888,9 @@
 
 		public function repMesPSS($a){
 			$a['mes'] = str_pad($a['mes'], 2, '0', STR_PAD_LEFT);
-			$query = $this->consulta("SELECT turno_pss, id_cpss, codigo_cpss, tipo_cpss, dia_cpss, horaCap_cpss,notas_cpss, nombre_pss,verifica_cpss,fechaCon_cpss FROM checkPss_mant
+			$query = $this->consulta("SELECT turno_pss, id_cpss, codigo_cpss, tipo_cpss, dia_cpss, horaCap_cpss,notas_cpss, status_pss, nombre_pss,verifica_cpss,fechaCon_cpss FROM checkPss_mant
 									INNER JOIN pss_mant ON codigo_cpss = codigo_pss
-									WHERE mes_cpss = '$a[mes]' AND anio_cpss = '$a[anio]' AND fechaCon_cpss <= '".date('Y-m-d H:i:s')."'
+									WHERE status_pss = 'Activo' and mes_cpss = '$a[mes]' AND anio_cpss = '$a[anio]' AND fechaCon_cpss <= '".date('Y-m-d H:i:s')."'
 									ORDER BY turno_pss, nombre_pss,dia_cpss,tipo_cpss ");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
@@ -1254,9 +1246,9 @@
 			$a['dia'] = (strlen($a['dia'])<2)?'0'.$a['dia']:$a['dia'];
 			$a['mes'] = (strlen($a['mes'])<2)?'0'.$a['mes']:$a['mes'];
 			$fecha = trim(htmlspecialchars($a['anio'].'-'.$a['mes'].'-'.$a['dia']));
-			$query = $this->consulta("SELECT id_cpss, codigo_cpss, tipo_cpss, nombre_pss, horaCap_cpss, notas_cpss, turno_pss FROM checkPss_mant
+			$query = $this->consulta("SELECT id_cpss, codigo_cpss, tipo_cpss, nombre_pss, horaCap_cpss, notas_cpss, turno_pss,status_pss FROM checkPss_mant
 									INNER JOIN pss_mant ON codigo_cpss = codigo_pss
-									WHERE dia_cpss = '$a[dia]' AND mes_cpss = '$a[mes]' AND anio_cpss = '$a[anio]' ".$a['fal']."
+									WHERE status_pss = 'Activo' and dia_cpss = '$a[dia]' AND mes_cpss = '$a[mes]' AND anio_cpss = '$a[anio]' ".$a['fal']."
 									ORDER BY turno_pss,nombre_pss ");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {

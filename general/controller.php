@@ -1195,6 +1195,7 @@
 				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
 			}
 			$cal['data'] = $this->data->getPersonal();
+			//echo '<pre>';print_r($cal['data']);echo '</pre>';exit();
 			return render_to_response(vista::page('reportesFal.html',$cal));
 		}
 		public function repFal(){
@@ -1459,10 +1460,15 @@
 			if($_POST){
 				header('location:../reporte-especial.pdf');
 			}else{
-				$fecha = explode("-", $_GET['inicio']);
-				$_GET['a'] = $fecha[2]."-".($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
+				/*$fecha = explode("-", $_GET['inicio']);
+				$fecha[1] = str_pad($fecha[1], 2, '0', STR_PAD_LEFT);
+				$fecha[0] = str_pad($fecha[0], 2, '0', STR_PAD_LEFT);
+				$_GET['a'] = "$fecha[2]-$fecha[1]-$fecha[0]"; //($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
 				$fecha = explode("-", $_GET['fin']);
-				$_GET['b'] = $fecha[2]."-".($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
+				$fecha[1] = str_pad($fecha[1], 2, '0', STR_PAD_LEFT);
+				$fecha[0] = str_pad($fecha[0], 2, '0', STR_PAD_LEFT);
+				$_GET['b'] = "$fecha[2]-$fecha[1]-$fecha[0]"; //$fecha[2]."-".($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
+				*/
 				$repo = $this->data->repEsp($_GET);
 				$data = array();
 					$faltasen = $faltassal = $i = $j = 0;
@@ -1906,8 +1912,8 @@
 		public function appAdmin(){
 			if ($_POST) {
 				$json = json_encode($_POST);
-				//echo $json;exit();
 				@file_put_contents("main/templates/complementos/apps.json", $json);
+				echo $json."\nalgo";exit();
 				return HttpResponse('index.php/');
 			}else{
 				$str_datos = file_get_contents("main/templates/complementos/apps.json");
@@ -1938,7 +1944,7 @@
     						"repFal",
     						"repFal2",
     						"capVaca",
-    						"diaRegalo",
+    						//"diaRegalo",
     						"Oficialia",
     						"Reporte_ofi",
     						"cambiar_imagen",
@@ -2052,14 +2058,14 @@
 		}
 
 
-		public function diaRegalo(){
+		/*public function diaRegalo(){
 			echo "Juan";
-		}
+		}*/
 
 
 
 
-		public function especial()
+		/*public function especial()
 		{
 			$data = $this->data->checkmaster();
 			$sql = "";
@@ -2073,7 +2079,7 @@
 			}
 			echo '<pre>'.$sql.'</pre>';
 			exit();
-		}
+		}*/
 
 
 
@@ -2125,346 +2131,4 @@
 		}
 	}
 
-
-				
-					//.').jpg';//.$ext;//$_FILES['foto']['name'][$i];//echo'<pre>';print_r($_POST);echo'</pre>';exit();
-					//echo '<pre>';print_r($_POST);print_r($sis);echo '</pre>';exit();//exit();//return JsonResponse($d);
-					//echo '<pre>';print_r($arr);echo '</pre>';exit();
-					//echo '<pre>';print_r($arr);echo "</pre>";exit();
-					//$cod['get'] = $_GET['codigoBus'];
-					//$nombreFichero = $_POST['codeFecha'].'.jpg';
-					//echo '<pre>';print_r($_POST);print_r($_FILES);echo '</pre>';exit();
-					//$arr['foto2'] = ($_FILES['foto2']['name']);
-					//$this->fpdf($_POST['codeFecha'],$_POST['prod'],$dep,$_POST['des'],$_POST['nCap'], $nffa['nombre_ffa']);//else{//}
-					//echo '<pre>'.print_r($sali).'</pre>';exit();
-				//$_FILES['foto']['name'];
-
-
-
-				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-				//echo '<pre>';print_r($_POST);echo'</pre>';exit();
-				//$_POST['cod'] = date('syimHd');
-				/*else{
-					if($_POST['options'] == 0){
-						$_POST['options'] = 1;
-					}
-					$_POST['fecha'] = date('j-n-y');
-					$_POST['hora'] = date('H:m');
-					$this->data->solSer($_POST);
-				}*/
-				//dpSal($_SESSION['depen_user']);
-				//$_FILES['foto']['name'];
-					//echo '<pre>';print_r($_POST);echo $sql. '</pre>';exit();
-				//echo '<pre>';print_r($_POST);echo $a.$b;echo '</pre>';exit();
-					//echo '<pre>';print_r($arr);echo '</pre>';exit();
-					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-							//echo 'Hora: '.$_POST['horc'][$i].'<br>';
-								//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-						//$datos[$_POST['id'][$i]] = ['']
-					//echo '<pre>';print_r($datos);echo '</pre>';exit();
-						//echo 'Consulta:<br>'.$sql.$final.'<br>';
-					//exit();
-					//echo '<pre>';print_r($_POST);print_r($datos);print_r($consultas); echo '</pre>';exit();
-								//date('H:i:s',mktime(date('H:i:s',$hora)-date('H:i:s',$value['horaCap_cpss'])));//($salida-$entrada));
-								//$horaExt = strtotime('-'.strtotime($hora), strtotime($value['horaCap_cpss']);// - $hora;
-
-
-				//echo"<pre>";print_r($_POST);echo"</pre>";
-				//echo '<pre>';print_r($_GET);echo '</pre>';exit();
-				//echo '<pre>';print_r($repo);echo '</pre>';exit();
-				//echo '<pre>';print_r($data);echo '</pre>';exit();
-				//echo '<pre>';print_r($repo);echo'</pre>';exit();
-				//echo'<pre>';print_r($faltas);echo '</pre>';exit();
-				//echo'<pre>';print_r($datos);echo '</pre>';exit();
-						//$_FILES['foto']['name'];
-				//echo '<pre>';print_r($arr);echo '</pre>';exit();
-					//echo '<pre>';print_r($serv);echo '</pre>';exit();
-					//echo '<pre>';print_r($serv);echo '</pre>';exit();
-					//$serv['per'] = $this->data->selecper($ar);
-					//echo '<pre>';print_r($seg['pen']);echo '</pre>';exit();
-				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-				//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-
-					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-
-						//$dia[0] = $dia[1];
-						//$dia[1] = '';
-
-						//$mes[0] = $mes[1];
-						//$mes[1] = '';
-
-						//if($value['fecha'][1]<10) $value['fecha'][1][0] = '';
-//.str_replace(':','',$value['Entrada']);
-
-									//echo '<pre>';print_r($value);echo '</pre>';exit();
-
-										//echo '<pre>';print_r($value);echo '</pre>';exit();
-
-										//echo '<pre>';print_r($value);echo '</pre>';exit();
-
-
-
-					//echo '<pre>';print_r($_POST['extra']);echo '</pre>';exit();
-
-					//echo '<pre>';print_r($_POST['cor']);echo '</pre>';exit();
-
-									//elseif($value['comparar']<=($check['horcap_check'])+30) $value['verifica'] = 3;
-
-									//elseif($value['comparar']>=($check['horcap_check'])+30) $value['verifica'] = 3;
-
-								//echo '<pre>'.$value['comparar'].'</pre>';exit();
-
-				//echo"<pre>";print_r($_POST);echo"</pre>";
-
-					//echo"<pre>";print_r($data);echo"</pre>";exit();
-
-					//$nom = $repo[0]['nombre_per'];
-
-					//echo '<pre>';print_r($data);echo '</pre>';exit();
-
-				//echo"<pre>";print_r($_POST);echo"</pre>";
-
-				//unlink('reporte-mensual-'.$_GET['mes'].'.pdf');
-
-					//echo '<pre>';print_r($repo);echo '</pre>';exit();
-//$dia == $value['dia_check']){
-
-							//$data[$i]['turno'] = $value['turno_per'];
-
-					//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
-
-					//echo'<pre>';print_r($datos);echo '</pre>';exit();
-
-					//echo '<pre>'.$dia.'</pre>';exit();
-					//echo '<pre>';print_r($repo);echo '</pre>';exit();
-
-				//unlink('reporte-mensual-'.$_GET['mes'].'.pdf');
-
-				//if(!$_GET['fal']){
-					//$repo = $this->data->repMes($_GET);
-
-					#echo '<pre>';print_r($repo);echo '</pre>';exit();
-
-							//$entrada = $salida = 0;
-
-								//$entrada = $salida = 0;
-
-									//$entrada = $salida = 0;
-
-							//$data[$i]['turno'] = $value['turno_per'];
-
-
-
-					//echo'<pre>';print_r($faltas);echo '</pre>';exit();	
-					//$this->pdfREs($datos,$faltas,$fecha);
-
-				/*}else{
-					//echo '<pre>'.$dia.'</pre>';exit();
-					//echo '<pre>';print_r($repo);echo '</pre>';exit();
-					foreach ($repo as $key => $value) {
-						if($nom != $value['nombre_per']){
-							$nom = $value['nombre_per'];
-							$dia = $value['dia_check'];
-							$datos[$nom]['totalE'] = $datos[$nom]['totalS'] = 0;
-							if($value['tipo_check'] == 1){
-								$datos[$nom][$dia]['entrada'] = true;
-								$datos[$nom]['totalE']++;
-							}else{
-								$datos[$nom][$dia]['salida'] = true;
-								$datos[$nom]['totalS']++;
-							}
-						}else{
-							if($dia == $value['dia_check']){
-								if($value['tipo_check'] == 1){
-									$datos[$nom][$dia]['entrada'] = true;
-									$datos[$nom]['totalE']++;
-								}else{
-									$datos[$nom][$dia]['salida'] = true;
-									$datos[$nom]['totalS']++;
-								}
-							}else{
-								$dia = $value['dia_check'];
-								if($value['tipo_check'] == 1){
-									$datos[$nom][$dia]['entrada'] = true;
-									$datos[$nom]['totalE']++;
-								}else{
-									$datos[$nom][$dia]['salida'] = true;
-									$datos[$nom]['totalS']++;
-								}
-							}
-						}
-						$nom = $value['nombre_per'];
-					}
-					return render_to_response(vista::pageWhite('recordFaltas.html',$datos,'Reporte de Faltas'));
-				}*/
-
-			/*$arr = $this->data->personalSS();
-			$hoy = 1;*/
-
-			//echo '<pre>';print_r($arr);echo'</pre>';exit();
-
-					//echo '<pre>';print($_POST);echo '</pre>';exit();
-
-					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-//|| $_POST['con'] == 1 || $_POST['con'] == 2 || $_POST['con'] == 3){
-//echo 
-						/*if($_POST['con'] == 6){
-							$_POST['options'] = 6;
-							$this->data->solSer($_POST);
-						}*/
-						//$ya = true;
-
-					//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-					//echo json_encode($_FILES);exit();
-
-						//$nombreFichero = $_POST['numero'].'.jpg';
-
-						//echo '<pre>';print_r($post);echo '</pre>';exit();
-
-					/*$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
-					$nombreFichero = $_FILES['foto']['name'];
-					if($_POST['foto1'] != $nombreFichero){
-						move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
-						$_POST['foto'] = $_FILES['foto']['name'];
-					}else{
-						$_POST['foto'] = $_POST['foto1'];
-					}*/
-
-						//$nombreFichero = $_POST['numero'].'.jpg';
-
-						//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-						//echo 'holas';exit();
-
-					/*if($_POST['fecha_eve'] != ""){
-						$fecha = explode('/', $_POST['fecha_eve']);
-						$_POST['fecha_eve'] = $fecha[2].'-'.(($fecha[1]<10)?'0'.$fecha[1]:$fecha[1]).'-'.(($fecha[0]<10)?'0'.$fecha[0]:$fecha[0]);
-						$_POST['semana_eve'] = date('W',  mktime(0,0,0,$fecha[1],$fecha[0],$fecha[2]));
-					}*/
-
-					//echo '<pre>';print_r($_POST);echo'</pre>';exit();
-
-						//echo '<pre>';print_r($post);echo '</pre>';exit();
-
-						//echo '<pre>';print_r($post);echo '</pre>';exit();
-
-							//echo '<pre>';print_r($post[$count]);echo '</pre>';exit();
-
-							//echo '<pre>';print_r($_POST);echo '</pre>';exit();
-//$this->data->actEventoData($_POST);
-
-					//echo '<pre>';print_r($_GET);echo '</pre>';exit();
-
-					//echo '<pre>';print_r($arr);echo '</pre>';exit();
-					
-						/*$otro['files'] = $_FILES;
-						$otro['post'] = $_POST;
-						//echo json_encode($otro);exit();
-						$replace = array('-','/',' ','.',',');
-						$_POST['no'] = str_replace($replace, '', $_POST['no']);
-						$archivo = $_POST['no'];
-						$id = $_POST['id'];
-						$carpeta = 'main/templates/complementos/archivos_oficios/';
-						@copy($_FILES['archivo']['tmp_name'], $carpeta.$archivo.'.pdf');
-						$this->data->savePDFofi($archivo.'.pdf',$id);
-						$otro['archivo'] = $archivo.'.pdf';
-						echo json_encode($otro);exit();*/
-
-						/*if($_POST['edit']){
-							$nombreDirectorio = "main/templates/complementos/fotos_oficios/";
-							$nombreFichero = $_FILES['foto']['name'];
-							move_uploaded_file($_FILES['foto']['tmp_name'], $nombreDirectorio.$nombreFichero);
-							$_POST['foto'] = $_FILES['foto']['name'];
-							$_POST['des'] = strtoupper($_POST['des']);
-							//echo '<pre>';print_r($_POST);echo'</pre>';exit();
-							$this->data->actualizarOficio($_POST);
-						}else{*/
-							//echo '<pre>';print_r($_POST);echo'</pre>';exit();
-
-							//echo '<pre>';print_r($us);echo'</pre>';exit();
-
-							//echo '<pre>'.$arr['inf'].'</pre>';exit();
-
-							//echo '<pre>';print_r($arr);print_r($us);echo'</pre>';exit();
-						//}
-
-		/*public function Reporte_ofi(){
-			if($_GET['edit']){
-				$arr['inf'] = $this->data->verOficio($_GET['edit']);
-				$arr['dep'] = $this->data->depSel();
-				return render_to_response(vista::page('oficialia.html',$arr));
-			}
-			$arr['dh'] = $this->data->verOfiHoy();
-			foreach ($arr['dh'] as $key => $value) {
-				$fecha = explode('-', $value['fecha_ofi']);
-				$fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
-				$arr['dh'][$key]['fecha_ofi'] = $fecha;
-			}
-			$arr['dep'] = $this->data->depSel();
-			$arr['todo'] = $this->data->oficios();
-			foreach ($arr['todo'] as $key => $value) $caps[] = $value['userCap_ofi'];
-			$arr['caps'] = array_unique($caps);
-			foreach ($arr['todo'] as $key => $value) $caps[] = $value['no_ofi'];
-			$arr['nums'] = array_unique($caps);
-			//if($_POST &&)
-			if($_FILES){
-				$otro['files'] = $_FILES;
-				$otro['post'] = $_POST;
-				$archivo = $_POST['no'];
-				$id = $_POST['id'];
-				$carpeta = 'main/templates/complementos/archivos_oficios/';
-				move_uploaded_file($_FILES['archivo']['tmp_name'], $carpeta.$archivo);
-				$this->data->savePDFofi($archivo,$id);
-				echo json_encode($otro);exit();
-			}
-			if($_POST && !$_FILES){
-				if($_POST['id'] && $_POST['delete']){
-					$oficios = $this->data->verOficio($_POST['id']);
-					//$oficios = $this->data->verServicio($oficios['no_ofi'])
-					$oficios = $this->data->elimServOfi($oficios['no_ofi']);
-					$this->data->borrarOficio($_POST['id']);
-				}elseif($_POST['id'] && $_POST['ver']){
-					$oficios = $this->data->verOficio($_POST['id']);
-				}else{
-					if($_POST['all']){
-						$oficios = $this->data->oficios();
-					}else{
-						$us['pro'] = $_POST['prod'];
-						$us['dp'] = $_POST['dep'];
-						$us['fec'] = $_POST['anio']."-".$_POST['mes']."-".$_POST['dia'];
-						$us['con'] = $_POST['con'];
-						$us['num'] = $_POST['num'];
-						$us['cl'] = strtoupper($_POST['cl']);
-						if($_POST['fecIni']&&$_POST['fecFin']){
-							$fecha = explode('/', $_POST['fecIni']);
-							$us['inicio'] = $fecha[2].'-';
-							$us['inicio'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
-							$us['inicio'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
-							$fecha = explode('/', $_POST['fecFin']);
-							$us['fin'] = $fecha[2].'-';
-							$us['fin'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
-							$us['fin'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
-							$us['rango'] = true;
-						}
-						$oficios = $this->data->busofi($us);
-					}
-				}
-				echo json_encode($oficios);exit();
-			}
-			return render_to_response(vista::page('repo_ofi2.html',$arr));
-		}*/
-
-				//echo '<pre>';print_r($_FILES);print_r($dirs);print_r($names);echo '</pre>';exit();
-
-    						//"repSalidaAut",
-
-    						//"Reporte_ofi2",
-
-			//echo "Iniciando...\n\n";
-
-			//echo '<pre>';print_r($data);echo '</pre>';
-
-				//echo '<pre>';print_r($value);echo "fecha:".$fecha."</pre>";
-
-			//$this->data->query($sql);
-			//echo "\nListo :)";
 ?>

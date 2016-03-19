@@ -875,7 +875,8 @@
 		public function repEsp($a){
 			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, mes_check, anio_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE codigo_check = '$a[id]' AND (fecha_check BETWEEN '$a[a]' AND '$a[b]') ORDER BY turno_per, nombre_per,dia_check,tipo_check ");
+									WHERE codigo_check = '$a[id]' AND (fecha_check BETWEEN '$a[a]' AND '$a[b]') ORDER BY fecha_check,dia_check,tipo_check ");
+			
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;
@@ -1271,7 +1272,7 @@
 			}
 		}
 		public function getPersonal(){
-			$query = $this->consulta("SELECT nombre_per,cod_per FROM personal_mant WHERE status_per != 4 ");
+			$query = $this->consulta("SELECT nombre_per,cod_per FROM personal_mant WHERE status_per in(0,1) ");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;

@@ -1470,6 +1470,7 @@
 				$_GET['b'] = "$fecha[2]-$fecha[1]-$fecha[0]"; //$fecha[2]."-".($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
 				*/
 				$repo = $this->data->repEsp($_GET);
+				//echo '<pre>';print_r($repo);exit();
 				$data = array();
 					$faltasen = $faltassal = $i = $j = 0;
 #################### Proceso de calculo de horas trabajadas ####################
@@ -1523,11 +1524,11 @@
 							$array['resultado'] = $resultado;
 							$datos[$_anio][$_mes][$_dia] = $array;
 						}
-
+						$nombre = $value['nombre_per'];
 					}
-					echo '<pre>';print_r($datos);echo '</pre>';exit();
+					//echo '<pre>';print_r($datos);echo '</pre>';exit();
 #################### ************************************* ####################
-					foreach ($repo as $key => $value){
+					/*foreach ($repo as $key => $value){
 						if($per != $value['nombre_per']){
 							if($faltasen > $faltassal){
 								$datos['faltas'][$j] = $faltasen;
@@ -1570,8 +1571,10 @@
 					for($i=0;$i<count($datos['faltas']);$i++){ $faltas[$i] = $datos['faltas'][$i];} 
 					unset($datos['faltas']);
 					for($i=0;$i<count($faltas);$i++){ $datos['faltas'][$i] = $faltas[$i];} 
-					echo'<pre>';print_r($datos);echo '</pre>';exit();
-					return render_to_response(vista::pageWhite('recordAsis.html',$datos,'Reporte de asistencia'));
+					echo'<pre>';print_r($datos);echo '</pre>';exit();*/
+					$datos1['data'] = $datos;
+					$datos1['nombre'] = $nombre;
+					return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
 			}
 		}
 

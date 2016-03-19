@@ -157,6 +157,50 @@
 			<div class="panel-heading">Aún no se llega este mes</div>
 		</div>
 	<?php endif;?>
+<?php elseif ($_GET['a'] && $_GET['b']):?>
+
+	<div class="panel panel-warning">
+		<div class="panel-heading">
+			<?=$arr['nombre']?>
+		</div>
+		<div class="panel-body">
+			<!--<pre><?php print_r($arr['data']);?></pre>	-->
+			<table class="table table-bordered">
+				<?php foreach ($arr['data'] as $key => $value) {?>
+					<tr>
+						<td colspan="7" style="font-weight: bold;color:#73CCD6"><?=$key?></td>
+					</tr>
+					<?php foreach ($value as $_key => $_value) { ?>
+						<tr>
+							<td colspan="7" style="font-weight: bold;color:#73CCD6"><?=$mes[$_key-1]?></td>
+						</tr>
+						<tr>
+							<td><strong>[dia]</strong></td>
+							<td><strong>[nombre]</strong></td>
+							<td><strong>[ent]</strong></td>
+							<td><strong>[not]</strong></td>
+							<td><strong>[sal]</strong></td>
+							<td><strong>[not]</strong></td>
+							<td><strong>[ho]</strong></td>
+						</tr>
+						<?php foreach ($_value as $__key => $__value) {?>
+							<tr>
+								<td><?=$__key?></td>
+								<td><?=$arr['nombre']?></td>
+								<td><?=$__value['entrada']?></td>
+								<td><?=$__value['notas_ent']?></td>
+								<td><?=$__value['salida']?></td>
+								<td><?=$__value['not_sal']?></td>
+								<td><?=$__value['resultado']?></td>
+							</tr>
+						<?php }?>
+
+					<?php } ?>
+				<?php } ?>
+			</table>
+		</div>
+	</div>
+
 <?php else:?>
 	<div class="panel panel-warning">
 		<div class="panel-heading">

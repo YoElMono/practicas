@@ -138,10 +138,57 @@
 		<?php if($arr['mes_hoy'] == date('m') && $arr['anio_hoy'] == date('Y')):?>
 			<h3>Progreso del mes</h3>
 			<div class="progress">
-				<div class="progress-bar progress-bar-success WEA  progress-bar-striped active" role="progressbar" aria-valuenow="<?=$arr['dia_ac']?>" aria-valuemin="1" aria-valuemax="<?=$arr['nd_mes']?>" style="width: <?= round((date('j')*100)/$arr['nd_mes'])?>%">
+				<div class="progress-bar progress-bar-success WEA progress-bar-striped active" role="progressbar" aria-valuenow="<?=$arr['dia_ac']?>" aria-valuemin="1" aria-valuemax="<?=$arr['nd_mes']?>" style="width: <?= round((date('j')*100)/$arr['nd_mes'])?>%">
 	    			<?=round((date('j')*100)/$arr['nd_mes'])?>%
-	  			</div>
+	    		</div>
 			</div>
 		<?php endif;?>
+		<div class="panel panel-default">
+			<div class="panel-heading">Reporte Especial</div>
+			<div class="panel-body">
+				<div class="col-md-6">
+						<label class="col-md-4 control-label">Personal</label>
+						<div class="col-md-8">
+							<select class="form-control" name="codigo" id="codigo">
+								<option value=""> --- </option>
+								<?php foreach ($arr['data'] as $key => $value) { ?>
+									<option value="<?=$value['cod_per']?>"><?=$value['nombre_per']?></option>
+								<?php } ?>
+							</select>
+						</div>
+				</div>
+				<div class="col-md-6">
+					<div class="col-md-12">
+						<label class="col-md-2 control-label">De:</label>
+						<div class="col-md-10">
+							<input class="form-control" name="de" id="de" type="text" readonly>
+						</div>
+					</div>
+					<div class="col-md-12" style="margin-top:0px;">					
+						<label class="col-md-2 control-label">A:</label>
+						<div class="col-md-10">
+							<input class="form-control" name="a" id="a" type="text" readonly>
+						</div>
+					</div>
+				</div>
+				<button class="btn btn-default" onclick="crearReporte();return false;">Crear Reporte</button>
+			</div>
+		</div>
+		<!--<div class="panel-body">-->
+		<!--</div>-->
  	</div>
 </div>
+
+<script type="text/javascript">
+	$(function () {
+		$('#de,#a').calendario();
+	});
+	function crearReporte () {
+		var codigo = $('#codigo'), de = $('#de'), a = $('#a');
+		if(codigo.val() == "" || de.val() == "" || a.val() == ""){
+			alert("faltan datos");
+		}else{
+			abrirVentana('index.php/repEs?id='+codigo.val()+'&a='+de.val()+'&b='+a.val());
+		}
+	}
+</script>

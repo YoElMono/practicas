@@ -45,7 +45,7 @@
 		case 'restringido':{$objects["principal"]->staticPage('restringido.html');}break;
 		case 'diaLibre':{$objects["principal"]->diaLibre();}break;
 		case 'capVaca':{$objects["principal"]->capVaca();}break;
-		case 'diaRegalo':{$objects["principal"]->diaRegalo();}break;
+		//case 'diaRegalo':{$objects["principal"]->diaRegalo();}break;
 		case 'vacDia':{$objects["principal"]->vacDia();}break;
 		case 'Oficialia':{$objects["principal"]->Oficialia();}break;
 		case 'Reporte_ofi':{$objects["principal"]->Reporte_ofi();}break;

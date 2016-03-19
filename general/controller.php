@@ -1460,20 +1460,9 @@
 			if($_POST){
 				header('location:../reporte-especial.pdf');
 			}else{
-				/*$fecha = explode("-", $_GET['inicio']);
-				$fecha[1] = str_pad($fecha[1], 2, '0', STR_PAD_LEFT);
-				$fecha[0] = str_pad($fecha[0], 2, '0', STR_PAD_LEFT);
-				$_GET['a'] = "$fecha[2]-$fecha[1]-$fecha[0]"; //($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
-				$fecha = explode("-", $_GET['fin']);
-				$fecha[1] = str_pad($fecha[1], 2, '0', STR_PAD_LEFT);
-				$fecha[0] = str_pad($fecha[0], 2, '0', STR_PAD_LEFT);
-				$_GET['b'] = "$fecha[2]-$fecha[1]-$fecha[0]"; //$fecha[2]."-".($fecha[1]<10?"0".$fecha[1]:$fecha[1])."-".($fecha[0]<10?"0".$fecha[0]:$fecha[0]);
-				*/
 				$repo = $this->data->repEsp($_GET);
-				//echo '<pre>';print_r($repo);exit();
 				$data = array();
 					$faltasen = $faltassal = $i = $j = 0;
-#################### Proceso de calculo de horas trabajadas ####################
 					$_mes = $_anio = $_dia = 0;
 
 					foreach ($repo as $key => $value) {
@@ -1526,52 +1515,6 @@
 						}
 						$nombre = $value['nombre_per'];
 					}
-					//echo '<pre>';print_r($datos);echo '</pre>';exit();
-#################### ************************************* ####################
-					/*foreach ($repo as $key => $value){
-						if($per != $value['nombre_per']){
-							if($faltasen > $faltassal){
-								$datos['faltas'][$j] = $faltasen;
-								$faltasen = 0; $faltassal = 0;$j++;
-							}else{
-								$datos['faltas'][$j] = $faltassal;
-								$faltasen = 0; $faltassal = 0;$j++;
-							}
-						}
-						$per = $value['nombre_per'];
-						if($dia == $value['dia_check']){
-							$datos[$i]['sal'] = $value['hor_check'];
-							$datos[$i]['notSal'] = $value['notas_check'];
-							$ho[2]=str_replace(":","",$value['hor_check']);
-							$ho[3]=substr($ho[2], 0, -2);$ho[2]=substr($ho[2], -2);
-							if($value['turno_per'] == 3) $ho[3]+=24;
-							$ho[2]+=($ho[3]*=60);$ho[0] = $ho[2]-$ho[1];
-							$ho[1]=floor(($ho[0]/60));$ho[2]=($ho[0]%60);
-							if($ho[2]<0)$ho[2]=0;
-							if($ho[2]<10)$ho[2]="0".$ho[2];
-							$ho[3]=$ho[1].":".$ho[2];
-							$datos[$i]['hor'] = $ho[3];
-							if($value['verifica_check'] == 4) $faltassal++;
-							$i++;
-						}else{
-							$datos[$i]['dia'] = $value['dia_check'];
-							$datos[$i]['nom'] = $value['nombre_per'];
-							$datos[$i]['ent'] = $value['hor_check'];
-							$datos[$i]['notEnt'] = $value['notas_check'];
-							$datos[$i]['turno'] = $value['turno_per'];
-							$hora=$value['hor_check'];
-							$ho[1]=str_replace(":","",$value['hor_check']);
-							$ho[2]=substr($ho[1], 0, -2);$ho[1]=substr($ho[1], -2);
-							$ho[1]+=($ho[2]*=60);
-							if($value['verifica_check'] == 4) $faltasen++;
-						}
-						$dia = $value['dia_check'];
-					}
-					$fecha = $_GET['mes'];
-					for($i=0;$i<count($datos['faltas']);$i++){ $faltas[$i] = $datos['faltas'][$i];} 
-					unset($datos['faltas']);
-					for($i=0;$i<count($faltas);$i++){ $datos['faltas'][$i] = $faltas[$i];} 
-					echo'<pre>';print_r($datos);echo '</pre>';exit();*/
 					$datos1['data'] = $datos;
 					$datos1['nombre'] = $nombre;
 					return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
@@ -1916,7 +1859,7 @@
 			if ($_POST) {
 				$json = json_encode($_POST);
 				@file_put_contents("main/templates/complementos/apps.json", $json);
-				echo $json."\nalgo";exit();
+				//echo $json."\nalgo";exit();
 				return HttpResponse('index.php/');
 			}else{
 				$str_datos = file_get_contents("main/templates/complementos/apps.json");

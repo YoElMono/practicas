@@ -26,6 +26,9 @@ footer{
 .error{
 	color:red;
 }
+.bordeError{
+	border-color: red;
+}
 aside{
 	float:right; 
 	padding:5px; 

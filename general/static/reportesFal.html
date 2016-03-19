@@ -182,11 +182,26 @@
 <script type="text/javascript">
 	$(function () {
 		$('#de,#a').calendario();
+
+		$('#codigo,#de,#a').click(function (event) {
+			console.log(event);
+			$(this).removeClass('bordeError');
+		});
 	});
 	function crearReporte () {
 		var codigo = $('#codigo'), de = $('#de'), a = $('#a');
-		if(codigo.val() == "" || de.val() == "" || a.val() == ""){
-			alert("faltan datos");
+		if(codigo.val() == "") {
+			alert("Debe de seleccíonar a un trabajador");
+			codigo.addClass('bordeError');
+			return false;
+		}else if(de.val() == "" ){
+			alert("Falta la fecha de inicio");
+			de.addClass('bordeError');
+			return false;
+		}else if(a.val() == "" ){
+			alert("Falta la fecha final");
+			a.addClass('bordeError');
+			return false;
 		}else{
 			abrirVentana('index.php/repEs?id='+codigo.val()+'&a='+de.val()+'&b='+a.val());
 		}

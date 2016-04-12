@@ -369,7 +369,7 @@
 			}
 		}
 		public function perespSS($id){
-			$query = $this->consulta("SELECT * FROM pss_mant WHERE codigo_pss = $id and status_pss != 'Inactivo'");
+			$query = $this->consulta("SELECT * FROM pss_mant WHERE codigo_pss = '$id' and status_pss != 'Inactivo'");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;

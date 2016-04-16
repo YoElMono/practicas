@@ -4,6 +4,9 @@
 	$mes = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
 ?>
 <?php if($_GET['dia'] && $arr):?>
+
+	<pre><?= print_r($arr)?></pre>
+
 	<?php if($_GET['mes']< 10 && strlen($_GET['mes']) == 1) $_GET['mes'] = '0'.$_GET['mes'];if($_GET['dia']< 10 && strlen($_GET['dia']) == 1) $_GET['dia'] = '0'.$_GET['dia']; $hoy = $_GET['anio'].$_GET['mes'].$_GET['dia'];$mañana=date('Ymd')?>
     <?php if($hoy <= date('Ymd')):?>
     	<?php $hoy=$_GET['dia'].' de '.$mes[$_GET['mes']-1].' de '.$_GET['anio'];$turno = 0;?>
@@ -31,9 +34,9 @@
 						<?php endif;?>
 					<tr>
 						<td><?=$value['nom']?></td><input type="hidden" value="<?=$value['nom']?>" name="<?=$key?>[nom]">
-						<td><?=$value['horE']?></td><input type="hidden" value="<?=$value['horE']?>" name="<?=$key?>[horEn]">
+						<td><?=$value['horaE']?></td><input type="hidden" value="<?=$value['horaE']?>" name="<?=$key?>[horEn]">
 						<td><?=$value['notE']?></td><input type="hidden" value="<?=$value['notE']?>" name="<?=$key?>[notE]">
-						<td><?=$value['horS']?></td><input type="hidden" value="<?=$value['horS']?>" name="<?=$key?>[horSa]">
+						<td><?=$value['horaS']?></td><input type="hidden" value="<?=$value['horaS']?>" name="<?=$key?>[horSa]">
 						<td><?=$value['notS']?></td><input type="hidden" value="<?=$value['noteS']?>" name="<?=$key?>[notS]">
 						<td><?=$value['hor']?></td><input type="hidden" value="<?=$value['hor']?>" name="<?=$key?>[hor]">
 						<input type="hidden" value="<?=$value['turno']?>" name="<?=$key?>[turno]">

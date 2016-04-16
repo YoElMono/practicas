@@ -1272,7 +1272,7 @@
 							$ho[1]=str_replace(":","",$value['hor_check']);
 							$ho[2]=substr($ho[1], 0, -2);$ho[1]=substr($ho[1], -2);
 							$ho[1]+=($ho[2]*=60);
-							$data[$i] = array('horE'=>$value['hor_check'],'notE'=>$value['notas_check']);
+							$data[$i] = array('horaE'=>$value['hor_check'],'notE'=>$value['notas_check']);
 						}else{
 							if(!$hora) $ho[3] = 'Entrada';
 							else{
@@ -1288,7 +1288,7 @@
 									$ho[3]=$ho[1].":".$ho[2];
 								}
 							} 
-							$data[$i]['horS']=$value['hor_check'];$data[$i]['notS']=$value['notas_check'];
+							$data[$i]['horaS']=$value['hor_check'];$data[$i]['notS']=$value['notas_check'];
 							$data[$i]['nom']=$per;$data[$i]['hor']=$ho[3];$data[$i]['turno']=$value['turno_per'];$i++;
 						}
 						$per = $value['nombre_per'];

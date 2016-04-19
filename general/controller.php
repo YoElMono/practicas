@@ -1034,7 +1034,7 @@
 					}
 				}elseif($_POST['ver'] == 0){foreach ($_POST['jus'] as $key => $value){if($value['id']){$this->data->jusf($value['id'],$value['nota'],$value['hor'],$_POST['ver']);}}}
 				elseif($_POST['ver'] == 1){
-					//echo '<pre>';print_r($_POST['cor']);echo '</pre>';exit();
+					echo '<pre>';print_r($_POST['cor']);echo '</pre>';exit();
 					foreach ($_POST['cor'] as $key => $value){
 						if($value['id']){
 							for($i=$value['id'];$i<=($value['id']+1);$i++){

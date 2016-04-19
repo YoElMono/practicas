@@ -329,7 +329,7 @@
 		public function personal(){
 			$query = $this->consulta("SELECT * FROM personal_mant
 									INNER JOIN areas_mant ON area_per = id_area
-									WHERE (status_per = 1 or status_per = 0) and tc_per != 'SS' 
+									WHERE status_per in(0,1) and tc_per != 'SS' 
 									ORDER BY turno_per,nombre_per ASC");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
@@ -716,10 +716,10 @@
 		public function conHor($fec,$nom = ''){
 			$a = '';
 			if($nom)
-				$a = 'and codigo_check = "'.$nom.'" and status_per in (0,1) ';
+				$a = " and codigo_check = '$nom'";
 			$query = $this->consulta("SELECT * FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE verifica_check = 0 AND fecha_check < '$fec'".$a."
+									WHERE verifica_check = 0 AND fecha_check < '$fec'".$a." and status_per in (0,1)
 									ORDER BY turno_per, nombre_per ASC 
 									LIMIT 0, 25");
 			if($this->numero_de_filas($query) > 0){
@@ -737,7 +737,7 @@
 		public function faltantes($a){
 			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, horcap_check, hor_check,verifica_check,notas_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE dia_check = '$a[dia]' AND mes_check = '$a[mes]' AND anio_check = '$a[anio]'
+									WHERE dia_check = '$a[dia]' AND mes_check = '$a[mes]' AND anio_check = '$a[anio]' and status_per in (0,1)
 									ORDER BY nombre_per,tipo_check ASC");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
@@ -1188,6 +1188,13 @@
 		}
 		public function bajaPSS($id,$tipo){
 			$this->consulta("UPDATE pss_mant SET status_pss = '$tipo' WHERE id_pss = '$id'");
+			$query = $this->consulta("SELECT codigo_pss FROM pss_mant WHERE id_pss = $id ");
+			if($this->numero_de_filas($query)>0){
+				while($datos = $this->fetch_assoc($query))
+					$data[] = $datos;
+			}
+			$codigo = $data[0]['codigo_pss'];
+			//$this->consulta("UPDATE checkPss_mant SET verifica_cpss = 5 WHERE codigo_cpss = '$codigo' and verifica_cpss = 0 ");
 		}
 		public function getDataPSS($id)	{
 			$query = $this->consulta("SELECT * FROM pss_mant WHERE id_pss = '$id'");

@@ -1034,7 +1034,7 @@
 					}
 				}elseif($_POST['ver'] == 0){foreach ($_POST['jus'] as $key => $value){if($value['id']){$this->data->jusf($value['id'],$value['nota'],$value['hor'],$_POST['ver']);}}}
 				elseif($_POST['ver'] == 1){
-					echo '<pre>';print_r($_POST['cor']);echo '</pre>';exit();
+					//echo '<pre>';print_r($_POST['cor']);echo '</pre>';exit();
 					foreach ($_POST['cor'] as $key => $value){
 						if($value['id']){
 							for($i=$value['id'];$i<=($value['id']+1);$i++){
@@ -1058,15 +1058,15 @@
 									if($value['nota'] != "")
 										$sql.= ", notas_check = '$value[nota]'";
 									$sql.=" WHERE id_check = $i ";
-										//echo "$sql\nKey:$key";exit();
+										//echo "$sql\nKey:$key";//exit();
 									//$this->data->jusf($i,$value['verifica'],$value[$pos],$_POST['ver']);
 									$this->data->query($sql);
 								}else{
 									if($value['nota'] != ""){
 										$sql.= "notas_check = '$value[nota]' WHERE id_check = $i ";
-										/*if($key>0){
-											echo "$sql\nKey:$key";exit();
-										}*/
+										if($key>0){
+											//echo "$sql\nKey:$key";//exit();
+										}
 										$this->data->query($sql);
 									}
 								}

@@ -971,7 +971,7 @@
 			$this->consulta("UPDATE oficios_mant SET des_ofi = '$value[des]', foto_ofi = '$value[foto]', dep_ofi = '$value[dp]', no_ofi = '$value[numero]', con_ofi = '$value[con]', nomCon_ofi = '$value[nom_con]' WHERE id_ofi = '$value[edit]' ");
 		}
 		public function eliminarEventosID($id){
-			$this->consulta("DELETE FROM eventos_mant WHERE num_ofi_eve = $id");
+			$this->consulta("DELETE FROM eventos_mant WHERE num_ofi_eve = '$id'");
 		}
 		public function verOfiHoy()	{
 			$query = $this->consulta("SELECT * FROM oficios_mant WHERE fecha_ofi = '".date('Y-m-d')."' ORDER BY id_ofi DESC");

@@ -1757,6 +1757,7 @@
 							$_POST['semana_eve'] = date('W',  mktime(0,0,0,$mes,$dia,$anio));
 							$_POST['hora_eve'] = $post['hora_eve'][$count];
 							$_POST['nom_eve'] = $post['nom_eve'][$count];
+							//echo "<pre>";print_r($_POST);exit();
 							$this->data->newEvent($_POST);
 						}
 					} 

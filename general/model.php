@@ -720,7 +720,7 @@
 			$query = $this->consulta("SELECT * FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
 									WHERE verifica_check = 0 AND fecha_check < '$fec'".$a." and status_per in (0,1)
-									ORDER BY turno_per, nombre_per ASC 
+									ORDER BY turno_per, nombre_per, fecha_check ASC 
 									LIMIT 0, 25");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {

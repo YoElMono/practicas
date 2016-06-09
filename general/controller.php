@@ -365,6 +365,7 @@
 				elseif($horV[0]==1){$hor[0]=$horV[1]; $hor[1]=$horV[2];}
 				elseif($horS[0]==1){$hor[0]=$horS[1]; $hor[1]=$horS[2];}
 				elseif($horD[0]==1){$hor[0]=$horD[1]; $hor[1]=$horD[2];}
+				$_POST['situacion'] = utf8_encode($_POST['situacion']);
 				$this->data->perSave($_POST,$hor,$horD,$horL,$horMa,$horMi,$horJ,$horV,$horS);
 				return HttpResponse('index.php/');
 			}else{
@@ -713,6 +714,7 @@
 					elseif($horV[0]==1){$hor[0]=$horV[1]; $hor[1]=$horV[2];}
 					elseif($horS[0]==1){$hor[0]=$horS[1]; $hor[1]=$horS[2];}
 					elseif($horD[0]==1){$hor[0]=$horD[1]; $hor[1]=$horD[2];}
+					$_POST['situacion'] = utf8_encode($_POST['situacion']);
 					$this->data->updatePer($_POST,$hor,$horD,$horL,$horMa,$horMi,$horJ,$horV,$horS,$url_array[2]);
 					return HttpResponse('index.php/admPer');
 				}else{

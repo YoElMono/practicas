@@ -1,6 +1,6 @@
 <div ng-app>
 	<br><button class="btn btn-info" value="1" ng-init="accion = true" ng-click="accion = !accion">{{accion ? "Descanso":"Trabajan"}}</button>
-	<form class="btn" action="" method="POST">
+	<form id="form_dia_vacaciones" class="btn" action="" method="POST" onsubmit="window.close();">
 		<input type="hidden" name="accion" value="2">
 		<input type="hidden" name="dia" value="<?=$_GET['dia']?>">
 		<input type="hidden" name="mes" value="<?=$_GET['mes']?>">
@@ -113,6 +113,7 @@
 			if(comentario != null){
 				$("#comentario").val(comentario);
 			}
+			$("#form_dia_vacaciones").submit();
 		})
 	})
 	function comentar() {

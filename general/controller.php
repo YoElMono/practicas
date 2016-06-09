@@ -1980,7 +1980,7 @@
 						}
 					}
 				}elseif ($_POST['accion'] == 2) {
-					$this->data->saveVacaciones($_POST['dia'],$_POST['mes'],$_POST['anio']);
+					$this->data->saveVacaciones($_POST['dia'],$_POST['mes'],$_POST['anio'],utf8_encode($_POST['comentario']));
 				}elseif($_POST['accion'] == 3){
 					foreach ($_POST['trab'] as $key => $value) {
 						if ($value[0]) {

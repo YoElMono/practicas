@@ -1056,9 +1056,9 @@
 		public function saveDiar($id, $dia, $mes, $anio){
 			$this->consulta("UPDATE diar_mant SET dia_diar = '$dia',mes_diar='$mes',anio_diar='$anio', check_diar='2' WHERE id_diar = '$id'");
 		}
-		public function saveVacaciones($dia, $mes, $anio){
-			$this->consulta("INSERT INTO diar_mant (dia_diar, mes_diar, anio_diar, tipo_diar, motivo_diar)
-									VALUES ('$dia', '$mes', '$anio', '2', 'Vacaciones')");
+		public function saveVacaciones($dia, $mes, $anio,$comentario){
+			$this->consulta("INSERT INTO diar_mant (dia_diar, mes_diar, anio_diar, tipo_diar, motivo_diar, comentario_diar)
+									VALUES ('$dia', '$mes', '$anio', '2', 'Vacaciones', '$comentario')");
 		}
 		public function saveDiat($dia, $mes, $anio, $hore,$hors,$cod){
 			$this->consulta("INSERT INTO diar_mant (dia_diar, mes_diar, anio_diar, tipo_diar, motivo_diar,codigo_diar, mes2_diar, anio2_diar)

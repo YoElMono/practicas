@@ -5,7 +5,8 @@
 		<input type="hidden" name="dia" value="<?=$_GET['dia']?>">
 		<input type="hidden" name="mes" value="<?=$_GET['mes']?>">
 		<input type="hidden" name="anio" value="<?=$_GET['anio']?>">
-		<input type="submit"class="btn btn-success" value="Dia de vacaciones" onclick="window.close()">
+		<input type="hidden" name="comentario" id="comentario">
+		<input id="dia_vacaciones" type="submit" class="btn btn-success" value="Dia de vacaciones">
 	</form>
 	<!--<?php $hoy = new DateTime("now"); $fecha = new DateTime($_GET['anio'].'-'.$_GET['mes'].'-'.$_GET['dia']);?>-->
 	<button class="btn btn-primary">[dia-extra]</button>
@@ -37,7 +38,7 @@
 				</tbody>
 			<?php endforeach;?>
 		</table>
-		<input type="submit"class="btn btn-success" onclick="window.close()">
+		<input type="submit" class="btn btn-success" onclick="window.close()">
 	</form>
 	<form ng-hide="accion" action="" method="POST" id="action2">
 		<input type="hidden" name="accion" value="3">
@@ -106,5 +107,15 @@
 				console.log(este.val())
 			}
 		})
+		$("#dia_vacaciones").click(function(event) {
+			event.preventDefault();
+			var comentario = prompt("Escriba un comentario por favor","Comentario");
+			if(comentario != null){
+				$("#comentario").val(comentario);
+			}
+		})
 	})
+	function comentar() {
+		return prompt("Escriba un comentario por favor","Comentario");
+	}
 </script>

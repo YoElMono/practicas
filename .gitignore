@@ -11,4 +11,5 @@ main/templates/complementos/fotos_per/*
 main/templates/complementos/fotos_oficios/*
 main/templates/complementos/archivos_oficios/*
 main/templates/complementos/archivos_servicios/*
+main/templetes/complementos/pdf_corregir/
 *.pdf

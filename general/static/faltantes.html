@@ -8,7 +8,7 @@
 		</div>
 	</div>
   	<div class="panel-body">
-			<form method="POST" action="">
+			<form method="POST" action="" enctype="multipart/form-data">
 			<input type='hidden' name="ver" value="0">
 				<table class="table table-bordered" id="jus">
 					<tr>
@@ -38,6 +38,7 @@
 						<th style="display:none"><strong>[ent]</strong></th>
 						<th style="display:none"><strong>[sal]</strong></th>
 						<th style="display:none"><strong>[not]</strong></th>
+						<th style="display:none"><strong>PDF</strong></th>
 					</thead>
 					<?php foreach($arr['a'] as $key => $value): ?>
 						<?php if($nom != $value['nombre_per']):?>
@@ -51,10 +52,13 @@
 							<td style="display:none" id="Nota<?=($key-1)?>">
 								<strong><textarea class="textnotjus" name="cor[<?=($key-1)?>][nota]"><?=utf8_decode($value['notas_check'])?></textarea></strong>
 							</td>
+							<td style="display:none" id="PDF<?=($key-1)?>">
+								<strong><input accept="application/pdf" type="file" class="entraI" name="pdf[<?=($key-1)?>]" /></strong>
+							</td>
 						</tbody>
 					<?php endif;$nom=$value["nombre_per"];endforeach; ?>
 				</table>
-				<button class="btn btn-primary" type="sumbit" id="boton" onclick="window.close()">[jur]</button>
+				<button class="btn btn-primary" type="sumbit" id="boton" onclick="window.close();">[jur]</button>
 			</form>
 		<form method="POST" action="">
 			<table class="table table-bordered" id="extra" style="display: none;">
@@ -155,11 +159,11 @@
 			if($(this).prop('checked'))
 				$('thead th:gt(1)').fadeIn(500, function () {
 					$('#'+index+",#Nota"+index).fadeIn(500)
-					$('#S'+index).fadeIn(500)
+					$('#S'+index+",#PDF"+index).fadeIn(500)
 				})
 			else {
 				$('#'+index+",#Nota"+index).fadeOut(500)
-				$('#S'+index).fadeOut(500)
+				$('#S'+index+",#PDF"+index).fadeOut(500)
 			}
 			var index1 = $(':checkbox[id^=ch]').index($(':checked'))
 			if(index1 == -1) 

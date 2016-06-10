@@ -1039,6 +1039,26 @@
 					//echo '<pre>';print_r($_POST['cor']);echo '</pre>';exit();
 					foreach ($_POST['cor'] as $key => $value){
 						if($value['id']){
+
+							//echo '<pre>'; print_r($_FILES); exit();
+							/***
+
+							Aquí va la subida del pdf
+
+							***/
+
+							if($_FILES['pdf']['name'][$key] != "" and $_FILES['pdf']['error'][$key] == 0){
+								$Folder = __DIR__."/../main/templates/complementos/pdf_corregir/";
+								@mkdir($Folder,0777);
+								$archivo = explode(".", $_FILES['pdf']['name'][$key]);
+								$ext = $archivo[count($archivo)-1];
+								$nombre_pdf = "pdf_".uniqid()."_".$key.".".$ext;
+								@copy($_FILES['pdf']['tmp_name'][$key], $Folder.$nombre_pdf);
+								//echo "nombre:".$_FILES['pdf']['name'][$key]; exit();
+							}else{
+								$nombre_pdf = "";
+							}
+ 
 							for($i=$value['id'];$i<=($value['id']+1);$i++){
 								$sql = "UPDATE check_mant SET ";
 								if($value['entrada'] != "" and $value["salida"] != ""){
@@ -1059,18 +1079,21 @@
 									$sql.= "verifica_check = $value[verifica], hor_check = '$value[$pos]'";
 									if($value['nota'] != "")
 										$sql.= ", notas_check = '$value[nota]'";
+									if($nombre_pdf != "")
+										$sql.= ", pdf_check = '$nombre_pdf'";
 									$sql.=" WHERE id_check = $i ";
 										//echo "$sql\nKey:$key";//exit();
 									//$this->data->jusf($i,$value['verifica'],$value[$pos],$_POST['ver']);
 									$this->data->query($sql);
 								}else{
-									if($value['nota'] != ""){
-										$sql.= "notas_check = '$value[nota]' WHERE id_check = $i ";
-										if($key>0){
-											//echo "$sql\nKey:$key";//exit();
-										}
-										$this->data->query($sql);
-									}
+									if($value['nota'] != "" and $nombre_pdf != "")
+										$sql.= "notas_check = '$value[nota]', pdf_check = '$nombre_pdf'";
+									elseif($nombre_pdf != "")
+										$sql.= "pdf_check = '$nombre_pdf'";
+									elseif ($value['nota'] != "")
+										$sql.= "notas_check = '$value[nota]'";
+									$sql.= " WHERE id_check = $i ";
+									$this->data->query($sql);
 								}
 							}
 						}

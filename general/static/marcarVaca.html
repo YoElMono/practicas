@@ -1,5 +1,5 @@
-<div ng-app>
-	<br><button class="btn btn-info" value="1" ng-init="accion = true" ng-click="accion = !accion">{{accion ? "Descanso":"Trabajan"}}</button>
+<!--<div ng-app>
+	<br><<button class="btn btn-info" value="1" ng-init="accion = true" ng-click="accion = !accion">{{accion ? "Descanso":"Trabajan"}}</button>
 	<form id="form_dia_vacaciones" class="btn" action="" method="POST" onsubmit="window.close();">
 		<input type="hidden" name="accion" value="2">
 		<input type="hidden" name="dia" value="<?=$_GET['dia']?>">
@@ -8,7 +8,7 @@
 		<input type="hidden" name="comentario" id="comentario">
 		<input id="dia_vacaciones" type="submit" class="btn btn-success" value="Dia de vacaciones">
 	</form>
-	<!--<?php $hoy = new DateTime("now"); $fecha = new DateTime($_GET['anio'].'-'.$_GET['mes'].'-'.$_GET['dia']);?>-->
+	<?php $hoy = new DateTime("now"); $fecha = new DateTime($_GET['anio'].'-'.$_GET['mes'].'-'.$_GET['dia']);?>
 	<button class="btn btn-primary">[dia-extra]</button>
 	<br><br>
 	<form ng-show="accion" action="" method="POST" id="action1">
@@ -119,4 +119,38 @@
 	function comentar() {
 		return prompt("Escriba un comentario por favor","Comentario");
 	}
-</script>
+</script>-->
+<br>
+<?php $hoy = strtotime(date("Y-m-d")); $limite = $arr['limite']; ?>
+<?php if($hoy <= $limite):?>
+<button class="btn btn-info">Descansarán</button>
+
+	<form ng-hide="accion" action="" method="POST" id="action2">
+		<input type="hidden" name="accion" value="3">
+		<input type="hidden" name="dia" value="<?=$_GET['dia']?>">
+		<input type="hidden" name="mes" value="<?=$_GET['mes']?>">
+		<input type="hidden" name="anio" value="<?=$_GET['anio']?>">
+		<table class="table table-bordered">
+			<thead>
+				<th>[trab]</th>
+				<th>[nombre]</th>
+				<th>[ent]</th>
+				<th>[sal]</th>
+			</thead>
+			<?php foreach ($arr['per'] as $key => $value):?>
+				<tbody>
+					<td><input type="checkbox" name="trab[<?=$key?>][0]" value="1"></td>
+					<td><?=$value['nombre_per']?></td>
+					<td><input type="text" name="trab[<?=$key?>][1]" class="entraI" id="horE<?=$key?>" value="<?=$value['entrada']?>" readonly></td>
+					<td><input type="text" name="trab[<?=$key?>][2]" class="entraI" id="horE<?=$key?>" value="<?=$value['salida']?>" readonly></td>
+				</tbody>
+					<input type="hidden" name="trab[<?=$key?>][3]" value="<?= $value['cod_per']?>">
+			<?php endforeach;?>
+		</table>
+		<input type="submit" class="btn btn-success" onclick="window.close();">
+	</form>
+<?php else: ?>
+	<div class="panel panel-danger">
+		<div class="panel-heading">Ya no puede hacer cambios en esta fecha</div>
+	</div><br>
+<?php endif; ?>

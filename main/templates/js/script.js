@@ -276,7 +276,7 @@ $(function(){
 			$('.menu').css({'position':'fixed','top':pos+'px'});
 			if($('aside>div.list-group').length>0){
 				//console.log($('aside>div.list-group').height());
-				$('aside').css({'position':'fixed','top':pos+'px','right':'48px','width':'293px'});
+				$('aside').css({'position':'fixed','top':pos+'px','right':'15px','width':'293px'});
 				//$('aside').css({'right':'48px','width':'293px'});
 			}
 			//var pos2 = 300-top;

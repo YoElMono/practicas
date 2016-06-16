@@ -1656,6 +1656,29 @@
 					}
 				}
 			}
+			/** Obtener Vacaciones **/
+			$query = "SELECT id_vacaciones,codigo_vacaciones,dia_vacaciones,mes_vacaciones,anio_vacaciones,semana_vacaciones,tipo_vacaciones,hora_vacaciones as hor_vacaciones,horaCap_vacaciones as horcap_vacaciones,verifica_vacaciones,fechcon_vacaciones,fecha_vacaciones FROM vacaciones_mant where mes_vacaciones like '%$mes' and anio_vacaciones = '$anio'";
+			$vacaciones = $this->data->query($query);
+			//echo '<pre>';print_r($vacaciones);exit();
+			$sql = '';
+			if(count($vacaciones) > 0){
+				foreach ($vacaciones as $key => $value) {
+					$sql = " UPDATE check_mant SET ";
+					foreach ($value as $_key => $_value) {
+						if($_key != "id_vacaciones"){
+							if(strstr($_key, "hor"))
+								$_value = substr($_value, 0,-3);
+							if($_key != "fecha_vacaciones"){
+								$sql .= str_replace("vacaciones", "check", $_key)." = ".( ( strstr($_key,"hor") ||strstr($_key,"codigo") ) ? "'$_value'":(int) $_value).", ";
+							}else{
+								$sql .= str_replace("vacaciones", "check", $_key)." = '$_value' WHERE codigo_check = '$value[codigo_vacaciones]' and fecha_check = '$value[fecha_vacaciones]' ;";
+							}
+						}
+					}
+					$this->data->query($sql);
+				}
+			}
+			/** ################## **/
 			if($per){
 				return ;
 			}else{
@@ -1995,7 +2018,11 @@
 			return render_to_response(vista::page('calendarioVaca.html',$cal));
 		}
 		public function vacDia(){
+			require_once 'main/templates/complementos/calendario.php';
 			if ($_POST) {
+				$_POST['semana'] = numeroDeSemana2($_POST['dia'],$_POST['mes'],$_POST['anio']);
+				//echo '<pre>';print_r($_POST);exit();
+				/*
 				if ($_POST['accion'] == 1) {
 					foreach ($_POST['trab'] as $key => $value){
 						if ($value[0]){
@@ -2013,11 +2040,42 @@
 				}elseif($_POST['action'] == 4){
 					$this->data->saveDiaExtra($_POST,$_GET);
 				}
-			}else{
-				$per = $this->data->person();
-				foreach ($per as $key => $value) {
-					$per[$key]['dias'] = $this->data->dias_libres($value['cod_per']); 
+				*/
+				$a = "_vacaciones";
+				$sql = "INSERT INTO vacaciones_mant (codigo$a,dia$a,mes$a,anio$a,semana$a,tipo$a,hora$a,horaCap$a,verifica$a,fechcon$a,fecha$a) VALUES ";
+				$ejecutar = false;
+				foreach ($_POST['trab'] as $key => $value) {
+					if($value[0] == 1){
+						$ejecutar = true;
+						$fechcon[1] = $_POST['mes'].str_pad($_POST['dia'], 2, "0", STR_PAD_LEFT).($value[1] == "" ? "0000" : str_replace(":", "", $value[1]))
+						;
+						$fechcon[2] = $_POST['mes'].str_pad($_POST['dia'], 2, "0", STR_PAD_LEFT).($value[2] == "" ? "0000" : str_replace(":", "", $value[2]));
+						$value[1] = $value[1] == "" ? "00:00:00" : "$value[1]:00";
+						$value[2] = $value[2] == "" ? "00:00:00" : "$value[2]:00";
+						$fecha[1] = "$_POST[anio]-$_POST[mes]-$_POST[dia] $value[1]";
+						$fecha[2] = "$_POST[anio]-$_POST[mes]-$_POST[dia] $value[2]";
+						for($i = 1; $i < 3;$i++)
+							$sql.= " ('$value[3]','$_POST[dia]','$_POST[mes]','$_POST[anio]',$_POST[semana],$i,'$value[$i]','$value[$i]',2,$fechcon[$i],'$fecha[$i]'), ";
+					}
 				}
+				if($ejecutar){
+					$sql = substr($sql, 0,strlen($sql)-2);
+				//echo $sql;exit();
+					$this->data->query($sql);
+				}
+			}else{
+				$anio = 1 == (int) $_GET['mes'] ? ((int) $_GET['anio'] - 1) : $_GET['anio'];
+				$mes = 1 == (int) $_GET['mes'] ? 12 : str_pad(((int) $_GET['mes'] - 1), 2, "0", STR_PAD_LEFT);
+				$limite = date("$anio-$mes-28");
+				$limite = strtotime($limite);
+				$per['limite'] = $limite;
+				$dia = calcula_numero_dia_semana($_GET['dia'],$_GET['mes'],$_GET['anio']);
+				$dia = dias_semana($dia);
+				$sql = "Select nombre_per,cod_per,".str_replace("check", "horE", $dia)." as entrada, ".str_replace("check", "horS", $dia)." as salida from personal_mant where $dia = 1 and status_per in (0,1)";
+				$per['per'] = $this->data->query($sql);
+				/*foreach ($per as $key => $value) {
+					$per[$key]['dias'] = $this->data->dias_libres($value['cod_per']); 
+				}*/
 				return render_to_response(vista::pageWhite('marcarVaca.html',$per,'Vacaciones'));
 			}
 			

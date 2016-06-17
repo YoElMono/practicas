@@ -64,6 +64,7 @@
 		case 'repDiaSS':{$objects["principal"]->reporteDiaPSS();}break;
 		case 'repSemaSS':{$objects["principal"]->reporteSemaPSS();}break;
 		case 'repMesSS':{$objects["principal"]->reporteMesPSS();}break;
+		//case 'consolidacion':{$objects["principal"]->consolidacion();}break;		
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

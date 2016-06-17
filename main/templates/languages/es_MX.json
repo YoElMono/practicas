@@ -278,5 +278,6 @@
 	"obs":"Observaciones",
 	"fecha-ingreso":"Fecha de Ingreso",
 	"HT":"Horas Totales",
-	"status":"Status"
+	"status":"Status",
+	"consolidacion":"Consolidación"
 }

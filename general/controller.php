@@ -1904,6 +1904,11 @@
 				return render_to_response(vista::page('cambiar_imagen.html'));
 			}
 		}
+
+		public function consolidacion()	{
+			return render_to_response(vista::page('consolidacion.html'));
+		}
+
 		public function appAdmin(){
 			if ($_POST) {
 				$json = json_encode($_POST);
@@ -1944,6 +1949,7 @@
     						"Reporte_ofi",
     						"cambiar_imagen",
     						"eventos",
+    						//"consolidacion",
     						"Servicio_Social_Registro",
     						"Servicio_Social_Adm",
     						"Servicio_Social_Tarjetas",

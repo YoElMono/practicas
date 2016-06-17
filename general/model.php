@@ -658,7 +658,7 @@
 			$this->consulta("UPDATE servicios_mant SET des2_ser = '$dat[des]', estado_ser = '$dat[btn]' WHERE id_ser = '$dat[id]'");
 		}
 		public function listper(){
-			$query = $this->consulta("SELECT id_per, nombre_per, cod_per FROM personal_mant where status_per in (0,1) ORDER BY nombre_per ASC");
+			$query = $this->consulta("SELECT id_per, nombre_per, cod_per FROM personal_mant where status_per in (0,1,5) ORDER BY nombre_per ASC");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;

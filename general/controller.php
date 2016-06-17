@@ -1657,7 +1657,7 @@
 				}
 			}
 			/** Obtener Vacaciones **/
-			$query = "SELECT id_vacaciones,codigo_vacaciones,dia_vacaciones,mes_vacaciones,anio_vacaciones,semana_vacaciones,tipo_vacaciones,hora_vacaciones as hor_vacaciones,horaCap_vacaciones as horcap_vacaciones,verifica_vacaciones,fechcon_vacaciones,fecha_vacaciones FROM vacaciones_mant where mes_vacaciones like '%$mes' and anio_vacaciones = '$anio'";
+			$query = "SELECT id_vacaciones,codigo_vacaciones,dia_vacaciones,mes_vacaciones,anio_vacaciones,semana_vacaciones,tipo_vacaciones,hora_vacaciones as hor_vacaciones,horaCap_vacaciones as horcap_vacaciones,verifica_vacaciones,fechcon_vacaciones,notas_vacaciones,fecha_vacaciones FROM vacaciones_mant where mes_vacaciones like '%$mes' and anio_vacaciones = '$anio'";
 			$vacaciones = $this->data->query($query);
 			//echo '<pre>';print_r($vacaciones);exit();
 			$sql = '';
@@ -1669,7 +1669,7 @@
 							if(strstr($_key, "hor"))
 								$_value = substr($_value, 0,-3);
 							if($_key != "fecha_vacaciones"){
-								$sql .= str_replace("vacaciones", "check", $_key)." = ".( ( strstr($_key,"hor") ||strstr($_key,"codigo") ) ? "'$_value'":(int) $_value).", ";
+								$sql .= str_replace("vacaciones", "check", $_key)." = ".( ( strstr($_key,"hor") || strstr($_key,"codigo") || strstr($_key,"notas")) ? "'$_value'":(int) $_value).", ";
 							}else{
 								$sql .= str_replace("vacaciones", "check", $_key)." = '$_value' WHERE codigo_check = '$value[codigo_vacaciones]' and fecha_check = '$value[fecha_vacaciones]' ;";
 							}
@@ -1906,6 +1906,8 @@
 		}
 
 		public function consolidacion()	{
+			$dias = $this->data->getConsolidacion();
+			echo '<pre>';print_r($dias);exit();
 			return render_to_response(vista::page('consolidacion.html'));
 		}
 
@@ -2048,7 +2050,7 @@
 				}
 				*/
 				$a = "_vacaciones";
-				$sql = "INSERT INTO vacaciones_mant (codigo$a,dia$a,mes$a,anio$a,semana$a,tipo$a,hora$a,horaCap$a,verifica$a,fechcon$a,fecha$a) VALUES ";
+				$sql = "INSERT INTO vacaciones_mant (codigo$a,dia$a,mes$a,anio$a,semana$a,tipo$a,hora$a,horaCap$a,verifica$a,fechcon$a,notas$a,fecha$a) VALUES ";
 				$ejecutar = false;
 				foreach ($_POST['trab'] as $key => $value) {
 					if($value[0] == 1){
@@ -2060,8 +2062,9 @@
 						$value[2] = $value[2] == "" ? "00:00:00" : "$value[2]:00";
 						$fecha[1] = "$_POST[anio]-$_POST[mes]-$_POST[dia] $value[1]";
 						$fecha[2] = "$_POST[anio]-$_POST[mes]-$_POST[dia] $value[2]";
+						$value[4] = utf8_decode($value[4]);
 						for($i = 1; $i < 3;$i++)
-							$sql.= " ('$value[3]','$_POST[dia]','$_POST[mes]','$_POST[anio]',$_POST[semana],$i,'$value[$i]','$value[$i]',2,$fechcon[$i],'$fecha[$i]'), ";
+							$sql.= " ('$value[3]','$_POST[dia]','$_POST[mes]','$_POST[anio]',$_POST[semana],$i,'$value[$i]','$value[$i]',2,$fechcon[$i],'$value[4]','$fecha[$i]'), ";
 					}
 				}
 				if($ejecutar){

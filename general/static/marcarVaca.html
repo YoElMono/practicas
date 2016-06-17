@@ -136,6 +136,7 @@
 				<th>[nombre]</th>
 				<th>[ent]</th>
 				<th>[sal]</th>
+				<th>[not]</th>
 			</thead>
 			<?php foreach ($arr['per'] as $key => $value):?>
 				<tbody>
@@ -143,6 +144,7 @@
 					<td><?=$value['nombre_per']?></td>
 					<td><input type="text" name="trab[<?=$key?>][1]" class="entraI" id="horE<?=$key?>" value="<?=$value['entrada']?>" readonly></td>
 					<td><input type="text" name="trab[<?=$key?>][2]" class="entraI" id="horE<?=$key?>" value="<?=$value['salida']?>" readonly></td>
+					<td><input type="text" name="trab[<?=$key?>][4]" class="entraI" id="notas<?=$key?>"></td>
 				</tbody>
 					<input type="hidden" name="trab[<?=$key?>][3]" value="<?= $value['cod_per']?>">
 			<?php endforeach;?>

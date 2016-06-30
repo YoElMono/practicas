@@ -1907,9 +1907,37 @@
 
 		public function consolidacion()	{
 			$dias = $this->data->getConsolidacion();
-			echo '<pre>';print_r($dias);exit();
-			return render_to_response(vista::page('consolidacion.html'));
+			//echo '<pre>';print_r($dias);exit();
+			return render_to_response(vista::page('consolidacion.html', $dias));
 		}
+
+		public function dias_ganados(){
+			$meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+			$mes = date('n') == 1 ? 12 : date('n')-1;
+			$anio = $mes == 12 ? date('Y')-1 : date('Y');
+			$check = $this->data->query("SELECT * FROM check_mant INNER JOIN personal_mant ON codigo_check = cod_per WHERE mes_check = $mes and anio_check = $anio ORDER BY codigo_check,dia_check,tipo_check");
+			foreach ($check as $key => $value) {
+				$Check[$value['codigo_check']][] = $value;
+			}
+			foreach ($Check as $key => $value) {
+				$gano = true;
+				foreach ($value as $_key => $_value) {
+					if($_value['verifica_check'] != 2){
+						$gano = false;
+						break;
+					}
+				}
+				if($gano){
+					$Ganadores[] = array("id_per_dias" => $_value['id_per'],"codigo_dias" => $key,"comentario_dias" => utf8_encode("Día ganado del mes de ".$meses[$mes-1]." - $anio"));
+				}
+			}
+			echo '<pre>';print_r($Ganadores);exit();
+		}
+
+		/*public function eliminar_checkin(){
+			$personal = $this->data->getPersonal();
+			return render_to_response(vista::page('eliminar_checkin.html',$personal));
+		}*/
 
 		public function appAdmin(){
 			if ($_POST) {
@@ -1952,6 +1980,7 @@
     						"cambiar_imagen",
     						"eventos",
     						//"consolidacion",
+    						//"eliminar_checkin",
     						"Servicio_Social_Registro",
     						"Servicio_Social_Adm",
     						"Servicio_Social_Tarjetas",

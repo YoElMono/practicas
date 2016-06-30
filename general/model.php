@@ -1267,6 +1267,19 @@
 				return '';
 			}
 		}
+
+		public function getConsolidacion(){
+			$query = $this->consulta("SELECT * FROM dia_ganados_mant INNER JOIN personal_mant ON id_per_dias = id_per and status_per in (1,2)");
+			if($this->numero_de_filas($query) > 0){
+				while ( $tsArray = $this->fetch_assoc($query) ) {
+					$data[] = $tsArray;
+				}
+				return $data;
+			}else{
+				return '';
+			}
+		}
+
 		public function query($consulta){
 			$query = $this->consulta($consulta);
 			if($this->numero_de_filas($query) > 0){

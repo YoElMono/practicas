@@ -1934,10 +1934,16 @@
 			echo '<pre>';print_r($Ganadores);exit();
 		}
 
-		/*public function eliminar_checkin(){
-			$personal = $this->data->getPersonal();
+		public function eliminar_checkin(){
+			if($_POST){
+				$sql = "UPDATE check_mant SET hor_check = '0:00', verifica_check = '4', notas_check = 'Registro eliminado' WHERE codigo_check = '$_POST[personal]' AND (fecha_check BETWEEN '$_POST[de] 00:00:00' AND '$_POST[a] 00:00:00') ";
+				$this->data->query($sql);
+				//echo '<pre>';print_r($sql);exit();
+				$personal['eliminado'] = true;
+			}
+			$personal['personal'] = $this->data->getPersonal();
 			return render_to_response(vista::page('eliminar_checkin.html',$personal));
-		}*/
+		}
 
 		public function appAdmin(){
 			if ($_POST) {
@@ -1980,7 +1986,7 @@
     						"cambiar_imagen",
     						"eventos",
     						//"consolidacion",
-    						//"eliminar_checkin",
+    						"eliminar_checkin",
     						"Servicio_Social_Registro",
     						"Servicio_Social_Adm",
     						"Servicio_Social_Tarjetas",

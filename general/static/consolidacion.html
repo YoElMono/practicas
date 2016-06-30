@@ -1,1 +1,17 @@
-algo
+<h2>Consolidación de Días</h2>
+<table class="table table-bordered">
+	<thead>
+		<th>Folio</th>
+		<th>Personal</th>
+		<th>Fecha solicitada</th>
+		<th>Formato</th>
+	</thead>
+	<tbody>
+		<?php foreach($arr as $key => $value){ ?>
+			<td><?= str_pad($value['id_dias'], 4,"0",STR_PAD_LEFT); ?></td>
+			<td><?= utf8_decode($value['nombre_per']); ?></td>
+			<td><?= ($value['fecha_dias'] == "" or $value['fecha_dias'] == "0000-00-00") ? "No adquirida" : $value['fecha_dias'] ?></td>
+			<td><a href="#" class="btn btn-success">Imprimir formato</a></td>
+		<?php } ?>
+	</tbody>
+</table>

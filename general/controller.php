@@ -1935,14 +1935,28 @@
 		}
 
 		public function eliminar_checkin(){
-			if($_POST){
-				$sql = "UPDATE check_mant SET hor_check = '0:00', verifica_check = '4', notas_check = 'Registro eliminado' WHERE codigo_check = '$_POST[personal]' AND (fecha_check BETWEEN '$_POST[de] 00:00:00' AND '$_POST[a] 00:00:00') ";
-				$this->data->query($sql);
-				//echo '<pre>';print_r($sql);exit();
-				$personal['eliminado'] = true;
+			if($_GET){
+				$sql = "SELECT fecha_check,id_check FROM check_mant WHERE codigo_check = '$_GET[personal]' AND (fecha_check BETWEEN '$_GET[de] 00:00:00' AND '$_GET[a] 23:59:59')";
+				echo json_encode($this->data->query($sql));exit();
+			}else{
+				if($_POST){
+					if(count($_POST['borrar']) > 0){
+						$sql = " UPDATE check_mant SET hor_check = '0:00', verifica_check = '4', notas_check = 'Registro eliminado' WHERE id_check in ( ";
+						foreach ($_POST['borrar'] as $key => $value) {
+							$sql.="$value,";
+						}
+					}else{
+						$sql = '';
+					}
+					if($sql != ''){
+						$sql = substr($sql, 0,-2).")";
+						$this->data->query($sql);
+					}
+					$personal['eliminado'] = true;
+				}
+				$personal['personal'] = $this->data->getPersonal();
+				return render_to_response(vista::page('eliminar_checkin.html',$personal));
 			}
-			$personal['personal'] = $this->data->getPersonal();
-			return render_to_response(vista::page('eliminar_checkin.html',$personal));
 		}
 
 		public function appAdmin(){

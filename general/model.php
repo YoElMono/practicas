@@ -830,9 +830,9 @@
 			}
 		}
 		public function repSema($a){
-			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, hor_check, ch_per, turno_per,status_per FROM check_mant
+			$query = $this->consulta("SELECT id_check, codigo_check, tipo_check, nombre_per, hor_check, ch_per, turno_per,status_per, fecha_check FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE status_per in(0,1) and semana_check = '$a[sem]' AND anio_check = '$a[anio]'
+									WHERE status_per in(0,1) and semana_check = '$a[sem]' AND anio_check = '$a[anio]' and mes_check = '$a[mes]'
 									ORDER BY turno_per, nombre_per,dia_check,tipo_check");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {

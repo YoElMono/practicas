@@ -1904,12 +1904,50 @@
 				return render_to_response(vista::page('cambiar_imagen.html'));
 			}
 		}
-
+		
+		/*
 		public function consolidacion()	{
-			$dias = $this->data->getConsolidacion();
-			//echo '<pre>';print_r($dias);exit();
-			return render_to_response(vista::page('consolidacion.html', $dias));
+			if($_GET){
+				if(isset($_GET['id_dias']) and isset($_GET['fecha'])){
+					require_once __DIR__."/../main/templates/complementos/calendario.php";
+					$sql = "SELECT * FROM dia_ganados_mant where id_dias = ".$_GET['id_dias'];
+					$personal = $this->data->query($sql);
+					//echo '<pre>';print_r($personal);exit();
+					$sql = "SELECT * FROM personal_mant where id_per = '".$personal[0]['id_per_dias']."'";
+					$personal = $this->data->query($sql);
+					//echo "sql: $sql";exit();
+					$fecha = explode("-", $_GET['fecha']);
+					$data["dia"] = $fecha[2];
+					$data["mes"] = $fecha[1];
+					$data["anio"] = $fecha[0];
+					$data["semana"] = numeroDeSemana2($data["dia"],$data["mes"],$data["anio"]);
+					$data["dia_semana"] = calcula_numero_dia_semana($data["dia"],$data["mes"],$data["anio"]);
+					$data["entrada"] = $personal[0][horasE($data["dia_semana"])];
+					$data["salida"] = $personal[0][horasS($data["dia_semana"])];
+					$data["fecha_entrada"] = "$_GET[fecha] $data[entrada]:00";
+					$data["fecha_salida"] = "$_GET[fecha] $data[salida]:00";
+					$data["fechcon_entrada"] = (int)$data['mes'].$data['dia'].(explode(":", $data['entrada'])[0]).(explode(":", $data['entrada'])[1]);
+					$data["fechcon_salida"] = (int)$data['mes'].$data['dia'].(explode(":", $data['salida'])[0]).(explode(":", $data['salida'])[1]);
+					for($i=1;$i<=2;$i++){
+						$tipo = $i == 1 ? "entrada":"salida";
+						$sql = "INSERT INTO vacaciones_mant (codigo_vacaciones,dia_vacaciones,mes_vacaciones,anio_vacaciones,semana_vacaciones,tipo_vacaciones,hora_vacaciones,horaCap_vacaciones,verifica_vacaciones,fechcon_vacaciones,notas_vacaciones,fecha_vacaciones) VALUES ('".$personal[0]['cod_per']."','$data[dia]','$data[mes]','$data[anio]','$data[semana]',$i,'$data[$tipo]','$data[$tipo]',2,'".$data["fechcon_$tipo"]."','Consolidacion de dias','".$data["fecha_$tipo"]."')";
+						//echo "sql: $sql";exit();
+						//$this->data->query($sql);
+					}
+					$sql = "UPDATE dia_ganados_mant SET fecha_dias = '".$_GET['fecha']."' WHERE id_dias = ".$_GET['id_dias'];
+					//$this->data->query($sql);
+					$this->pdfDL((int)$data['mes'],$frase='',$data,$res='',"fin");exit();
+					echo '<pre>';print_r($data);exit();
+				}else{
+					
+				}
+			}else{
+				$dias = $this->data->getConsolidacion();
+				//echo '<pre>';print_r($dias);exit();
+				return render_to_response(vista::page('consolidacion.html', $dias));
+			}
 		}
+		*/
 
 		public function dias_ganados(){
 			$meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];

@@ -26,6 +26,9 @@ footer{
 .error{
 	color:red;
 }
+input.error{
+	border: red solid 1px;
+}
 .bordeError{
 	border-color: red;
 }

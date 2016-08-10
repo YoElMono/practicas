@@ -1049,7 +1049,29 @@ function getReporte () {
 	}
 }
 
+function validar_fecha_formato(evt) {
+	console.log(evt);
+	var fecha = $("#fecha_"+evt);
+	var boton = $("#boton_"+evt);
+	console.log(boton);
+	fecha.click(function() {
+		$(this).removeClass("error");
+	});
+	if(fecha.val() == '' || fecha.val() == null){
+		error(fecha);
+	}else{
+		boton.attr('disabled',true);
+		boton.next().show();
+		alert("algo");
+		abrirVentana('index.php/consolidacion?id_dias='+boton.data('id')+'&fecha='+fecha.val());
+		boton.attr('disabled',false);
+		boton.next().hide();
+	}
+}
 
+function error(elemento){
+	elemento.addClass("error").focus();
+}
 
 
 $.ajaxSetup({

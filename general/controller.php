@@ -1,5 +1,6 @@
 <?php
 	class principal{
+		//require_once __DIR__.'/../main/templates/complementos/fpdf/udgpdf.php';
 		var $data;
 		function __construct(){$this->data = new general();}
 		public function index(){
@@ -1487,62 +1488,62 @@
 			}else{
 				$repo = $this->data->repEsp($_GET);
 				$data = array();
-					$faltasen = $faltassal = $i = $j = 0;
-					$_mes = $_anio = $_dia = 0;
+				$faltasen = $faltassal = $i = $j = 0;
+				$_mes = $_anio = $_dia = 0;
 
-					foreach ($repo as $key => $value) {
-						if($_anio != $value['anio_check']){
-							$_anio = $value['anio_check'];
+				foreach ($repo as $key => $value) {
+					if($_anio != $value['anio_check']){
+						$_anio = $value['anio_check'];
+						$_mes = $value['mes_check'];
+						$_dia = $value['dia_check'];
+					}else{
+						if($_mes != $value['mes_check']){
 							$_mes = $value['mes_check'];
 							$_dia = $value['dia_check'];
 						}else{
-							if($_mes != $value['mes_check']){
-								$_mes = $value['mes_check'];
+							if($_dia != $value['dia_check']){
 								$_dia = $value['dia_check'];
-							}else{
-								if($_dia != $value['dia_check']){
-									$_dia = $value['dia_check'];
-								}
 							}
 						}
-
-						if($value['tipo_check'] == 1){
-							$array['entrada'] = ($value['hor_check'] != "")?$value['hor_check']:"nada";
-							$array['notas_ent'] = $value['notas_check'];
-							$array['fechcon_ent'] = $value['fechcon_check'];
-							if($array['entrada'] != "nada"){
-								$entrada = explode(":", $array['entrada']);
-								$entrada = mktime($entrada[0],$entrada[1],0,0,0,0);
-							}else{
-								$entrada = 0;
-							}
-						}else{
-							$array['salida'] = ($value['hor_check'] != "")?$value['hor_check']:"nada";
-							$array['notas_sal'] = $value['notas_check'];
-							$array['fechcon_sal'] = $value['fechcon_check'];
-							if($array['entrada'] != "nada"){
-								$salida = explode(":", $array['salida']);
-								$salida = mktime($salida[0],$salida[1],0,0,0,0);
-							}else{
-								$salida = 0;
-							}
-							if($entrada != 0 && $salida != 0){
-								$resultado = $salida-$entrada;
-								$resultado = $resultado/60;
-								$res1 = floor($resultado/60);
-								$res2 = $resultado%60;
-								$resultado = ((strlen($res1)<2)?"0".$res1:$res1).":".((strlen($res2)<2)?"0".$res2:$res2);
-							}else{
-								$resultado = "Faltan datos";
-							}
-							$array['resultado'] = $resultado;
-							$datos[$_anio][$_mes][$_dia] = $array;
-						}
-						$nombre = $value['nombre_per'];
 					}
-					$datos1['data'] = $datos;
-					$datos1['nombre'] = $nombre;
-					return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
+
+					if($value['tipo_check'] == 1){
+						$array['entrada'] = ($value['hor_check'] != "")?$value['hor_check']:"nada";
+						$array['notas_ent'] = $value['notas_check'];
+						$array['fechcon_ent'] = $value['fechcon_check'];
+						if($array['entrada'] != "nada"){
+							$entrada = explode(":", $array['entrada']);
+							$entrada = mktime($entrada[0],$entrada[1],0,0,0,0);
+						}else{
+							$entrada = 0;
+						}
+					}else{
+						$array['salida'] = ($value['hor_check'] != "")?$value['hor_check']:"nada";
+						$array['notas_sal'] = $value['notas_check'];
+						$array['fechcon_sal'] = $value['fechcon_check'];
+						if($array['entrada'] != "nada"){
+							$salida = explode(":", $array['salida']);
+							$salida = mktime($salida[0],$salida[1],0,0,0,0);
+						}else{
+							$salida = 0;
+						}
+						if($entrada != 0 && $salida != 0){
+							$resultado = $salida-$entrada;
+							$resultado = $resultado/60;
+							$res1 = floor($resultado/60);
+							$res2 = $resultado%60;
+							$resultado = ((strlen($res1)<2)?"0".$res1:$res1).":".((strlen($res2)<2)?"0".$res2:$res2);
+						}else{
+							$resultado = "Faltan datos";
+						}
+						$array['resultado'] = $resultado;
+						$datos[$_anio][$_mes][$_dia] = $array;
+					}
+					$nombre = $value['nombre_per'];
+				}
+				$datos1['data'] = $datos;
+				$datos1['nombre'] = $nombre;
+				return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
 			}
 		}
 
@@ -1904,7 +1905,89 @@
 				return render_to_response(vista::page('cambiar_imagen.html'));
 			}
 		}
-		
+
+		public function reporte_global_mes(){
+			if($_POST){
+				header('location:../reporte_global_mes.pdf');
+			}elseif($_GET){
+				$sql = "Select id_check,semana_check,tipo_check,hor_check,nombre_per,cod_per,ch_per,day(fecha_check) as dia FROM check_mant INNER JOIN personal_mant ON codigo_check = cod_per and status_per in (0,1) WHERE mes_check = '".$_GET['mes']."' and anio_check = '".$_GET['anio']."' order by codigo_check asc, date(fecha_check) asc, tipo_check asc";
+				//echo "query: $sql";
+				$meses = $this->data->query($sql);
+				$sql = "SELECT semana_check FROM check_mant where mes_check = '".$_GET['mes']."' and anio_check = '".$_GET['anio']."' group by semana_check order by semana_check Asc";
+				$semanas = $this->data->query($sql);
+				$data = [];
+				$codigo = "";
+				$X = 0;
+				foreach ($meses as $key => $value) {
+					if($codigo != $value['cod_per'] and $codigo != ""){
+						$data[$X]['nombre'] = $nombre;
+						$data[$X]['carga'] = $carga;
+						
+						foreach ($semanas as $_key => $_value) {
+							$data[$X]['semana'][$_value['semana_check']]["horas"] = 0;
+						}
+
+						$X++;
+					}
+					$nombre = $value['nombre_per'];
+					$carga = $value['ch_per'];
+					$data[$X]['semana'][$value['semana_check']][$value['dia']][$value['tipo_check']] = $value['hor_check'];
+					$codigo = $value['cod_per'];
+				}
+				$data[$X]['nombre'] = $nombre;
+				$data[$X]['carga'] = $carga;
+				foreach ($semanas as $_key => $_value) {
+					$data[$X]['semana'][$_value['semana_check']]["horas"] = 0;
+				}
+				//echo '<pre>';print_r($data);exit();
+				foreach ($data as $X => $personal) {
+					foreach ($personal['semana'] as $Semana => $dias) {
+						$semana = 0;
+						foreach ($dias as $dia => $horario) {
+							$entrada = "$horario[1]:00";
+							$salida = "$horario[2]:00";
+							$diferencia = 0;
+							if(($entrada = strtotime($entrada)) && ($salida = strtotime($salida))){
+								$un_dia = strtotime("1970-01-01 18:00:00");
+								//echo "un dia = $un_dia - ".( floor( ($un_dia/60) / 60 ) );
+								$diferencia = $salida-$entrada;
+								if($diferencia >= 0){
+									//echo "entrada: $entrada salida: $salida diferencia: $diferencia";exit();
+									$semana += $diferencia;
+								}else{
+									$diferencia = ($salida+$un_dia)-$entrada;
+									$semana += $diferencia;
+								}
+							}
+						}
+						unset($data[$X]['semana'][$Semana]);
+						$data[$X]['semana'][$Semana]['horas'] = floor(($semana/60)/60);
+					}
+				}
+				/*foreach ($data as $key => $value) {
+					foreach ($semanas as $_key => $_value) {
+						if(!isset($value['semana'][$_value['semana_check']]))
+							$value['semana'][$_value['semana_check']] = ["horas"=>0];
+					}
+				}*/
+				$array = ["data"=>$data,"semanas"=>$semanas];
+				//echo '<pre>';print_r($data);exit();
+				$this->pdfRGM($array,(int)$_GET['mes']);
+				return render_to_response(vista::pageWhite("reporte_global_mes.html", $array));
+			}else{
+				return render_to_response("");
+			}
+		}
+
+		public function pdfRGM($data,$mes){
+			require_once 'main/templates/complementos/fpdf/udgpdf.php';
+			$pdf=new RGM('P');
+			//echo "algo";exit();
+			$pdf->AddPage();
+			$pdf->body($data,$mes);
+			$pdf->Output(__DIR__.'/../reporte_global_mes.pdf','f');
+		}
+
 		/*
 		public function consolidacion()	{
 			if($_GET){

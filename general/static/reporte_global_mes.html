@@ -1,0 +1,30 @@
+<br>
+<div class="panel panel-warning">
+	<div class="panel-heading">
+		<h5>Reporte Global del Mes</h5>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered">
+			<tr>
+				<td><strong>[nombre]</strong></td>
+				<td><strong>[CH]</strong></td>
+				<?php foreach($arr['semanas'] as $key => $value){ ?>
+				<td><strong>semana <?=$value['semana_check']?></strong></td>
+				<?php } ?>
+			</tr>
+			<form method="POST" action="">
+			<input type="hidden" name="fecha" value="<?=$hoy?>">
+			<?php foreach ($arr['data'] as $key => $value):?>
+			<tr>
+				<td><?=$value['nombre']?></td><input type="hidden" value="<?=$value['nom']?>" name="<?=$key?>[nom]">
+				<td><?=$value['carga']?></td><input type="hidden" value="<?=$value['ch']?>" name="<?=$key?>[ch]">
+				<?php foreach($value['semana'] as $_key => $_value){ ?>
+				<td><?= $_value['horas']?></td>
+				<?php } ?>
+			</tr>
+			<?php endforeach;?>
+		</table>
+	</div>
+	<button name="reporte" class="btn btn-info" style="/*float: left;*/ margin-left:10px; margin-bottom:10px;" type="submit">[imp]</button>
+</div>
+<br>

@@ -541,7 +541,7 @@
 			$b = 0;
 			if($frase!='') $frase = '"'.$frase.'"';
 			$con = 'ATENTAMENTE
-			"PIENDA Y TRABAJA"
+			"PIENSA Y TRABAJA"
 			Guadalajara, Jal. a '.date('d').' de '.$mes.' de '.date('Y');
 			$this->MultiCell(0,$h,$con,$b,'C');
 			$this->SetFont('','BI');
@@ -554,6 +554,39 @@
 			$this->Cell(0,15,'',$b,1);
 			$this->SetFont('','',7);
 			$this->Cell(0,$h,$fin,$b,1);		
+		}
+	}
+	class RGM extends FPDF{
+		public function header(){
+			$this->SetFont('Arial','B',10);
+			$this->Cell(0,5,'REPORTE GLOBAL DEL MES',0,1,'C');
+		}
+		public function body($data,$mes){
+			$meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+			$this->Cell(0,10,'',0,1);
+			$this->Cell(0,5,$meses[$mes-1],1,1);
+			$this->Cell(0,5,'',0,1);
+			$this->Cell(70,5,'NOMBRE',1,0,'C');
+			$this->Cell(20,5,'CARGA H.',1,0,'C');
+			//$this->Cell(60,5,'HORAS',1,1,'C');
+			$ancho = 100/count($data['semanas']);
+			$X = 0;
+			foreach ($data['semanas'] as $key => $value) {
+				$salto = $X == (count($data['semanas'])-1) ? 1 : 0;
+				$this->Cell($ancho,5,"S. $value[semana_check]",1,$salto,'C');
+				$X++;
+			}
+			$this->SetFont('Arial','',10);
+			foreach ($data['data'] as $key => $value) {
+				$this->Cell(70,5,utf8_decode($value['nombre']),1,0);
+				$this->Cell(20,5,$value['carga'],1,0,'C');
+				$X = 0;
+				foreach ($value['semana'] as $_key => $_value) {
+					$salto = $X == (count($data['semanas'])-1) ? 1 : 0;
+					$this->Cell($ancho,5,$_value['horas'],1,$salto,'C');
+					$X++;
+				}
+			}
 		}
 	}
 ?>

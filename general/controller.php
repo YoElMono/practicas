@@ -1910,7 +1910,7 @@
 			if($_POST){
 				header('location:../reporte_global_mes.pdf');
 			}elseif($_GET){
-				$sql = "Select id_check,semana_check,tipo_check,hor_check,nombre_per,cod_per,ch_per,day(fecha_check) as dia FROM check_mant INNER JOIN personal_mant ON codigo_check = cod_per and status_per in (0,1) WHERE mes_check = '".$_GET['mes']."' and anio_check = '".$_GET['anio']."' order by codigo_check asc, date(fecha_check) asc, tipo_check asc";
+				$sql = "Select id_check,semana_check,tipo_check,hor_check,nombre_per,cod_per,ch_per,day(fecha_check) as dia FROM check_mant INNER JOIN personal_mant ON codigo_check = cod_per and status_per in (0,1) WHERE mes_check = '".$_GET['mes']."' and anio_check = '".$_GET['anio']."' order by turno_per asc, nombre_per asc, date(fecha_check) asc, tipo_check asc";
 				//echo "query: $sql";
 				$meses = $this->data->query($sql);
 				$sql = "SELECT semana_check FROM check_mant where mes_check = '".$_GET['mes']."' and anio_check = '".$_GET['anio']."' group by semana_check order by semana_check Asc";
@@ -1961,7 +1961,7 @@
 							}
 						}
 						unset($data[$X]['semana'][$Semana]);
-						$data[$X]['semana'][$Semana]['horas'] = floor(($semana/60)/60);
+						$data[$X]['semana'][$Semana]['horas'] = floor(($semana/60)/60).":".str_pad(floor(($semana/60)/60),2,"0",STR_PAD_LEFT);
 					}
 				}
 				/*foreach ($data as $key => $value) {

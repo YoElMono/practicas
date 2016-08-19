@@ -1951,17 +1951,17 @@
 								$un_dia = strtotime("1970-01-01 18:00:00");
 								//echo "un dia = $un_dia - ".( floor( ($un_dia/60) / 60 ) );
 								$diferencia = $salida-$entrada;
-								if($diferencia >= 0){
+								//if($diferencia >= 0){
 									//echo "entrada: $entrada salida: $salida diferencia: $diferencia";exit();
 									$semana += $diferencia;
-								}else{
+								/*}else{
 									$diferencia = ($salida+$un_dia)-$entrada;
 									$semana += $diferencia;
-								}
+								}*/
 							}
 						}
 						unset($data[$X]['semana'][$Semana]);
-						$data[$X]['semana'][$Semana]['horas'] = floor(($semana/60)/60).":".str_pad(floor(($semana/60)/60),2,"0",STR_PAD_LEFT);
+						$data[$X]['semana'][$Semana]['horas'] = floor(($semana/60)/60).":".str_pad(floor(($semana/60)%60),2,"0",STR_PAD_LEFT);
 					}
 				}
 				/*foreach ($data as $key => $value) {

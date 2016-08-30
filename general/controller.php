@@ -1,6 +1,5 @@
 <?php
 	class principal{
-		//require_once __DIR__.'/../main/templates/complementos/fpdf/udgpdf.php';
 		var $data;
 		function __construct(){$this->data = new general();}
 		public function index(){
@@ -1855,7 +1854,7 @@
 						$us['num'] = $_POST['num'];
 						$us['cl'] = strtoupper($_POST['cl']);
 						if($us['fec']=="0-0-0") unset($us['fec']);
-						if($_POST['fecIni']&&$_POST['fecFin']){
+						if($_POST['fecIni'] && $_POST['fecFin']){
 							$fecha = explode('/', $_POST['fecIni']);
 							$us['inicio'] = $fecha[2].'-';
 							$us['inicio'].= ($fecha[1]>9)?$fecha[1].'-':'0'.$fecha[1].'-';
@@ -1911,7 +1910,6 @@
 				header('location:../reporte_global_mes.pdf');
 			}elseif($_GET){
 				$sql = "Select id_check,semana_check,tipo_check,hor_check,nombre_per,cod_per,ch_per,day(fecha_check) as dia FROM check_mant INNER JOIN personal_mant ON codigo_check = cod_per and status_per in (0,1) WHERE mes_check = '".$_GET['mes']."' and anio_check = '".$_GET['anio']."' order by turno_per asc, nombre_per asc, date(fecha_check) asc, tipo_check asc";
-				//echo "query: $sql";
 				$meses = $this->data->query($sql);
 				$sql = "SELECT semana_check FROM check_mant where mes_check = '".$_GET['mes']."' and anio_check = '".$_GET['anio']."' group by semana_check order by semana_check Asc";
 				$semanas = $this->data->query($sql);
@@ -1939,7 +1937,6 @@
 				foreach ($semanas as $_key => $_value) {
 					$data[$X]['semana'][$_value['semana_check']]["horas"] = 0;
 				}
-				//echo '<pre>';print_r($data);exit();
 				foreach ($data as $X => $personal) {
 					foreach ($personal['semana'] as $Semana => $dias) {
 						$semana = 0;
@@ -1949,29 +1946,15 @@
 							$diferencia = 0;
 							if(($entrada = strtotime($entrada)) && ($salida = strtotime($salida))){
 								$un_dia = strtotime("1970-01-01 18:00:00");
-								//echo "un dia = $un_dia - ".( floor( ($un_dia/60) / 60 ) );
 								$diferencia = $salida-$entrada;
-								//if($diferencia >= 0){
-									//echo "entrada: $entrada salida: $salida diferencia: $diferencia";exit();
-									$semana += $diferencia;
-								/*}else{
-									$diferencia = ($salida+$un_dia)-$entrada;
-									$semana += $diferencia;
-								}*/
+								$semana += $diferencia;
 							}
 						}
 						unset($data[$X]['semana'][$Semana]);
 						$data[$X]['semana'][$Semana]['horas'] = floor(($semana/60)/60).":".str_pad(floor(($semana/60)%60),2,"0",STR_PAD_LEFT);
 					}
 				}
-				/*foreach ($data as $key => $value) {
-					foreach ($semanas as $_key => $_value) {
-						if(!isset($value['semana'][$_value['semana_check']]))
-							$value['semana'][$_value['semana_check']] = ["horas"=>0];
-					}
-				}*/
 				$array = ["data"=>$data,"semanas"=>$semanas];
-				//echo '<pre>';print_r($data);exit();
 				$this->pdfRGM($array,(int)$_GET['mes']);
 				return render_to_response(vista::pageWhite("reporte_global_mes.html", $array));
 			}else{
@@ -1982,7 +1965,6 @@
 		public function pdfRGM($data,$mes){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
 			$pdf=new RGM('P');
-			//echo "algo";exit();
 			$pdf->AddPage();
 			$pdf->body($data,$mes);
 			$pdf->Output(__DIR__.'/../reporte_global_mes.pdf','f');
@@ -2084,7 +2066,6 @@
 			if ($_POST) {
 				$json = json_encode($_POST);
 				@file_put_contents("main/templates/complementos/apps.json", $json);
-				//echo $json."\nalgo";exit();
 				return HttpResponse('index.php/');
 			}else{
 				$str_datos = file_get_contents("main/templates/complementos/apps.json");
@@ -2199,26 +2180,6 @@
 			require_once 'main/templates/complementos/calendario.php';
 			if ($_POST) {
 				$_POST['semana'] = numeroDeSemana2($_POST['dia'],$_POST['mes'],$_POST['anio']);
-				//echo '<pre>';print_r($_POST);exit();
-				/*
-				if ($_POST['accion'] == 1) {
-					foreach ($_POST['trab'] as $key => $value){
-						if ($value[0]){
-							$this->data->saveDiar($value[1],$_POST['dia'],$_POST['mes'],$_POST['anio']);
-						}
-					}
-				}elseif ($_POST['accion'] == 2) {
-					$this->data->saveVacaciones($_POST['dia'],$_POST['mes'],$_POST['anio'],utf8_encode($_POST['comentario']));
-				}elseif($_POST['accion'] == 3){
-					foreach ($_POST['trab'] as $key => $value) {
-						if ($value[0]) {
-							$this->data->saveDiat($_POST['dia'],$_POST['mes'],$_POST['anio'],$value[1],$value[2],$value[3]);
-						}
-					}
-				}elseif($_POST['action'] == 4){
-					$this->data->saveDiaExtra($_POST,$_GET);
-				}
-				*/
 				$a = "_vacaciones";
 				$sql = "INSERT INTO vacaciones_mant (codigo$a,dia$a,mes$a,anio$a,semana$a,tipo$a,hora$a,horaCap$a,verifica$a,fechcon$a,notas$a,fecha$a) VALUES ";
 				$ejecutar = false;
@@ -2239,7 +2200,6 @@
 				}
 				if($ejecutar){
 					$sql = substr($sql, 0,strlen($sql)-2);
-				//echo $sql;exit();
 					$this->data->query($sql);
 				}
 			}else{
@@ -2252,9 +2212,6 @@
 				$dia = dias_semana($dia);
 				$sql = "Select nombre_per,cod_per,".str_replace("check", "horE", $dia)." as entrada, ".str_replace("check", "horS", $dia)." as salida from personal_mant where $dia = 1 and status_per in (0,1)";
 				$per['per'] = $this->data->query($sql);
-				/*foreach ($per as $key => $value) {
-					$per[$key]['dias'] = $this->data->dias_libres($value['cod_per']); 
-				}*/
 				return render_to_response(vista::pageWhite('marcarVaca.html',$per,'Vacaciones'));
 			}
 			

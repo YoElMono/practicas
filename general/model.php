@@ -341,7 +341,7 @@
 			}
 		}
 		public function personalSS(){
-			$query = $this->consulta("SELECT * FROM pss_mant WHERE status_pss != 'Inactivo' ORDER BY turno_pss,nombre_pss ASC");
+			$query = $this->consulta("SELECT * FROM pss_mant WHERE status_pss = 'Activo' ORDER BY turno_pss,nombre_pss ASC");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {
 					$data[] = $tsArray;

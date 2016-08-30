@@ -919,13 +919,13 @@ function abrirVentana(url) {
 				console.log(data)
 				if(data != ""){
 					$("#lista-eventos>table").html("")
-					var head = "<tr><td><b>Nombre</b></td><td><b>Descripcion</b></td><td><b>Fecha</b></td><td><b>Hora</b></td><td><b>Sede</b></td><td><b>Archivo</b></td></tr>";
+					var head = "<tr><td><b>Nombre</b></td><td><b>No. Oficio</b></td><td><b>Descripcion</b></td><td><b>Fecha</b></td><td><b>Hora</b></td><td><b>Sede</b></td><td><b>Archivo</b></td></tr>";
 					$("#lista-eventos>table").append(head);
 					$.each(data,function (key,value) {
 						url = "'main/templates/complementos/archivos_oficios/"+value.archivo_eve+"'";
 						if(value.archivo_eve != "") boton = '<button class="boton-archivo" onclick="abrirVentana('+url+');">Archivo</button>';
 						else boton = ""
-						var fila = '<tr><td>'+value.nombre_eve+'</td><td>'+value.descripcion_eve+'</td><td>'+value.fecha_eve+'</td><td>'+value.hora_eve+'</td><td>'+value.sede_eve+'</td><td>'+boton+'</td></tr>';
+						var fila = '<tr><td>'+value.nombre_eve+'</td><td>'+value.num_ofi_eve+'</td><td>'+value.descripcion_eve+'</td><td>'+value.fecha_eve+'</td><td>'+value.hora_eve+'</td><td>'+value.sede_eve+'</td><td>'+boton+'</td></tr>';
 						$("#lista-eventos>table").append(fila);
 					})
 					$("#lista-eventos>table").show();
@@ -935,7 +935,7 @@ function abrirVentana(url) {
 					$("#not-found").show();
 				}
 				$("#pantalla").fadeIn(500);
-				$("#eventos_conteiner").css({left:(($("body").width()/2)-($("#eventos_conteiner").width()/2)),top:(($(window).height()/2)-($("#eventos_conteiner").height()/2))})
+				$("#eventos_conteiner").css({left:"10%",top:(($(window).height()/2)-($("#eventos_conteiner").height()/2)),width:"80%"})
 				if($("#eventos_conteiner").height()>=600) $('#eventos_conteiner').css('overflow-y','scroll'); else $('#eventos_conteiner').css('overflow-y','hidden');
 				$("body").css("overflow-y","hidden");
 			},

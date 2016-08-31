@@ -280,5 +280,6 @@
 	"HT":"Horas Totales",
 	"status":"Status",
 	"consolidacion":"Consolidación",
-	"eliminar_checkin":"Eliminar Registros de Checkin"
+	"eliminar_checkin":"Eliminar Registros de Checkin",
+	"eventos_sin_archivos":"Eventos sin archivos"
 }

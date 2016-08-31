@@ -2062,6 +2062,12 @@
 			}
 		}
 
+		public function eventos_sin_archivos(){
+			/** Seleccionar todos los registros de eventos que no tengan un archivo pdf. **/
+			$eventos = $this->data->query("SELECT nombre_eve,fecha_eve,descripcion_eve,id_ofi FROM eventos_mant INNER JOIN oficios_mant ON num_ofi_eve = no_ofi WHERE archivo_eve = '' ");
+			return render_to_response(vista::page('eventos_sin_archivos.html',$eventos));
+		}
+
 		public function appAdmin(){
 			if ($_POST) {
 				$json = json_encode($_POST);
@@ -2103,6 +2109,7 @@
     						"eventos",
     						//"consolidacion",
     						"eliminar_checkin",
+    						"eventos_sin_archivos",
     						"Servicio_Social_Registro",
     						"Servicio_Social_Adm",
     						"Servicio_Social_Tarjetas",

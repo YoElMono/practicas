@@ -68,6 +68,7 @@
 		//case 'pruebas':{$objects["principal"]->dias_ganados();}break;
 		case 'eliminar_checkin':{$objects["principal"]->eliminar_checkin();}break;
 		case 'reporte_global_mes':{$objects["principal"]->reporte_global_mes();}break;
+		case 'eventos_sin_archivos':{$objects["principal"]->eventos_sin_archivos();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+	<header class="panel-heading">
+		<h5>Eventos sin archivo</h5>
+	</header>
+	<div class="panel-body">
+		<table class="table table-bordered">
+			<thead> 
+				<tr> 
+					<th>Nombre</th> 
+					<th>Fecha</th> 
+					<th>Descripción</th> 
+					<th></th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+			<?php foreach($arr as $key=>$value){ ?>
+				<tr> 
+					<th><?=$value['nombre_eve']?></th> 
+					<td><?=$value['fecha_eve']?></td> 
+					<td><?=$value['descripcion_eve']?></td> 
+					<td><a class="btn btn-warning" href="index.php/Reporte_ofi?edit=<?=$value['id_ofi']?>">Subir archivo</a></td> 
+				</tr>
+			<?php } ?>
+			</tbody> 
+		</table>
+	</div>
+</div>

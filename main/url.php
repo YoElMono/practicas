@@ -69,6 +69,7 @@
 		case 'eliminar_checkin':{$objects["principal"]->eliminar_checkin();}break;
 		case 'reporte_global_mes':{$objects["principal"]->reporte_global_mes();}break;
 		case 'eventos_sin_archivos':{$objects["principal"]->eventos_sin_archivos();}break;
+		case 'recuperar_personal':{$objects["principal"]->recuperar_personal();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

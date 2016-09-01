@@ -2068,6 +2068,17 @@
 			return render_to_response(vista::page('eventos_sin_archivos.html',$eventos));
 		}
 
+		public function recuperar_personal(){
+			$lista['completado'] = false;
+			if(isset($_GET['id'])){
+				$sql = "UPDATE personal_mant SET status_per = 0 WHERE id_per = $_GET[id] ";
+				$this->data->query($sql);
+				$lista['completado'] = true;
+			}
+			$lista['data'] = $this->data->query("SELECT cod_per,nombre_per,id_per FROM personal_mant WHERE status_per = 5");
+			return render_to_response(vista::page('recuperar_personal.html',$lista));
+		}
+
 		public function appAdmin(){
 			if ($_POST) {
 				$json = json_encode($_POST);
@@ -2089,6 +2100,7 @@
     						"Delffas",
     						"sers",
     						"personal",
+    						"recuperar_personal",
     						"tarjetas",
     						"admUsers",
     						"asigserver",

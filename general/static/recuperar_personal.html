@@ -1,0 +1,23 @@
+<?php if($arr['completado']){ ?>
+<div class="alert alert-success alert-dismissible" role="alert">
+  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  	Personal Recuperado
+</div>
+<?php } ?>
+
+<table class="table table-striped">
+	<tr>
+  		<td><strong>[cod]</strong></td>
+  		<td><strong>[nombre]</strong></td>
+  		<td><strong>Estatus</strong></td>
+  		<td><strong>[delete]</strong></td>
+	</tr>
+ 	<?php foreach ($arr['data'] as $key => $value):?>
+		<tr>
+			<td><?=$value['cod_per']?></td>
+			<td><?=$value['nombre_per']?></td>
+			<td><span class="label label-danger">BAJA</span></td>
+			<td><a href="index.php/recuperar_personal?id=<?=$value['id_per']?>"><span class="label label-success">Recuperar</span></a></td>
+		</tr>
+	<?php endforeach;?>
+</table>

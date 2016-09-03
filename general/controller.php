@@ -2064,7 +2064,7 @@
 
 		public function eventos_sin_archivos(){
 			/** Seleccionar todos los registros de eventos que no tengan un archivo pdf. **/
-			$eventos = $this->data->query("SELECT nombre_eve,fecha_eve,descripcion_eve,id_ofi FROM eventos_mant INNER JOIN oficios_mant ON num_ofi_eve = no_ofi WHERE archivo_eve = '' ");
+			$eventos = $this->data->query("SELECT nombre_eve,num_ofi_eve,fecha_eve,descripcion_eve,id_ofi FROM eventos_mant INNER JOIN oficios_mant ON num_ofi_eve = no_ofi WHERE archivo_eve = '' ");
 			return render_to_response(vista::page('eventos_sin_archivos.html',$eventos));
 		}
 
@@ -2164,7 +2164,7 @@
 				$this->pdfDL($mes,$frase,$_POST,$res,$fin);exit();
 				echo '<pre>';print_r($_POST);echo '</pre>';
 			}else{
-				$traba = $this->data->empleados($_GET['mes']);
+				$traba = $this->data->empleados($_GET['mes'],$_GET['anio']);
 				$gano = true;
 				$i = 0;
 				$nom = 'Nadie :(';

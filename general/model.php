@@ -911,11 +911,11 @@
 			$sea= $this->fetch_array($query);
 				return $sea;
 		}
-		public function empleados($mes){
+		public function empleados($mes,$anio){
 			$query = $this->consulta("SELECT cod_per, tipo_check, verifica_check, dia_check, nombre_per, name_area FROM check_mant
 										INNER JOIN personal_mant ON codigo_check = cod_per
 										INNER JOIN areas_mant ON area_per = id_area 
-										WHERE diaE_per = '1' AND mes_check = '$mes'
+										WHERE diaE_per = '1' AND mes_check = '$mes' AND anio_check = '$anio'
 										ORDER BY nombre_per ASC");
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {

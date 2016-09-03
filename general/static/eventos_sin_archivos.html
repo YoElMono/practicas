@@ -5,7 +5,8 @@
 	<div class="panel-body">
 		<table class="table table-bordered">
 			<thead> 
-				<tr> 
+				<tr>
+					<th>No. Oficio</th> 
 					<th>Nombre</th> 
 					<th>Fecha</th> 
 					<th>Descripción</th> 
@@ -15,7 +16,8 @@
 			<tbody> 
 			<?php foreach($arr as $key=>$value){ ?>
 				<tr> 
-					<th><?=$value['nombre_eve']?></th> 
+					<th><?=$value['num_ofi_eve']?></th> 
+					<td><?=$value['nombre_eve']?></td> 
 					<td><?=$value['fecha_eve']?></td> 
 					<td><?=$value['descripcion_eve']?></td> 
 					<td><a class="btn btn-warning" href="index.php/Reporte_ofi?edit=<?=$value['id_ofi']?>">Subir archivo</a></td> 

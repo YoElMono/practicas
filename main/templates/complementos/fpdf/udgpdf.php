@@ -534,15 +534,19 @@
 			$this->MultiCell(0,$h,utf8_decode($con[7]),$b);
 			$this->Cell(0,35,utf8_decode($des),$b,1);
 		}
-		public function pie($frase='',$res='',$fin){
+		public function pie($frase='',$res='',$fin,$fecha){
 			$meses = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
-			$mes = $meses[date('m')-1];
+			$fecha = explode("/", $fecha);
+			$dia = $fecha[0];
+			$mes = $meses[$fecha[1]-1];
+			$anio = $fecha[2];
+			//$mes = $meses[date('m')-1];
 			$h = 5;
 			$b = 0;
 			if($frase!='') $frase = '"'.$frase.'"';
 			$con = 'ATENTAMENTE
 			"PIENSA Y TRABAJA"
-			Guadalajara, Jal. a '.date('d').' de '.$mes.' de '.date('Y');
+			Guadalajara, Jal. a '.$dia.' de '.$mes.' de '.$anio;
 			$this->MultiCell(0,$h,$con,$b,'C');
 			$this->SetFont('','BI');
 			$this->Cell(0,$h,utf8_decode($frase),$b,1,'C');

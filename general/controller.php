@@ -2140,14 +2140,14 @@
 				return render_to_response(vista::page('editPass.html'));
 			}
 		}
-		public function pdfDL($mes,$frase='',$data,$res='',$fin){
+		public function pdfDL($mes,$frase='',$data,$res='',$fin,$fecha){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
 			$pdf=new DL('P');
 			$pdf->SetMargins(35,5,30);
 			for($i = 1; $i<=count($data);$i++){
 				$pdf->AddPage();
 				$pdf->body($mes,$data[$i]);
-				$pdf->pie($frase,$res,$fin);
+				$pdf->pie($frase,$res,$fin,$fecha);
 			}
 			$pdf->Output('oficio','i');
 		}
@@ -2157,11 +2157,12 @@
 				$frase = $_POST['frase'];
 				$res = $_POST['jefe'];
 				$fin = $_POST['fin'];
+				$fecha = $_POST['fecha'];
 				unset($_POST['mes']);
 				unset($_POST['frase']);
 				unset($_POST['jefe']);
 				unset($_POST['fin']);
-				$this->pdfDL($mes,$frase,$_POST,$res,$fin);exit();
+				$this->pdfDL($mes,$frase,$_POST,$res,$fin,$fecha);exit();
 				echo '<pre>';print_r($_POST);echo '</pre>';
 			}else{
 				$traba = $this->data->empleados($_GET['mes'],$_GET['anio']);
@@ -2177,7 +2178,7 @@
 						$gano = true;
 					}
 					$val = $value['verifica_check'];
-					if($val != 1 && $val != 2 && $val != 5) $gano = false;
+					if($val != 1 && $val != 2 /*&& $val != 5*/) $gano = false;
 					$nom = $value['nombre_per'];$cod = $value['cod_per'];$ar = $value['name_area'];
 				}
 				if ($gano){

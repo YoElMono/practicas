@@ -29,7 +29,13 @@
 		<input type="text" class="form-control" placeholder="Frase" name="frase"><br>
 		<input type="text" class="form-control" placeholder="Responsable" name="jefe"><br>
 		<input type="text" class="form-control" placeholder="Siglas" name="fin"><br>
+		<input type="text" class="form-control" placeholder="Fecha" name="fecha" readonly id="fecha"><br>
 		<button class="btn btn-info" type="submit">Imprimir</button>
 		</form>
 	</div>
 </div>
+<script type="text/javascript">
+	$(function() {
+		$('#fecha').calendarioDW();
+	});
+</script>

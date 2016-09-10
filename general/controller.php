@@ -2163,13 +2163,17 @@
 				unset($_POST['jefe']);
 				unset($_POST['fin']);
 				$this->pdfDL($mes,$frase,$_POST,$res,$fin,$fecha);exit();
-				echo '<pre>';print_r($_POST);echo '</pre>';
+				//echo '<pre>';print_r($_POST);echo '</pre>';
 			}else{
 				$traba = $this->data->empleados($_GET['mes'],$_GET['anio']);
 				$gano = true;
 				$i = 0;
 				$nom = 'Nadie :(';
+				$ganadores = [];
+				$codigo = '';
+				//echo "<pre>";print_r($traba);exit();
 				foreach ($traba as $key => $value){
+					/*
 					if ($nom != $value['nombre_per']){
 						if ($gano){ 
 							$traba['ganadores'][$i] = array('nombre'=>$nom,'area'=>$ar,'codigo'=>$cod);
@@ -2177,14 +2181,36 @@
 						}
 						$gano = true;
 					}
+					*/
+					//echo "$value[verifica_check]<br>";
+					if($codigo != $value['cod_per'] and $codigo != ''){
+						//echo $nom;
+						if($gano){
+							//echo " ganó";
+							$ganadores[] = ["nombre"=>$nom,"area"=>$ar,"codigo"=>$codigo];
+						}
+						//echo "<br>";
+						$gano = true;
+					}
 					$val = $value['verifica_check'];
-					if($val != 1 && $val != 2 /*&& $val != 5*/) $gano = false;
-					$nom = $value['nombre_per'];$cod = $value['cod_per'];$ar = $value['name_area'];
+					//if($val != 1 && $val != 2 /*&& $val != 5*/) $gano = false;
+					if($value['tipo_check'] == 1){
+						if($val > 2) 
+							$gano = false;
+					}else{
+						if($val > 2 && $val < 5)
+							$gano = false;
+					}
+
+					$nom = $value['nombre_per'];
+					$codigo = $value['cod_per'];
+					$ar = $value['name_area'];
 				}
 				if ($gano){
-					$traba['ganadores'][$i] = array('nombre'=>$nom,'area'=>$ar,'codigo'=>$cod);
+					$ganadores[] = array('nombre'=>$nom,'area'=>$ar,'codigo'=>$codigo);
 				}
-				return render_to_response(vista::pageWhite('dia-libre.html', $traba,'Ganadores del Día de Estímulo'));
+				//echo "<pre>";print_r($ganadores);exit();
+				return render_to_response(vista::pageWhite('dia-libre.html', $ganadores,'Ganadores del Día de Estímulo'));
 			}
 		}
 		public function capVaca(){

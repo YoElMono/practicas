@@ -10,20 +10,20 @@
 				<td><strong>[cod]</strong></td>
 				<td><strong>[ar]</strong></td>
 			</tr>
-			<?php if(count($arr['ganadores']) > 1):?>
+			<?php if(count($arr) > 1){?>
 			<form method="POST">
-				<?php for ($i=1; $i < count($arr['ganadores']); $i++):?>
+				<?php foreach ($arr as $key => $value){?>
 				<tr>
-					<td><?= $arr['ganadores'][$i]['nombre']?></td><input type="hidden" value="<?=$arr['ganadores'][$i]['nombre']?>" name="<?=$i?>[nom]">
-					<td><?= $arr['ganadores'][$i]['codigo']?></td><input type="hidden" value="<?=$arr['ganadores'][$i]['codigo']?>" name="<?=$i?>[codigo]">
-					<td><?= $arr['ganadores'][$i]['area']?></td>
+					<td><?= $value['nombre']?></td><input type="hidden" value="<?=$value['nombre']?>" name="<?=$key?>[nom]">
+					<td><?= $value['codigo']?></td><input type="hidden" value="<?=$value['codigo']?>" name="<?=$key?>[codigo]">
+					<td><?= $value['area']?></td>
 				</tr>
-				<?php endfor;?>
-			<?php else:?>
+				<?php } ?>
+			<?php }else{?>
 				<tr>
-					<td colspan="2"><?= $arr['ganadores'][0]['nombre']?></td>
+					<td colspan="2">Nadie :(</td>
 				</tr>
-			<?php endif;?>
+			<?php } ?>
 		</table>
 		<input type="hidden" value="<?=$_GET['mes']?>" name="mes">
 		<input type="text" class="form-control" placeholder="Frase" name="frase"><br>

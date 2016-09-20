@@ -873,9 +873,9 @@
 		}
 
 		public function repEsp($a){
-			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, mes_check, anio_check, hor_check,notas_check, nombre_per,verifica_check,fechcon_check FROM check_mant
+			$query = $this->consulta("SELECT turno_per, id_check, codigo_check, tipo_check, dia_check, mes_check, anio_check, hor_check, horcap_check, notas_check, nombre_per, verifica_check, fechcon_check, ch_per, horED_per, horSD_per, horEL_per, horSL_per, horEMa_per, horSMa_per, horEMi_per, horSMi_per, horEJ_per, horSJ_per, horEV_per, horSV_per, horES_per, horSS_per FROM check_mant
 									INNER JOIN personal_mant ON codigo_check = cod_per
-									WHERE codigo_check = '$a[id]' AND (fecha_check BETWEEN '$a[a]' AND '$a[b]') ORDER BY fecha_check,dia_check,tipo_check ");
+									WHERE codigo_check = '$a[id]' AND (fecha_check >= '$a[a]' AND fecha_check <= '$a[b]') ORDER BY fecha_check,dia_check,tipo_check ");
 			
 			if($this->numero_de_filas($query) > 0){
 				while ( $tsArray = $this->fetch_assoc($query) ) {

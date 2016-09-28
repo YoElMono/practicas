@@ -1280,6 +1280,15 @@
 			$pdf->body($data,$faltas,$fecha);
 			$pdf->Output('reporte-mensual-Servicio-Social.pdf','f');
 		}
+		public function pdfOficioREs($data){
+			require_once 'main/templates/complementos/fpdf/udgpdf.php';
+			$pdf=new OficioREs('P');
+			$pdf->SetMargins(35,5,30);
+			$pdf->AddPage();
+			$pdf->body($data);
+			$pdf->pie();
+			$pdf->Output('oficio_reporte_especial.pdf','i');
+		}
 		public function repDia(){
 			if($_POST){
 				$fecha = $_POST['fecha'];
@@ -1483,16 +1492,19 @@
 			$datos = array();
 			$faltas = array();
 			if($_POST){
-				header('location:../reporte-especial.pdf');
+				//include 'static/reporte_especial.html';
+				//echo "<pre>";print_r($_POST);exit();
+				$this->pdfOficioREs($_POST);
 			}else{
-				$_GET['b'] = date('Y-m-d',(strtotime($_GET['b'])+(60*60*24)));
-				$repo = $this->data->repEsp($_GET);
+				$array = $_GET;
+				$array['b'] = date('Y-m-d',(strtotime($_GET['b'])+(60*60*24)));
+				$repo = $this->data->repEsp($array);
 				$data = array();
 				$faltasen = $faltassal = $i = $j = 0;
 				$_mes = $_anio = $_dia = $acumulado_laborado = $acumulado_capturado = 0;
 				$dias = ["D","L","Ma","Mi","J","V","S"];
 				$horario = '';
-
+				//echo "<pre>";print_r($repo);exit();
 				foreach ($repo as $key => $value) {
 					if($_anio != $value['anio_check']){
 						$_anio = $value['anio_check'];
@@ -1560,6 +1572,7 @@
 					}
 					$nombre = $value['nombre_per'];
 					$ch = $value['ch_per'];
+					$codigo = $value['codigo_check'];
 				}
 				//$horas = $acumulado_laborado/60;
 				$horas = floor($acumulado_laborado/60);
@@ -1579,6 +1592,7 @@
 				$datos1['nombre'] = $nombre;
 				$datos1['horario'] = $horario;
 				$datos1['ch'] = $ch;
+				$datos1['codigo'] = $codigo;
 				return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
 			}
 		}

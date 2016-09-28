@@ -593,4 +593,102 @@
 			}
 		}
 	}
+	class OficioREs extends FPDF{
+		public function header(){
+			$b = 0;
+			$this->AddFont('DejaVuSerifCondensed','','DejaVuSerifCondensed.php');
+			$this->Image('main/templates/complementos/img/escudo.jpg',10,10,18,20,'JPG');
+			$this->Cell(1,10,'',$b,1,'',1);
+			$this->Cell(1,6,'',$b,0,'',1);
+			$this->Cell(9,6,'',$b,0);
+			$this->SetFont('DejaVuSerifCondensed','',15);
+			$this->Cell(0,6,'UNIVERSIDAD DE GUADALAJARA',$b,1);
+			$this->Cell(1,2,'',$b,0,'',1);
+			$this->Cell(0,2,'',$b,1);
+			$this->Cell(1,4,'',$b,0,'',1);
+			$this->Cell(9,4,'',$b,0);
+			$this->SetFont('Arial','',10);
+			$this->Cell(0,4,'SECRETARIA GENERAL',$b,1);
+			$this->Cell(1,4,'',$b,0,'',1);
+			$this->Cell(9,4,'',$b,0);
+			$this->Cell(0,4,'CONSERVACION Y MANTENIMIENTO DE LA ADMINISTRACION GENERAL',$b,1);
+			$this->Cell(1,7,'',$b,1,'',1);
+		}
+		public function body($data){
+			$meses = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
+			$fecha = explode("-", $data['inicio']);
+			$fecha_inicio = "$fecha[2] de ".$meses[$fecha[1]-1]." de $fecha[0]";
+			$fecha = explode("-", $data['fin']);
+			$fecha_fin = "$fecha[2] de ".$meses[$fecha[1]-1]." de $fecha[0]";
+			$laborado = $data['laborado'];
+			$capturado = $data['capturado'];
+			$h = 7;
+			$b = 0;
+			$len = 1.8;
+			$con[0] = ' Por este medio me permito informa a usted que de acuerdo a la cláusula número 34 :';
+			$con[1] = '"Los trabajadaores que no hagan uso de sus tolerancias convenidas en el contrato colectivo de trabajo, contarán con un día de descanso como estímulo de puntualidad...';
+			$con[2] = 'el cuál deberá de tomar dentro del ';
+			$con[3] = 'mes inmediato siguiente",';
+			$con[4] = ' y en virtud de que en';
+			$con[5] = 'el mes de ';
+			$con[6] = ' cumplió usted de acuerdo con esta cláusula se le otorgará un';
+			$con[7] = 'día de descanso, se le solicita que informe a su jefe inmediato con anticipación la fecha en que tomará dicho beneficio.';
+			$des = 'Sin más por el momento, reciba un cordial saludo.';
+			$anc[5] = $len * (strlen($con[5]));
+			$this->SetFont('Arial','B',10.5);
+			$this->Cell(0,25,'',$b,1,'C');
+			$this->Cell(0,4,utf8_decode($data['nombre']),$b,1);
+			$this->Cell(15,4,utf8_decode('Código: '),$b,0);
+			$this->Cell(0,4,$data['codigo'],$b,1);
+			$this->SetFont('','');
+			$this->Cell(0,4,'P r e s e n t e',$b,1);
+			$text = "Con la intención de regularizar su situación en lo que respecta a la jornada laboral que desempeña, quiero informarle que durante el dia $fecha_inicio y hasta $fecha_fin laboró $laborado horas de las $capturadas horas que debería de cumplir, lo cual demuestra que cumplió con la cláusula 59 del contrato colectivo de trabajo SUTUdeG donde nos especifica, que su entrada deberá de ser conpuntualidad y \"cuando el trabajador ha uso del de tolerancia, deberá reponerlo al final de su jornada laboral\", así mismo cuando el trabajador haya acumulado tres retardos en una quincena, deberá reponer el tiempo acumulado de esos retardos en caso de negativa se considera como desobediencia al patrón, en virtud de lo antes mencionado de no atender a esta petición se tomarán las medidas necesarias notificándole a la Contraloría General de esta Universidad.";
+			$this->Cell(0,15,'',$b,1);
+			/*
+			$this->Cell(0,$h,utf8_decode($con[0]),$b,1);
+			$this->SetFont('','I');
+			$this->MultiCell(0,$h,utf8_decode($con[1]),$b);
+			$this->Cell(58,$h,utf8_decode($con[2]),$b,0);
+			$this->SetFont('','BI');
+			$this->Cell(47,$h,utf8_decode($con[3]),$b,0);
+			$this->SetFont('','');
+			$this->Cell(0,$h,$con[4],$b,1);
+			$this->Cell($anc[5],$h,$con[5],$b,0);
+			$this->SetFont('','B');
+			$this->Cell(22,$h,$mes,$b,0,'C');
+			$this->SetFont('','');
+			$this->Cell(0,$h,utf8_decode($con[6]),$b,1);
+			*/
+			$this->MultiCell(0,$h,utf8_decode($text),$b);
+			$this->Cell(0,35,utf8_decode($des),$b,1);
+		}
+		public function pie($frase='',$res='L.C.P. Jose Guadalupe Rodriguez Sedano',$fin='Responsable'){
+			$fecha = date('j/n/Y');
+			$meses = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre');
+			$fecha = explode("/", $fecha);
+			$dia = $fecha[0];
+			$mes = $meses[$fecha[1]-1];
+			$anio = $fecha[2];
+			//$mes = $meses[date('m')-1];
+			$h = 5;
+			$b = 0;
+			if($frase!='') $frase = '"'.$frase.'"';
+			$con = 'ATENTAMENTE
+			"PIENSA Y TRABAJA"
+			Guadalajara, Jal. a '.$dia.' de '.$mes.' de '.$anio;
+			$this->MultiCell(0,$h,$con,$b,'C');
+			$this->SetFont('','BI');
+			$this->Cell(0,$h,utf8_decode($frase),$b,1,'C');
+			$this->Cell(0,25,'',$b,1);
+			$this->SetFont('','B');
+			$this->Cell(0,$h,utf8_decode($res),$b,1,'C');
+			$this->SetFont('','');
+			$this->Cell(0,$h,'Responsable',$b,1,'C');
+			/*
+			$this->Cell(0,15,'',$b,1);
+			$this->SetFont('','',7);
+			$this->Cell(0,$h,$fin,$b,1);
+			*/		
+		}
+	}
 ?>

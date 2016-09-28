@@ -208,4 +208,16 @@
 		</div>
 	</div>
 <?php endif;?>
-<button class="btn btn-danger" style="margin-bottom:10px; float:left; margin-top:-20px" onclick="window.close()">[close]</button><br>
+<button class="btn btn-danger" style="margin-bottom:10px; float:left; margin-top:-20px" onclick="window.close()">[close]</button>
+<?php if($_GET['a'] && $_GET['b']){?>
+<form action="" method="post">
+<input type="hidden" name="nombre" value="<?=$arr[nombre]?>">
+<input type="hidden" name="laborado" value="<?=$arr[acumulado_laborado]?>">
+<input type="hidden" name="capturado" value="<?=$arr[acumulado_capturado]?>">
+<input type="hidden" name="inicio" value="<?=$_GET[a]?>">
+<input type="hidden" name="fin" value="<?=$_GET[b]?>">
+<input type="hidden" name="codigo" value="<?=$arr[codigo]?>">
+<button class="btn btn-info" style="margin-bottom:10px; float:left; margin-top:-20px">Imprimir</button>
+</form>
+<?php } ?>
+<br>

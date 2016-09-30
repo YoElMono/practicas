@@ -642,7 +642,7 @@
 			$this->Cell(0,4,$data['codigo'],$b,1);
 			$this->SetFont('','');
 			$this->Cell(0,4,'P r e s e n t e',$b,1);
-			$text = "Con la intención de regularizar su situación en lo que respecta a la jornada laboral que desempeña, quiero informarle que durante el dia $fecha_inicio y hasta $fecha_fin laboró $laborado horas de las $capturadas horas que debería de cumplir, lo cual demuestra que cumplió con la cláusula 59 del contrato colectivo de trabajo SUTUdeG donde nos especifica, que su entrada deberá de ser conpuntualidad y \"cuando el trabajador ha uso del de tolerancia, deberá reponerlo al final de su jornada laboral\", así mismo cuando el trabajador haya acumulado tres retardos en una quincena, deberá reponer el tiempo acumulado de esos retardos en caso de negativa se considera como desobediencia al patrón, en virtud de lo antes mencionado de no atender a esta petición se tomarán las medidas necesarias notificándole a la Contraloría General de esta Universidad.";
+			$text = "Con la intención de regularizar su situación en lo que respecta a la jornada laboral que desempeña, quiero informarle que durante el día $fecha_inicio y hasta el día $fecha_fin laboró $laborado horas de las $capturado horas que debería de cumplir, lo cual demuestra que cumplió con la cláusula 59 del contrato colectivo de trabajo SUTUdeG donde nos especifica, que su entrada deberá de ser conpuntualidad y \"cuando el trabajador ha uso del de tolerancia, deberá reponerlo al final de su jornada laboral\", así mismo cuando el trabajador haya acumulado tres retardos en una quincena, deberá reponer el tiempo acumulado de esos retardos en caso de negativa se considera como desobediencia al patrón, en virtud de lo antes mencionado de no atender a esta petición se tomarán las medidas necesarias notificándole a la Contraloría General de esta Universidad.";
 			$this->Cell(0,15,'',$b,1);
 			/*
 			$this->Cell(0,$h,utf8_decode($con[0]),$b,1);
@@ -689,6 +689,68 @@
 			$this->SetFont('','',7);
 			$this->Cell(0,$h,$fin,$b,1);
 			*/		
+		}
+	}
+	class REs extends FPDF{
+		public function header(){
+			$this->SetFont('Arial','B',10);
+			$this->Cell(0,5,'REPORTE ESPECIAL',0,1,'C');
+		}
+		public function body($data){
+			$meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+			$this->MultiCell(0,5,"$data[nombre] - Carga horaria: $data[ch] - Horario: $data[horario] - Total Laborado: $data[acumulado_laborado] - Total Capturado: $data[acumulado_capturado] - Diferencia: $data[diferencia]",1,'C');
+			foreach ($data['data'] as $key => $value) {
+				/*
+				<tr>
+					<td colspan="7" style="font-weight: bold;color:#73CCD6"><?=$key?></td>
+				</tr>
+				*/
+				$this->Cell(0,5,$key,1,1);
+				foreach ($value as $_key => $_value) { 
+					/*
+					<tr>
+						<td colspan="7" style="font-weight: bold;color:#73CCD6"><?=$mes[$_key-1]?></td>
+					</tr>
+					<tr>
+						<td><strong>[dia]</strong></td>
+						<td><strong>[nombre]</strong></td>
+						<td><strong>[ent]</strong></td>
+						<td><strong>[not]</strong></td>
+						<td><strong>[sal]</strong></td>
+						<td><strong>[not]</strong></td>
+						<td><strong>[ho]</strong></td>
+					</tr>
+					*/
+					$this->Cell(0,5,$meses[$_key-1],1,1);
+					$this->Cell(20,5,utf8_decode('Día'),1,0);
+					$this->Cell(50,5,'Nombre',1,0);
+					$this->Cell(20,5,'Entrada',1,0);
+					$this->Cell(30,5,'Notas',1,0);
+					$this->Cell(20,5,'Salida',1,0);
+					$this->Cell(30,5,'Notas',1,0);
+					$this->Cell(20,5,'Horas',1,1);
+					foreach ($_value as $__key => $__value) {
+						/*
+						<tr>
+							<td><?=$__key?></td>
+							<td><?=$arr['nombre']?></td>
+							<td><?=$__value['entrada']?></td>
+							<td><?=$__value['notas_ent']?></td>
+							<td><?=$__value['salida']?></td>
+							<td><?=$__value['not_sal']?></td>
+							<td><?=$__value['resultado']?></td>
+						</tr>
+						*/
+						$this->Cell(20,5,$__key,1,0);
+						$this->Cell(50,5,substr(utf8_decode($data['nombre']),0,25),1,0);
+						$this->Cell(20,5,$__value['entrada'],1,0);
+						$this->Cell(30,5,$__value['notas_ent'],1,0);
+						$this->Cell(20,5,$__value['salida'],1,0);
+						$this->Cell(30,5,$__value['not_sal'],1,0);
+						$this->Cell(20,5,$__value['resultado'],1,1);
+					}
+				}
+			}
 		}
 	}
 ?>

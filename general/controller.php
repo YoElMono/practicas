@@ -1266,12 +1266,14 @@
 			$pdf->body($data,$faltas,$fecha);
 			$pdf->Output(__DIR__.'/../reporte-mensual.pdf','f');
 		}
-		public function pdfREs($data,$faltas,$fecha){
+		public function pdfREs($data){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
-			$pdf=new RM('P');
+			$pdf=new REs('P');
 			$pdf->AddPage();
-			$pdf->body($data,$faltas,$fecha);
-			$pdf->Output('reporte-especial.pdf','f');
+			$pdf->body($data);
+			$nombre = 'reporte-especial-'.date('YmdHis').'.pdf';
+			$pdf->Output($nombre,'f');
+			return $nombre;
 		}
 		public function pdfRMSS($data,$faltas,$fecha){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
@@ -1593,6 +1595,7 @@
 				$datos1['horario'] = $horario;
 				$datos1['ch'] = $ch;
 				$datos1['codigo'] = $codigo;
+				$datos1['pdf'] = $this->pdfREs($datos1);
 				return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
 			}
 		}

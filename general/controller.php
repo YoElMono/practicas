@@ -940,8 +940,10 @@
 							$hor[0] = (int)($hor[0]*60)+$hor[1];
 							$hoa[0] = (int)($hoa[0]*60)+$hoa[1];
 							if ($_POST['tip'][$i] == 1) {
-								if ($hor[0] <= ($hoa[0]+30)) {
+								if ($hor[0] <= $hoa[0]) {
 									$veri = 1;
+								}elseif ($hor[0] <= ($hoa[0]+30)) {
+									$veri = 6;
 								}else {
 									$veri = 3;
 								}	
@@ -2198,9 +2200,10 @@
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
 			$pdf=new DL('P');
 			$pdf->SetMargins(35,5,30);
-			for($i = 1; $i<=count($data);$i++){
+			//for($i = 1; $i<=count($data);$i++){
+			foreach ($data as $key => $value) {
 				$pdf->AddPage();
-				$pdf->body($mes,$data[$i]);
+				$pdf->body($mes,$value);
 				$pdf->pie($frase,$res,$fin,$fecha);
 			}
 			$pdf->Output('oficio','i');
@@ -2216,6 +2219,7 @@
 				unset($_POST['frase']);
 				unset($_POST['jefe']);
 				unset($_POST['fin']);
+				unset($_POST['fecha']);
 				$this->pdfDL($mes,$frase,$_POST,$res,$fin,$fecha);exit();
 				//echo '<pre>';print_r($_POST);echo '</pre>';
 			}else{

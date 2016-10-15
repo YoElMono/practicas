@@ -597,6 +597,7 @@ margin-top: 30px;}
 .contenido{
 	border-left: 3px solid rgba(109, 195, 242, 0.77);
 }
+.txt-15{ font-size: 15pt; }
 .contenido > h4{color: #337AB7;}
 .contenido li{
 	font-size: 15px;

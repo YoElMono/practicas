@@ -1,0 +1,336 @@
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+		</div>
+		<div class="collapse navbar-collapse" id="reloj">
+			<p class="navbar-text navbar-right txt-15"></p>
+		</div>
+	</div>
+</nav>
+<div class="panel panel-default" id="ahora">
+	<div class="panel-heading">
+		<h3 class="panel-title">Ahora</h3>
+	</div>
+	<div class="panel-body">
+	<?php if(count($arr['ahora'])>0){ ?>
+		<div class="list-group">
+		<?php foreach($arr['ahora'] as $key => $value){ ?>
+	  		<div class="list-group-item">
+	  			<div class="col-sm-8">
+		    		<h4 class="list-group-item-heading"><?= $value['nombre_depe']?></h4>
+		    		<p class="list-group-item-text"><?= $value['evento_event']?></p>
+	  			</div>
+	  			<div class="col-sm-4">
+	  				<div class="col-sm-6">
+	  					<h5>Desde:</h5>
+	  					<p><?= $value['inicio_event']?></p>
+	  				</div>
+	  				<div class="col-sm-6">
+	  					<h5>Hasta:</h5>
+	  					<p><?= $value['fin_event']?></p>
+	  				</div>
+	  			</div>
+	  			<div style="clear:both;"></div>
+	  		</div>
+	  	<?php } ?>
+		</div>
+	<?php }else{ ?>
+	<div class="alert alert-danger" role="alert">
+		<strong>No hay eventos actualmente</strong>
+	</div>
+	<?php } ?>
+	</div>
+</div>
+<div class="panel panel-default" id="mas_tarde">
+	<div class="panel-heading">
+		<h3 class="panel-title">Más tarde</h3>
+	</div>
+	<div class="panel-body">
+	<?php if(count($arr['mas_tarde'])>0){ ?>
+		<div class="list-group">
+		<?php foreach($arr['mas_tarde'] as $key => $value){ ?>
+	  		<div class="list-group-item">
+	  			<div class="col-sm-8">
+		    		<h4 class="list-group-item-heading"><?= $value['nombre_depe']?></h4>
+		    		<p class="list-group-item-text"><?= $value['evento_event']?></p>
+	  			</div>
+	  			<div class="col-sm-4">
+	  				<div class="col-sm-6">
+	  					<h5>Desde:</h5>
+	  					<p><?= $value['inicio_event']?></p>
+	  				</div>
+	  				<div class="col-sm-6">
+	  					<h5>Hasta:</h5>
+	  					<p><?= $value['fin_event']?></p>
+	  				</div>
+	  			</div>
+	  			<div style="clear:both;"></div>
+	  		</div>
+	  	<?php } ?>
+		</div>
+	<?php }else{ ?>
+	<div class="alert alert-danger" role="alert">
+		<strong>No hay más eventos para hoy</strong>
+	</div>
+	<?php } ?>
+	</div>
+</div>
+<div class="panel panel-default" id="manana">
+	<div class="panel-heading">
+		<h3 class="panel-title">Mañana</h3>
+	</div>
+	<div class="panel-body">
+	<?php if(count($arr['manana'])>0){ ?>
+		<div class="list-group">
+		<?php foreach($arr['manana'] as $key => $value){ ?>
+	  		<div class="list-group-item">
+	  			<div class="col-sm-8">
+		    		<h4 class="list-group-item-heading"><?= $value['nombre_depe']?></h4>
+		    		<p class="list-group-item-text"><?= $value['evento_event']?></p>
+	  			</div>
+	  			<div class="col-sm-4">
+	  				<div class="col-sm-6">
+	  					<h5>Desde:</h5>
+	  					<p><?= $value['inicio_event']?></p>
+	  				</div>
+	  				<div class="col-sm-6">
+	  					<h5>Hasta:</h5>
+	  					<p><?= $value['fin_event']?></p>
+	  				</div>
+	  			</div>
+	  			<div style="clear:both;"></div>
+	  		</div>
+	  	<?php } ?>
+		</div>
+	<?php }else{ ?>
+	<div class="alert alert-danger" role="alert">
+		<strong>No hay más eventos para mañana</strong>
+	</div>
+	<?php } ?>
+	</div>
+</div>
+<div class="panel panel-default" id="pasado">
+	<div class="panel-heading">
+		<h3 class="panel-title"><?=$arr['dia']?></h3>
+	</div>
+	<div class="panel-body">
+	<?php if(count($arr['pasado'])>0){ ?>
+		<div class="list-group">
+		<?php foreach($arr['pasado'] as $key => $value){ ?>
+	  		<div class="list-group-item">
+	  			<div class="col-sm-8">
+		    		<h4 class="list-group-item-heading"><?= $value['nombre_depe']?></h4>
+		    		<p class="list-group-item-text"><?= $value['evento_event']?></p>
+	  			</div>
+	  			<div class="col-sm-4">
+	  				<div class="col-sm-6">
+	  					<h5>Desde:</h5>
+	  					<p><?= $value['inicio_event']?></p>
+	  				</div>
+	  				<div class="col-sm-6">
+	  					<h5>Hasta:</h5>
+	  					<p><?= $value['fin_event']?></p>
+	  				</div>
+	  			</div>
+	  			<div style="clear:both;"></div>
+	  		</div>
+	  	<?php } ?>
+		</div>
+	<?php }else{ ?>
+	<div class="alert alert-danger" role="alert">
+		<strong>No hay más eventos para el <?=$arr['dia']?></strong>
+	</div>
+	<?php } ?>
+	</div>
+</div>
+<script type="text/javascript">
+	var intentar = true;
+	$(function () {
+		actualizar_reloj();
+		setInterval(actualizar_reloj,1000);
+		setInterval(actualizar_eventos,30000,1);
+	});
+	function actualizar_eventos(intento) {
+		console.log(intento);
+		if(intentar)
+			$.ajax({
+				url:"index.php/view/get_events",
+				dataType:"json",
+				type:"get",
+				beforeSend:function () {
+					intentar = false;
+				},
+				success:function (data) {
+					console.log(data);
+					var html = '';
+					if(data.ahora.length > 0){
+						html = '<div class="list-group">';
+						$.each(data.ahora,function (key,value) {
+							html += '<div class="list-group-item">'+
+							  			'<div class="col-sm-8">'+
+								    		'<h4 class="list-group-item-heading">'+value.nombre_depe+'</h4>'+
+								    		'<p class="list-group-item-text">'+value.evento_event+'</p>'+
+							  			'</div>'+
+							  			'<div class="col-sm-4">'+
+							  				'<div class="col-sm-6">'+
+							  					'<h5>Desde:</h5>'+
+							  					'<p>'+value.inicio_event+'</p>'+
+							  				'</div>'+
+							  				'<div class="col-sm-6">'+
+							  					'<h5>Hasta:</h5>'+
+							  					'<p>'+value.fin_event+'</p>'+
+							  				'</div>'+
+							  			'</div>'+
+							  			'<div style="clear:both;"></div>'+
+							  		'</div>';
+						});
+					}else{
+						html = '<div class="alert alert-danger" role="alert"><strong>No hay eventos actualmente</strong></div>';
+					}
+					$("div#ahora>div.panel-body").html(html);
+					var html = '';
+					if(data.mas_tarde.length > 0){
+						html = '<div class="list-group">';
+						$.each(data.mas_tarde,function (key,value) {
+							html += '<div class="list-group-item">'+
+							  			'<div class="col-sm-8">'+
+								    		'<h4 class="list-group-item-heading">'+value.nombre_depe+'</h4>'+
+								    		'<p class="list-group-item-text">'+value.evento_event+'</p>'+
+							  			'</div>'+
+							  			'<div class="col-sm-4">'+
+							  				'<div class="col-sm-6">'+
+							  					'<h5>Desde:</h5>'+
+							  					'<p>'+value.inicio_event+'</p>'+
+							  				'</div>'+
+							  				'<div class="col-sm-6">'+
+							  					'<h5>Hasta:</h5>'+
+							  					'<p>'+value.fin_event+'</p>'+
+							  				'</div>'+
+							  			'</div>'+
+							  			'<div style="clear:both;"></div>'+
+							  		'</div>';
+						});
+					}else{
+						html = '<div class="alert alert-danger" role="alert"><strong>No hay más eventos para hoy</strong></div>';
+					}
+					$("div#mas_tarde>div.panel-body").html(html);
+					var html = '';
+					if(data.manana.length > 0){
+						html = '<div class="list-group">';
+						$.each(data.manana,function (key,value) {
+							html += '<div class="list-group-item">'+
+							  			'<div class="col-sm-8">'+
+								    		'<h4 class="list-group-item-heading">'+value.nombre_depe+'</h4>'+
+								    		'<p class="list-group-item-text">'+value.evento_event+'</p>'+
+							  			'</div>'+
+							  			'<div class="col-sm-4">'+
+							  				'<div class="col-sm-6">'+
+							  					'<h5>Desde:</h5>'+
+							  					'<p>'+value.inicio_event+'</p>'+
+							  				'</div>'+
+							  				'<div class="col-sm-6">'+
+							  					'<h5>Hasta:</h5>'+
+							  					'<p>'+value.fin_event+'</p>'+
+							  				'</div>'+
+							  			'</div>'+
+							  			'<div style="clear:both;"></div>'+
+							  		'</div>';
+						});
+					}else{
+						html = '<div class="alert alert-danger" role="alert"><strong>No hay más eventos para mañana</strong></div>';
+					}
+					$("div#manana>div.panel-body").html(html);
+					var html = '';
+					if(data.pasado.length > 0){
+						html = '<div class="list-group">';
+						$.each(data.pasado,function (key,value) {
+							html += '<div class="list-group-item">'+
+							  			'<div class="col-sm-8">'+
+								    		'<h4 class="list-group-item-heading">'+value.nombre_depe+'</h4>'+
+								    		'<p class="list-group-item-text">'+value.evento_event+'</p>'+
+							  			'</div>'+
+							  			'<div class="col-sm-4">'+
+							  				'<div class="col-sm-6">'+
+							  					'<h5>Desde:</h5>'+
+							  					'<p>'+value.inicio_event+'</p>'+
+							  				'</div>'+
+							  				'<div class="col-sm-6">'+
+							  					'<h5>Hasta:</h5>'+
+							  					'<p>'+value.fin_event+'</p>'+
+							  				'</div>'+
+							  			'</div>'+
+							  			'<div style="clear:both;"></div>'+
+							  		'</div>';
+						});
+					}else{
+						html = '<div class="alert alert-danger" role="alert"><strong>No hay más eventos para el '+data.dia+'</strong></div>';
+					}
+					$("div#pasado>div.panel-body").html(html);
+					intentar = true;
+				},
+				error:function (error,error2) {
+					console.log(error,error2);
+					intentar = true;
+					if(intento < 10)
+						actualizar_eventos(++intento);
+				}
+			});
+	}
+	function actualizar_reloj() {
+		var date = new Date();
+		var dia = str_pad(date.getDate(),2,"0",'STR_PAD_LEFT');
+		var mes = str_pad(date.getMonth()+1,2,"0",'STR_PAD_LEFT');
+		var anio = date.getFullYear();
+		var hora = str_pad(date.getHours(),2,"0",'STR_PAD_LEFT');
+		var minutos = str_pad(date.getMinutes(),2,"0",'STR_PAD_LEFT');
+		var segundos = str_pad(date.getSeconds(),2,"0",'STR_PAD_LEFT');
+		var tiempo = dia+"/"+mes+"/"+anio+" "+hora+':'+minutos+':'+segundos;
+		$("#reloj p").html(tiempo);
+		//document.getElementById("reloj").innerHTML = tiempo;
+	}
+	function str_pad (input, padLength, padString, padType) { // eslint-disable-line camelcase
+		//  discuss at: http://locutus.io/php/str_pad/
+		// original by: Kevin van Zonneveld (http://kvz.io)
+		// improved by: Michael White (http://getsprink.com)
+		//    input by: Marco van Oort
+		// bugfixed by: Brett Zamir (http://brett-zamir.me)
+		//   example 1: str_pad('Kevin van Zonneveld', 30, '-=', 'STR_PAD_LEFT')
+		//   returns 1: '-=-=-=-=-=-Kevin van Zonneveld'
+		//   example 2: str_pad('Kevin van Zonneveld', 30, '-', 'STR_PAD_BOTH')
+		//   returns 2: '------Kevin van Zonneveld-----'
+
+		var half = ''
+		var padToGo
+
+		var _strPadRepeater = function (s, len) {
+			var collect = ''
+
+			while (collect.length < len) {
+				collect += s
+			}
+			collect = collect.substr(0, len)
+
+			return collect
+		}
+
+		input += ''
+		padString = padString !== undefined ? padString : ' '
+
+		if (padType !== 'STR_PAD_LEFT' && padType !== 'STR_PAD_RIGHT' && padType !== 'STR_PAD_BOTH') {
+			padType = 'STR_PAD_RIGHT'
+		}
+		if ((padToGo = padLength - input.length) > 0) {
+			if (padType === 'STR_PAD_LEFT') {
+		  		input = _strPadRepeater(padString, padToGo) + input
+			} else if (padType === 'STR_PAD_RIGHT') {
+		  		input = input + _strPadRepeater(padString, padToGo)
+			} else if (padType === 'STR_PAD_BOTH') {
+		  		half = _strPadRepeater(padString, Math.ceil(padToGo / 2))
+		  		input = half + input + half
+		  		input = input.substr(0, padLength)
+			}
+		}
+
+		return input
+	}
+</script>

@@ -509,6 +509,21 @@ $(function(){
 			var top = $('.'+id).offset().top-30;
 			$('html').animate({scrollTop: top+'px'},100)
 		})
+
+
+	$("#duracion .time").timepicker({
+        'showDuration': true,
+        'timeFormat': 'h:i',
+        'disableTextInput':true
+    });
+    $("#duracion .date").datepicker({
+        'format': 'yyyy-mm-dd',
+        'autoclose': true
+    });
+
+    var basicExampleEl = document.getElementById('duracion');
+    var datepair = new Datepair(basicExampleEl);
+
 });
 
 
@@ -1072,6 +1087,8 @@ function validar_fecha_formato(evt) {
 function error(elemento){
 	elemento.addClass("error").focus();
 }
+
+
 
 
 $.ajaxSetup({

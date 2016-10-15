@@ -53,6 +53,7 @@
 		case 'cambiar_imagen':{$objects["principal"]->cambiar_imagen();}break;
 		case 'repFal2':{$objects["principal"]->repFal();}break;
 		case 'eventos':{$objects["principal"]->eventos();}break;
+		case 'events':{$objects["principal"]->events();}break;
 		case 'getEventoData':{$objects["principal"]->getEventoData();}break;
 		case 'Servicio_Social_Registro':{$objects["principal"]->personalSS();}break;
 		case 'Servicio_Social_Adm':{$objects["principal"]->viewPSS();}break;
@@ -70,6 +71,8 @@
 		case 'reporte_global_mes':{$objects["principal"]->reporte_global_mes();}break;
 		case 'eventos_sin_archivos':{$objects["principal"]->eventos_sin_archivos();}break;
 		case 'recuperar_personal':{$objects["principal"]->recuperar_personal();}break;
+		case 'eventos_info':{$objects["principal"]->eventos_info();}break;
+		case 'get_events':{$objects["principal"]->get_events();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

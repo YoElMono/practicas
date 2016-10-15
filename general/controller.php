@@ -2135,6 +2135,55 @@
 			return render_to_response(vista::page('recuperar_personal.html',$lista));
 		}
 
+		public function events(){
+			$save = false;
+			if($_POST){
+				//echo "<pre>";print_r($_SESSION);exit();
+				$sql = "INSERT INTO events_mant (id_dependencia_event,evento_event,inicio_event,fin_event,id_usuario_event) VALUES ($_SESSION[depen_user],'".utf8_encode($_POST['evento'])."','$_POST[fecha_inicio] $_POST[hora_inicio]:00','$_POST[fecha_fin] $_POST[hora_fin]:00',$_SESSION[id_user]);";
+				//echo $sql;exit();
+				$this->data->query($sql);
+				$save = true;
+			}
+			$data['save'] = $save;
+			return render_to_response(vista::page('events.html',$data));
+		}
+
+		public function eventos_info(){
+			$eventos = json_decode($this->get_events2(),true);
+			return render_to_response(vista::pageWhite('eventos_info.html',$eventos));
+		}
+
+		public function get_events2(){
+			$dias = ["Domingo","Lunes","Martes","Miércoles","Juves","Viernes","Sábado"];
+			$un_dia = (60*60*24*2);
+			$ahora = date('Y-m-d H:i:s');
+			$despues = date('Y-m-d',strtotime($ahora)+$un_dia);
+			$sql = "Select * From events_mant Inner Join depe_mant On id_dependencia_event = id_depe where fin_event >= '$ahora' and inicio_event <= '$despues 23:59:59'";
+			//echo $sql;exit();
+			$pasado = $dias[date('w',strtotime($despues))];
+			$events = $this->data->query($sql);
+			$eventos = ['ahora'=>[],'mas_tarde'=>[],'manana'=>[],'pasado'=>[],"dia"=>$pasado];
+			if(count($events)>0){
+				foreach ($events as $key => $value) {
+					if(strtotime($value['inicio_event']) <= strtotime($ahora)){
+						$eventos['ahora'][] = $value;
+					}elseif(date('Ymd',strtotime($value['inicio_event'])) == date('Ymd',strtotime($ahora))){
+						$eventos['mas_tarde'][] = $value;
+					}elseif(strtotime($value['inicio_event']) >= (strtotime($despues)-$un_dia) && strtotime($value['inicio_event']) <= strtotime($despues)){
+						$eventos['manana'][] = $value;
+					}else{
+						$eventos['pasado'][] = $value;
+					}
+				}
+			}
+			//echo '<pre>';print_r($eventos);exit();
+			return json_encode($eventos);exit();
+		}
+
+		public function get_events(){
+			echo $this->get_events2();exit();
+		}
+
 		public function appAdmin(){
 			if ($_POST) {
 				$json = json_encode($_POST);
@@ -2175,6 +2224,7 @@
     						"Reporte_ofi",
     						"cambiar_imagen",
     						"eventos",
+    						"events",
     						//"consolidacion",
     						"eliminar_checkin",
     						"eventos_sin_archivos",

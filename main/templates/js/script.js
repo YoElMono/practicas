@@ -511,19 +511,6 @@ $(function(){
 		})
 
 
-	$("#duracion .time").timepicker({
-        'showDuration': true,
-        'timeFormat': 'h:i',
-        'disableTextInput':true
-    });
-    $("#duracion .date").datepicker({
-        'format': 'yyyy-mm-dd',
-        'autoclose': true
-    });
-
-    var basicExampleEl = document.getElementById('duracion');
-    var datepair = new Datepair(basicExampleEl);
-
 });
 
 

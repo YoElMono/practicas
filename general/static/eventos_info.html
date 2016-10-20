@@ -36,7 +36,7 @@
 		</div>
 	<?php }else{ ?>
 	<div class="alert alert-danger" role="alert">
-		<strong>No hay eventos actualmente</strong>
+		<strong>No hay eventos</strong>
 	</div>
 	<?php } ?>
 	</div>
@@ -70,12 +70,12 @@
 		</div>
 	<?php }else{ ?>
 	<div class="alert alert-danger" role="alert">
-		<strong>No hay más eventos para hoy</strong>
+		<strong>No hay eventos</strong>
 	</div>
 	<?php } ?>
 	</div>
 </div>
-<div class="panel panel-default" id="manana">
+<div class="invisible panel panel-default" id="manana">
 	<div class="panel-heading">
 		<h3 class="panel-title">Mañana</h3>
 	</div>
@@ -109,7 +109,7 @@
 	<?php } ?>
 	</div>
 </div>
-<div class="panel panel-default" id="pasado">
+<div class="invisible panel panel-default" id="pasado">
 	<div class="panel-heading">
 		<h3 class="panel-title"><?=$arr['dia']?></h3>
 	</div>
@@ -148,7 +148,7 @@
 	$(function () {
 		actualizar_reloj();
 		setInterval(actualizar_reloj,1000);
-		setInterval(actualizar_eventos,30000,1);
+		setInterval(actualizar_eventos,(30000),1);
 	});
 	function actualizar_eventos(intento) {
 		console.log(intento);
@@ -162,6 +162,7 @@
 				},
 				success:function (data) {
 					console.log(data);
+					/*
 					var html = '';
 					if(data.ahora.length > 0){
 						html = '<div class="list-group">';
@@ -266,6 +267,41 @@
 						html = '<div class="alert alert-danger" role="alert"><strong>No hay más eventos para el '+data.dia+'</strong></div>';
 					}
 					$("div#pasado>div.panel-body").html(html);
+					*/
+					var dia = data.dia;
+					data.dia = '';
+					$.each(data,function (_key,_value) {
+							
+						var html = '';
+						if(_value.length > 0){
+							html = '<div class="list-group">';
+							$.each(_value,function (key,value) {
+								html += '<div class="list-group-item">'+
+								  			'<div class="col-sm-8">'+
+									    		'<h4 class="list-group-item-heading">'+value.nombre_depe+'</h4>'+
+									    		'<p class="list-group-item-text">'+value.evento_event+'</p>'+
+								  			'</div>'+
+								  			'<div class="col-sm-4">'+
+								  				'<div class="col-sm-6">'+
+								  					'<h5>Desde:</h5>'+
+								  					'<p>'+value.inicio_event+'</p>'+
+								  				'</div>'+
+								  				'<div class="col-sm-6">'+
+								  					'<h5>Hasta:</h5>'+
+								  					'<p>'+value.fin_event+'</p>'+
+								  				'</div>'+
+								  			'</div>'+
+								  			'<div style="clear:both;"></div>'+
+								  		'</div>';
+							});
+						}else{
+							html = '<div class="alert alert-danger" role="alert"><strong>No hay eventos</strong></div>';
+						}
+						if(_key != 'dia')
+							$("div#"+_key+">div.panel-body").html(html);
+
+					});
+
 					intentar = true;
 				},
 				error:function (error,error2) {
@@ -288,7 +324,8 @@
 		$("#reloj p").html(tiempo);
 		//document.getElementById("reloj").innerHTML = tiempo;
 	}
-	function str_pad (input, padLength, padString, padType) { // eslint-disable-line camelcase
+	function str_pad (input, padLength, padString, padType) { 
+		// eslint-disable-line camelcase
 		//  discuss at: http://locutus.io/php/str_pad/
 		// original by: Kevin van Zonneveld (http://kvz.io)
 		// improved by: Michael White (http://getsprink.com)

@@ -2158,7 +2158,7 @@
 			$un_dia = (60*60*24*2);
 			$ahora = date('Y-m-d H:i:s');
 			$despues = date('Y-m-d',strtotime($ahora)+$un_dia);
-			$sql = "Select * From events_mant Inner Join depe_mant On id_dependencia_event = id_depe where fin_event >= '$ahora' and inicio_event <= '$despues 23:59:59'";
+			$sql = "Select * From events_mant Inner Join depe_mant On id_dependencia_event = id_depe where fin_event >= '$ahora' limit 10";// and inicio_event <= '$despues 23:59:59'";
 			//echo $sql;exit();
 			$pasado = $dias[date('w',strtotime($despues))];
 			$events = $this->data->query($sql);
@@ -2167,12 +2167,13 @@
 				foreach ($events as $key => $value) {
 					if(strtotime($value['inicio_event']) <= strtotime($ahora)){
 						$eventos['ahora'][] = $value;
-					}elseif(date('Ymd',strtotime($value['inicio_event'])) == date('Ymd',strtotime($ahora))){
+					}/*elseif(date('Ymd',strtotime($value['inicio_event'])) == date('Ymd',strtotime($ahora))){
 						$eventos['mas_tarde'][] = $value;
 					}elseif(strtotime($value['inicio_event']) >= (strtotime($despues)-$un_dia) && strtotime($value['inicio_event']) <= strtotime($despues)){
 						$eventos['manana'][] = $value;
-					}else{
-						$eventos['pasado'][] = $value;
+					}*/else{
+						//$eventos['pasado'][] = $value;
+						$eventos['mas_tarde'][] = $value;
 					}
 				}
 			}

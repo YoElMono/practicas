@@ -2187,6 +2187,11 @@
 
 		public function appAdmin(){
 			if ($_POST) {
+				if(!isset($_POST[1]))
+					$_POST[1] = [];
+				if(!in_array('appAdmin', $_POST[1]))
+					$_POST[1][] = 'appAdmin';
+				//echo "<pre>";print_r($_POST);exit();
 				$json = json_encode($_POST);
 				@file_put_contents("main/templates/complementos/apps.json", $json);
 				return HttpResponse('index.php/');

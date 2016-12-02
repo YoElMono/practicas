@@ -982,31 +982,31 @@
 			}else
 				return '';
 		}
-		public function busofi($arr){
+		public function busofi($arr,$cerrado = false){
 			$sql = 'SELECT * FROM oficios_mant WHERE(';
 			foreach ($arr as $key => $value) {
 				if($arr[$key]){
 					switch ($key) {
 						case 'fec':
-							$sql.=" fecha_ofi = '$arr[fec]' or";
+							$sql.=" fecha_ofi = '$arr[fec]' ".($cerrado ? "and":"or");
 							break;
 						case 'dp':
-							$sql.=" dep_ofi = '$arr[dp]' or";
+							$sql.=" dep_ofi = '$arr[dp]' ".($cerrado ? "and":"or");
 							break;
 						case 'pro':
-							$sql.=" userCap_ofi = '$arr[pro]' or";
+							$sql.=" userCap_ofi = '$arr[pro]' ".($cerrado ? "and":"or");
 							break;
 						case 'num':
-							$sql.=" no_ofi LIKE '%$arr[num]%' or";
+							$sql.=" no_ofi LIKE '%$arr[num]%' ".($cerrado ? "and":"or");
 							break;
 						case 'con':
-							$sql.=" con_ofi = '$arr[con]' or";
+							$sql.=" con_ofi = '$arr[con]' ".($cerrado ? "and":"or");
 							break;
 						case 'cl':
-							$sql.=" des_ofi LIKE '%$arr[cl]%' or";
+							$sql.=" des_ofi LIKE '%$arr[cl]%' ".($cerrado ? "and":"or");
 							break;
 						case 'rango':
-							$sql.=" fecha_ofi BETWEEN '$arr[inicio]' AND '$arr[fin]' or";
+							$sql.=" fecha_ofi BETWEEN '$arr[inicio]' AND '$arr[fin]' ".($cerrado ? "and":"or");
 							break;
 					}
 				}

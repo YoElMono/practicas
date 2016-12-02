@@ -1895,6 +1895,7 @@
 				$arr['todo'] = $this->data->oficios();
 				foreach ($arr['todo'] as $key => $value) $caps[] = $value['userCap_ofi'];
 				$arr['caps'] = array_unique($caps);
+				$caps = [];
 				foreach ($arr['todo'] as $key => $value) $caps[] = $value['no_ofi'];
 				$arr['nums'] = array_unique($caps);
 				if($_POST){
@@ -1921,7 +1922,7 @@
 							$us['fin'].= ($fecha[0]>9)?$fecha[0]:'0'.$fecha[0];
 							$us['rango'] = true;
 						}
-						$arr['inf'] = $this->data->busofi($us);
+						$arr['inf'] = $this->data->busofi($us,isset($_POST['cerrado']));
 						foreach ($arr['inf'] as $key => $value) {
 							$fecha = explode('-', $value['fecha_ofi']);
 							$fecha = $fecha[2].'/'.$fecha[1].'/'.$fecha[0];
@@ -2191,6 +2192,7 @@
 					$_POST[1] = [];
 				if(!in_array('appAdmin', $_POST[1]))
 					$_POST[1][] = 'appAdmin';
+				ksort($_POST);
 				//echo "<pre>";print_r($_POST);exit();
 				$json = json_encode($_POST);
 				@file_put_contents("main/templates/complementos/apps.json", $json);

@@ -73,6 +73,7 @@
 		case 'recuperar_personal':{$objects["principal"]->recuperar_personal();}break;
 		case 'eventos_info':{$objects["principal"]->eventos_info();}break;
 		case 'get_events':{$objects["principal"]->get_events();}break;
+		case 'tarjeta_directorio':{$objects["principal"]->generar_tarjeta_directorio();}break;
 		default:{$objects["principal"]->e404();}break;
 	}
 ?>

@@ -64,5 +64,9 @@
 			<dt>[webp]</dt>
 		  	<dd><a href="http://<?= $arr['web_dir']?>" target="_blank"><?= $arr['web_dir']?></a></dd>
 		</div>
+		<div>
+			<dt>Ver tarjeta</dt>
+		  	<dd><button class="btn btn-success" onclick="abrirVentana('index.php/tarjeta_directorio?ver=<?=$arr['id_dir']?>');return false;">Ver tarjeta</button></dd>
+		</div>
 	</dl>
 </div>

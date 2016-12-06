@@ -894,6 +894,32 @@
 			return render_to_response(vista::page('mdir.html',$dat));
 			}
 		}
+		public function generar_tarjeta_directorio(){
+			$id = $_GET['ver'];
+			$registro = $this->data->query("Select * From directorio_mant Where id_dir = $id");
+			//echo "<pre>";print_r($registro);exit();
+			if($registro != ''){
+				$this->crear_tarjeta_directorio($registro[0]);
+			}
+		}
+		public function crear_tarjeta_directorio($registro){
+			require_once 'main/templates/complementos/fpdf/fpdf.php';
+			$margin = 3;
+			$borde = 0;
+			$pdf = new FPDF('P','mm','etiqueta');
+			$pdf->SetMargins($margin,$margin);
+			$pdf->SetAutoPageBreak(true,0);
+			$pdf->SetFont('Arial','B',10);
+			$pdf->AddPage();
+			$pdf->Image('main/templates/complementos/img/escudo.jpg',$margin,$margin,10,10,'JPG');
+			$pdf->Cell(0,3,"UNIVERSIDAD DE GUADALAJARA",$borde,1,'C');
+			$pdf->Cell(0,7,'',$borde,1);
+			$pdf->Cell(0,5,utf8_encode($registro['nom_dir']),$borde,1,'C');
+			$pdf->MultiCell(0,5,utf8_encode($registro['calle_dir']." #".$registro['no_dir']." ".$registro['col_dir']),$borde,'C');
+			$pdf->Cell(0,5,utf8_encode("Tel: ".$registro['tel_dir']),$borde,1,'C');
+			$pdf->Cell(0,5,utf8_decode("Página web: ").utf8_encode($registro['web_dir']),$borde,1,'C');
+			$pdf->Output('prueba', 'i');
+		}
 		public function admdir(){
 			global $url_array;
 			if ($url_array[2]){

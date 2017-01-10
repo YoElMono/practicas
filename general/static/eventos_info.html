@@ -1,10 +1,23 @@
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
+			<div class="navbar-brand">
+			</div>
 		</div>
-		<div class="collapse navbar-collapse" id="reloj">
-			<p class="navbar-text navbar-right txt-15"></p>
+		<div class="collapse navbar-collapse" id="reloj" style="margin:10px 0px;">
+			<div class="row">
+				<div class="col-sm-2">
+					<img class="navbar-text" src="main/templates/complementos/img/udglogo.png" width="50">
+				</div>
+				<div class="col-sm-6" style="text-align:center;">
+					<p class="navbar-text txt-15" style="float:none;">Universidad de Guadalajara</p>
+				</div>
+				<div class="col-sm-3">
+					<p class="navbar-text navbar-right txt-15"></p>
+				</div>
+			</div>
 		</div>
+		<div style="clear:both;"></div>
 	</div>
 </nav>
 <div class="panel panel-default" id="ahora">
@@ -146,9 +159,10 @@
 <script type="text/javascript">
 	var intentar = true;
 	$(function () {
+		var segundos = 60;
 		actualizar_reloj();
 		setInterval(actualizar_reloj,1000);
-		setInterval(actualizar_eventos,(30000),1);
+		setInterval(actualizar_eventos,(segundos*1000),1);
 	});
 	function actualizar_eventos(intento) {
 		console.log(intento);
@@ -321,7 +335,7 @@
 		var minutos = str_pad(date.getMinutes(),2,"0",'STR_PAD_LEFT');
 		var segundos = str_pad(date.getSeconds(),2,"0",'STR_PAD_LEFT');
 		var tiempo = dia+"/"+mes+"/"+anio+" "+hora+':'+minutos+':'+segundos;
-		$("#reloj p").html(tiempo);
+		$("#reloj p:last").html(tiempo);
 		//document.getElementById("reloj").innerHTML = tiempo;
 	}
 	function str_pad (input, padLength, padString, padType) { 

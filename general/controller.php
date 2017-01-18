@@ -1746,7 +1746,7 @@
 				$datos1['codigo'] = $codigo;
 				$datos1['pdf'] = $this->pdfREsPss($datos1);
 				//echo "<pre>";print_r($datos1);exit();
-				return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
+				return render_to_response(vista::pageWhite('recordAsisSS.html',$datos1,'Reporte de asistencia'));
 			}
 		}
 

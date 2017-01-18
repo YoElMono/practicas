@@ -217,7 +217,7 @@
 <input type="hidden" name="inicio" value="<?=$_GET[a]?>">
 <input type="hidden" name="fin" value="<?=$_GET[b]?>">
 <input type="hidden" name="codigo" value="<?=$arr[codigo]?>">
-<?php if($arr[diferencia] < 0){ ?>
+<?php if($arr['diferencia'] < 0 && !$arr['pss']){ ?>
 <button class="btn btn-info" style="margin-bottom:10px; float:left; margin-top:-20px">Imprimir Oficio</button>
 <?php } ?>
 </form>

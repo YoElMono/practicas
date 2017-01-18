@@ -535,6 +535,7 @@
 			}else{
 				$cal = $this->crear_cal(date('d'),date('m'),date('Y'));
 			}
+			$cal['data'] = $this->data->getPrestadores();
 			return render_to_response(vista::page('reportePSS.html',$cal));
 		}
 
@@ -1303,6 +1304,15 @@
 			$pdf->Output($nombre,'f');
 			return $nombre;
 		}
+		public function pdfREsPss($data){
+			require_once 'main/templates/complementos/fpdf/udgpdf.php';
+			$pdf=new REs('P');
+			$pdf->AddPage();
+			$pdf->body($data);
+			$nombre = 'reporte-especial-pss-'.date('YmdHis').'.pdf';
+			$pdf->Output(__DIR__.'/../'.$nombre,'f');
+			return $nombre;
+		}
 		public function pdfRMSS($data,$faltas,$fecha){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
 			$pdf=new RMSS('P');
@@ -1624,6 +1634,118 @@
 				$datos1['ch'] = $ch;
 				$datos1['codigo'] = $codigo;
 				$datos1['pdf'] = $this->pdfREs($datos1);
+				return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
+			}
+		}
+
+		public function repEspecialPss(){
+			$datos = array();
+			$faltas = array();
+			if($_POST){
+				//include 'static/reporte_especial.html';
+				//echo "<pre>";print_r($_POST);exit();
+				$this->pdfOficioREs($_POST);
+			}else{
+				$array = $_GET;
+				$array['b'] = date('Y-m-d',(strtotime($_GET['b'])+(60*60*24)));
+				$repo = $this->data->repEspPss($array);
+				$data = array();
+				$faltasen = $faltassal = $i = $j = 0;
+				$_mes = $_anio = $_dia = $acumulado_laborado = $acumulado_capturado = 0;
+				$dias = ["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+				$horario = '';
+				//echo "<pre>";print_r($repo);exit();
+				foreach ($repo as $key => $value) {
+					if($_anio != $value['anio_cpss']){
+						$_anio = $value['anio_cpss'];
+						$_mes = $value['mes_cpss'];
+						$_dia = $value['dia_cpss'];
+					}else{
+						if($_mes != $value['mes_cpss']){
+							$_mes = $value['mes_cpss'];
+							$_dia = $value['dia_cpss'];
+						}else{
+							if($_dia != $value['dia_cpss']){
+								$_dia = $value['dia_cpss'];
+							}
+						}
+					}
+
+					if($horario == ''){
+						foreach ($dias as $_key => $_value) {
+							if($value["entrada".$_value."_pss"] != '' and $value["salida".$_value."_pss"] != ''){
+								$horario = $value["entrada".$_value."_pss"]." - ".$value["salida".$_value."_pss"];
+								break;
+							}
+						}
+					}
+
+					if($value['tipo_cpss'] == 1){
+						$array['entrada'] = ($value['hora_cpss'] != "")?$value['hora_cpss']:"nada";
+						$array['notas_ent'] = $value['notas_cpss'];
+						$array['fechcon_ent'] = $value['fechaCon_cpss'];
+						$entrada_cap = explode(":", $value['horaCap_cpss']);
+						$entrada_cap = mktime($entrada_cap[0],$entrada_cap[1],0,0,0,0);
+						if($array['entrada'] != "nada"){
+							$entrada = explode(":", $array['entrada']);
+							$entrada = mktime($entrada[0],$entrada[1],0,0,0,0);
+						}else{
+							$entrada = 0;
+						}
+					}else{
+						$array['salida'] = ($value['hora_cpss'] != "")?$value['hora_cpss']:"nada";
+						$array['notas_sal'] = $value['notas_cpss'];
+						$array['fechcon_sal'] = $value['fechaCon_cpss'];
+						$salida_cap = explode(":", $value['horaCap_cpss']);
+						$salida_cap = mktime($salida_cap[0],$salida_cap[1],0,0,0,0);
+						$resultado = $salida_cap-$entrada_cap;
+						$resultado = $resultado/60;
+						$acumulado_capturado += $resultado;
+						if($array['entrada'] != "nada"){
+							$salida = explode(":", $array['salida']);
+							$salida = mktime($salida[0],$salida[1],0,0,0,0);
+						}else{
+							$salida = 0;
+						}
+						if($entrada != 0 && $salida != 0){
+							$resultado = $salida-$entrada;
+							$resultado = $resultado/60;
+							$acumulado_laborado += $resultado;
+							$res1 = floor($resultado/60);
+							$res2 = $resultado%60;
+							$resultado = ((strlen($res1)<2)?"0".$res1:$res1).":".((strlen($res2)<2)?"0".$res2:$res2);
+						}else{
+							$resultado = "Faltan datos";
+						}
+						$array['resultado'] = $resultado;
+						$datos[$_anio][$_mes][$_dia] = $array;
+					}
+					$nombre = $value['nombre_pss'];
+					$ch = $value['cargaHoraria_pss'];
+					$codigo = $value['codigo_cpss'];
+				}
+				//echo "<pre>";print_r($datos);exit();
+				//$horas = $acumulado_laborado/60;
+				$horas = floor($acumulado_laborado/60);
+				$minutos = $acumulado_laborado%60;
+				$datos1['acumulado_laborado'] = str_pad($horas,2,"0",STR_PAD_LEFT).":".str_pad($minutos,2,"0",STR_PAD_LEFT);
+				//$horas = $acumulado_capturado/60;
+				$horas = floor($acumulado_capturado/60);
+				$minutos = $acumulado_capturado%60;
+				$datos1['acumulado_capturado'] = str_pad($horas,2,"0",STR_PAD_LEFT).":".str_pad($minutos,2,"0",STR_PAD_LEFT);
+				$diferencia = $acumulado_laborado-$acumulado_capturado;
+				$horas = floor($diferencia/60);
+				$minutos = $diferencia%60;
+				if($horas < 0) $horas++;
+				if($minutos < 0) $minutos*=(-1);
+				$datos1['diferencia'] = str_pad($horas,2,"0",STR_PAD_LEFT).":".str_pad($minutos,2,"0",STR_PAD_LEFT);
+				$datos1['data'] = $datos;
+				$datos1['nombre'] = $nombre;
+				$datos1['horario'] = $horario;
+				$datos1['ch'] = $ch;
+				$datos1['codigo'] = $codigo;
+				$datos1['pdf'] = $this->pdfREsPss($datos1);
+				//echo "<pre>";print_r($datos1);exit();
 				return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
 			}
 		}

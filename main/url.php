@@ -41,6 +41,7 @@
 		case 'repSema':{$objects["principal"]->repSema();}break;
 		case 'repMes':{$objects["principal"]->repMes();}break;
 		case 'repEs':{$objects["principal"]->repEspecial();}break;
+		case 'repEsPss':{$objects["principal"]->repEspecialPss();}break;
 		case 'segSer':{$objects["principal"]->segSer();}break;
 		case 'restringido':{$objects["principal"]->staticPage('restringido.html');}break;
 		case 'diaLibre':{$objects["principal"]->diaLibre();}break;

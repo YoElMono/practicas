@@ -142,5 +142,65 @@
 	  			</div>
 			</div>
 		<?php endif;?>
+		<div class="panel panel-default">
+			<div class="panel-heading">Reporte Especial</div>
+			<div class="panel-body">
+				<div class="col-md-6">
+						<label class="col-md-4 control-label">Prestadores</label>
+						<div class="col-md-8">
+							<select class="form-control" name="codigo" id="codigo">
+								<option value=""> --- </option>
+								<?php foreach ($arr['data'] as $key => $value) { ?>
+									<option value="<?=$value['codigo_pss']?>"><?=$value['nombre_pss']?></option>
+								<?php } ?>
+							</select>
+						</div>
+				</div>
+				<div class="col-md-6">
+					<div class="col-md-12">
+						<label class="col-md-2 control-label">De:</label>
+						<div class="col-md-10">
+							<input class="form-control" name="de" id="de" type="text" readonly>
+						</div>
+					</div>
+					<div class="col-md-12" style="margin-top:0px;">					
+						<label class="col-md-2 control-label">A:</label>
+						<div class="col-md-10">
+							<input class="form-control" name="a" id="a" type="text" readonly>
+						</div>
+					</div>
+				</div>
+				<button class="btn btn-default" onclick="crearReporte();return false;">Crear Reporte</button>
+			</div>
+		</div>
  	</div>
 </div>
+
+<script type="text/javascript">
+	$(function () {
+		$('#de,#a').calendario();
+
+		$('#codigo,#de,#a').click(function (event) {
+			console.log(event);
+			$(this).removeClass('bordeError');
+		});
+	});
+	function crearReporte () {
+		var codigo = $('#codigo'), de = $('#de'), a = $('#a');
+		if(codigo.val() == "") {
+			alert("Debe de seleccíonar a un prestador");
+			codigo.addClass('bordeError');
+			return false;
+		}else if(de.val() == "" ){
+			alert("Falta la fecha de inicio");
+			de.addClass('bordeError');
+			return false;
+		}else if(a.val() == "" ){
+			alert("Falta la fecha final");
+			a.addClass('bordeError');
+			return false;
+		}else{
+			abrirVentana('index.php/repEsPss?id='+codigo.val()+'&a='+de.val()+'&b='+a.val());
+		}
+	}
+</script>

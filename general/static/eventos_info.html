@@ -1,3 +1,12 @@
+<style type="text/css">
+	div.panel-primary div.list-group-item{
+		border-color: #337ab7;
+	}
+	div.panel-success div.list-group-item{
+		border-color: #d6e9c6;
+	}
+</style>
+
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -20,7 +29,7 @@
 		<div style="clear:both;"></div>
 	</div>
 </nav>
-<div class="panel panel-default" id="ahora">
+<div class="panel panel-primary" id="ahora">
 	<div class="panel-heading">
 		<h3 class="panel-title">Ahora</h3>
 	</div>
@@ -54,7 +63,7 @@
 	<?php } ?>
 	</div>
 </div>
-<div class="panel panel-default" id="mas_tarde">
+<div class="panel panel-success" id="mas_tarde">
 	<div class="panel-heading">
 		<h3 class="panel-title">Más tarde</h3>
 	</div>
@@ -159,7 +168,7 @@
 <script type="text/javascript">
 	var intentar = true;
 	$(function () {
-		var segundos = 60;
+		var segundos = 60*10;
 		actualizar_reloj();
 		setInterval(actualizar_reloj,1000);
 		setInterval(actualizar_eventos,(segundos*1000),1);

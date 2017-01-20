@@ -2300,7 +2300,7 @@
 
 		public function eventos_info(){
 			$eventos = json_decode($this->get_events2(),true);
-			return render_to_response(vista::pageWhite('eventos_info.html',$eventos));
+			return render_to_response(vista::pageWhite('eventos_info.html',$eventos,"Información de Eventos"));
 		}
 
 		public function get_events2(){

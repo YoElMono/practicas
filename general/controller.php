@@ -906,7 +906,7 @@
 		public function crear_tarjeta_directorio($registro){
 			require_once 'main/templates/complementos/fpdf/fpdf.php';
 			$margin = 3;
-			$borde = 1;
+			$borde = 0;
 			$renglon = 7;
 			$pdf = new FPDF('P','mm','tarjeta');
 			$pdf->SetMargins($margin,$margin);

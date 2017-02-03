@@ -917,8 +917,8 @@
 			$pdf->Cell(15,$renglon,'',$borde,0);
 			$pdf->Cell(0,$renglon,"UNIVERSIDAD DE GUADALAJARA",$borde,1,'C');
 			$pdf->Cell(0,7,'',$borde,1);
-			$pdf->Cell(0,$renglon,utf8_encode($registro['nom_dir']),$borde,1,'C');
-			$pdf->MultiCell(0,$renglon,utf8_encode($registro['calle_dir']." #".$registro['no_dir']." ".$registro['col_dir']),$borde,'C');
+			$pdf->MultiCell(0,$renglon,utf8_decode($registro['nom_dir']),$borde,'C');
+			$pdf->MultiCell(0,$renglon,utf8_decode($registro['calle_dir']." #".$registro['no_dir']." ".$registro['col_dir']),$borde,'C');
 			$pdf->Cell(0,$renglon,utf8_encode("Tel: ".$registro['tel_dir']),$borde,1,'C');
 			$pdf->MultiCell(0,$renglon,utf8_decode("Página web: ").utf8_encode($registro['web_dir']),$borde,'C');
 			$pdf->Output('prueba', 'i');

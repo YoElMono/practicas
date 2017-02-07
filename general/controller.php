@@ -911,15 +911,18 @@
 			$pdf = new FPDF('P','mm','tarjeta');
 			$pdf->SetMargins($margin,$margin);
 			$pdf->SetAutoPageBreak(true,0);
-			$pdf->SetFont('Arial','B',16);
+			$pdf->SetFont('Arial','B',22);
 			$pdf->AddPage();
-			$pdf->Image('main/templates/complementos/img/escudo.jpg',$margin,$margin,15,15,'JPG');
-			$pdf->Cell(15,$renglon,'',$borde,0);
+			//$pdf->Image('main/templates/complementos/img/escudo.jpg',$margin,$margin,15,15,'JPG');
+			$pdf->Cell(20,16,'UdeG',$borde,0,'C');
+			$pdf->SetFont('Arial','B',16);
 			//$pdf->Cell(0,$renglon,"UNIVERSIDAD DE GUADALAJARA",$borde,1,'C');
 			//$pdf->Cell(0,7,'',$borde,1);
+			//$pdf->MultiCell(20,$renglon,'U. de G.',$borde,'C');
 			$pdf->MultiCell(0,$renglon,utf8_decode($registro['nom_dir']),$borde,'C');
+			$pdf->Cell(20,$renglon,'',$borde,0);
 			$pdf->MultiCell(0,$renglon,utf8_decode($registro['calle_dir']." #".$registro['no_dir']." ".$registro['col_dir']),$borde,'C');
-			$pdf->Cell(0,$renglon,utf8_encode("Tel: ".$registro['tel_dir']),$borde,1,'C');
+			$pdf->MultiCell(0,$renglon,utf8_encode("Tel: ".$registro['tel_dir']),$borde,'C');
 			$pdf->MultiCell(0,$renglon,utf8_decode("Página web: ").utf8_encode($registro['web_dir']),$borde,'C');
 			$pdf->Output('prueba', 'i');
 		}

@@ -70,5 +70,8 @@
 			</div>
 			<button type="submit" class="btn btn-primary">[save]</button>
 		</form>
+		<form class="form-horizontal" method="POST" action="">
+			<button type="submit" class="btn btn-warning" name="deshabilitar" value="<?=$arr['us']['id_user']?>"><?=$arr['us']['habilitar_user']==1?"Deshabilitar":"Habilitar"?></button>
+		</form>
 	</div>
 </div>

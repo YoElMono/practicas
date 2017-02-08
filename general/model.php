@@ -3,8 +3,14 @@
 		function __construct(){
 			parent::__construct();
 		}
+		public function deshabilitar_user($id){
+			$query = $this->consulta("SELECT * FROM user_mant WHERE id_user = $id");
+			$sea= $this->fetch_array($query);
+			//echo "<pre>";print_r($sea);exit();
+			$query = $this->consulta("UPDATE user_mant SET habilitar_user = ".($sea['habilitar_user'] == 1 ? "0":"1")." WHERE id_user = $id ");
+		}
 		public function log($user){
-			$query = $this->consulta("SELECT * FROM user_mant WHERE (email_user = '$user' OR code_user = '$user') AND delete_user != '1'");
+			$query = $this->consulta("SELECT * FROM user_mant WHERE (email_user = '$user' OR code_user = '$user') AND delete_user != '1' AND habilitar_user = 1");
 			$sea= $this->fetch_array($query);
 				return $sea;
 		}

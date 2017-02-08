@@ -789,7 +789,12 @@
 			global $url_array;
 			if ($url_array[2]){
 				if($_POST){
-					$this->data->actUsers($_POST);
+					//echo "<pre>";print_r($_POST);exit();
+					if($_POST['deshabilitar']){
+						$this->data->deshabilitar_user($_POST['deshabilitar']);
+					}else{
+						$this->data->actUsers($_POST);
+					}
 					return render_to_response(vista::page('actgood.html'));
 				}else{
 					$arr['are'] = $this->data->arSel();

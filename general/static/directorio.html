@@ -1,6 +1,6 @@
 <h4>[dir]</h4>
 <form ng-app="MyFirseModule" action="index.php/dir" class="form-horizontal" method="POST" enctype="multipart/form-data">{{t}}
-	<div ng-controller="ocultar" ng-init="t = '<?= $arr['pes_dir']?>'">
+	<div ng-controller="ocultar" <?php if(isset($arr['pes_dir'])){ ?>ng-init="t = '<?= $arr['pes_dir']?>';act2()"<?php } ?> >
         <div class="btn-group">
             <label class="btn btn-primary radazul">
                 <input type="radio" ng-click="act2()" ng-model="t" name="options" value="1"> [pD1]

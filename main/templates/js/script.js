@@ -89,6 +89,7 @@ app.controller("ocultar", function ($scope) {
 			$scope.view2.tcu = true;
 			$scope.view2.conm = true;
 			$scope.view2.extesc = true;
+			$scope.view2.dire = true;
 		}else if($scope.t == 5){
 			$scope.colors.tono='panel panel-danger headnar';
 			$scope.colors.tono2='btn btn-primary radnar';

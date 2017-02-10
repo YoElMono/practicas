@@ -913,7 +913,7 @@
 			//$pdf->MultiCell(20,$renglon,'U. de G.',$borde,'C');
 			$pdf->MultiCell(0,$renglon,utf8_decode($registro['nom_dir']),$borde,'C');
 			$pdf->Cell(20,$renglon,'',$borde,0);
-			$pdf->MultiCell(0,$renglon,utf8_decode($registro['calle_dir']." #".$registro['no_dir']." ".$registro['col_dir']),$borde,'C');
+			$pdf->MultiCell(0,$renglon,utf8_decode($registro['calle_dir'].($registro['no_dir'] != '' ? " #".$registro['no_dir']:' S/N')." ".$registro['col_dir']),$borde,'C');
 			$pdf->MultiCell(0,$renglon,utf8_encode("Tel: ".$registro['tel_dir']),$borde,'C');
 			$pdf->MultiCell(0,$renglon,utf8_decode("Página web: ").utf8_encode($registro['web_dir']),$borde,'C');
 			$pdf->Output('prueba', 'i');

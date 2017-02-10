@@ -133,7 +133,7 @@
 		<?php if($arr['mes_hoy'] == date('m') && $arr['anio_hoy'] == date('Y')):?>
 			<h3>Progreso del mes</h3>
 			<div class="progress">
-				<div class="progress-bar progress-bar-danger WEE progress-bar-striped active" role="progressbar" aria-valuenow="<?=$arr['dia_ac']?>" aria-valuemin="1" aria-valuemax="<?=$arr['nd_mes']?>" style="width: <?= round((date('j')*100)/$arr['nd_mes'])?>%">
+				<div class="progress-bar progress-bar-danger WEE progress-bar-striped active" role="progressbar" aria-valuenow="<?=date('j')?>" aria-valuemin="1" aria-valuemax="<?=$arr['nd_mes']?>" style="width: <?= round((date('j')*100)/$arr['nd_mes'])?>%">
 	    			<?=round((date('j')*100)/$arr['nd_mes'])?>%
 	  			</div>
 			</div>

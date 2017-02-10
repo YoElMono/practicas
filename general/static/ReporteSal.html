@@ -78,8 +78,8 @@
 	  		<td>[<?= "tS".$value['tipo_sali']?>]</td>
 	  		<td><?= $value['pro_sali']?></td>
 	  		<td><?= $value['nombre_depe']?></td>
-	  		<td><?= utf8_encode($value['name_user'])?></td>
-	  		<td><?= utf8_encode($value['elab_sali'])?></td>
+	  		<td><?= ($value['name_user'])?></td>
+	  		<td><?= utf8_decode($value['elab_sali'])?></td>
 	  		<td><?= $value['nombre_ffa']?></td>
 	  		<td> <a href="index.php/repSalida/<?= $value['id_sali']?>"><span class="label label-success">[v+]</span></a></td>
 		</tr>
@@ -108,8 +108,8 @@
 	  		<td>[<?= "tS".$value['tipo_sali']?>]</td>
 	  		<td><?= $value['pro_sali']?></td>
 	  		<td><?= $value['nombre_depe']?></td>
-	  		<td><?= utf8_encode($value['name_user'])?></td>
-	  		<td><?= utf8_encode($value['elab_sali'])?></td>
+	  		<td><?= ($value['name_user'])?></td>
+	  		<td><?= utf8_decode($value['elab_sali'])?></td>
 	  		<td><?= $value['nombre_ffa']?></td>
 	  		<td> <a href="index.php/repSalida/<?= $value['id_sali']?>"><span class="label label-success">[v+]</span></a></td>
 		</tr>

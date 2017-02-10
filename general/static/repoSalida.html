@@ -23,8 +23,8 @@
 			</div>
 			<div ng-if="tipo == 3">
 				<dt>[per]</dt>
-				<dd><b>Inicio:&nbsp&nbsp&nbsp</b><?= $arr['iniPer_sali']?></dd>
-				<dd><b>Fin:&nbsp&nbsp&nbsp</b><?= $arr['finPer_sali']?></dd>
+				<dd><b>Inicio:&nbsp;&nbsp;&nbsp;</b><?= $arr['iniPer_sali']?></dd>
+				<dd><b>Fin:&nbsp;&nbsp;&nbsp;</b><?= $arr['finPer_sali']?></dd>
 			</div>
 			<div>
 				<dt>[ffa]</dt>
@@ -36,7 +36,7 @@
 			  	<dd><img src="main/templates/complementos/fotos/<?= $arr['fp_sali']?>" width="320" heigth="260"></dd></div>
 			<div>
 				<dt>[cap]</dt>
-			  	<dd><?= utf8_decode($arr['name_user'])?></dd>
+			  	<dd><?= ($arr['name_user'])?></dd>
 			</div>
 			<div ng-if="tipo == 3">
 				<dt>[contacto]</dt>
@@ -66,17 +66,23 @@
 	</div>
 	<div ng-if="<?= $arr['estado_sali']?> == 1">
 		<dl class="dl-horizontal">
-			<dt>[aut]&nbsp[sal]</dt>
-			<dd><?= utf8_decode($arr['aut_sali'])?></dd>
+			<dt>[aut]&nbsp;[sal]</dt>
+			<dd><?= ($arr['aut_sali'])?></dd>
 		</dl>
 	</div>
-	<a href="javascript:history.back(1)"><button class="btn btn-success">Volver</button></a>
+	<a href="index.php/salidaPro"><button class="btn btn-success">Volver</button></a>
 	<?php }else{ ?>
+			<div>
+				<dt>Status</dt>
+			  	<dd><?= $arr['status_sali']?></dd>
+			</div>
 	<form method="POST" action="">
 	<div>
 		<input type="hidden" name='cod' value="<?=$_GET['codigoBus']?>">
 		<dt><a href="index.php/salidaPro"><button class="btn btn-success">Volver</button></a></dt>
+		<?php if($arr['status_sali'] == 'Baja'){ ?>
 		<dd><button class="btn btn-danger" type="submit" name="boton" value="1">[DdA]</button></dd>
+		<?php } ?>
 	</div>
 	</form>
 	<?php } ?>

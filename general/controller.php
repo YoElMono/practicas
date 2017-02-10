@@ -333,7 +333,6 @@
 				$arr['dep'] = $this->data->depSel();
 				return render_to_response(vista::page('servicios.html',$arr));
 			}
-
 		}
 		public function staticPage($html){
 			if ($_SESSION) {
@@ -372,8 +371,6 @@
 				return render_to_response(vista::page('personal.html',$arr));
 			}
 		}
-
-
 		public function personalSS(){
 			if($_POST){
 				$fecha = explode('/', $_POST['fechaIngreso_pss']);
@@ -423,7 +420,6 @@
 				return render_to_response(vista::page('registroSS.html',$arr));
 			}
 		}
-
 		public function viewPSS(){
 			if($_POST){
 				$id = $_POST['id'];
@@ -435,7 +431,6 @@
 				return render_to_response(vista::page('viewSS.html',$arr));
 			}
 		}
-
 		public function checkPSS(){
 			if($_POST){
 				if($_POST['todo']){
@@ -527,7 +522,6 @@
 				return render_to_response(vista::page('checkSS.html',$arr));
 			}
 		}
-
 		public function reportePSS(){
 			if ($_GET) {
 				$dia = $_GET['mes'] == date('m')?date('d'):null;
@@ -538,7 +532,6 @@
 			$cal['data'] = $this->data->getPrestadores();
 			return render_to_response(vista::page('reportePSS.html',$cal));
 		}
-
 		public function reporteDiaPSS(){
 			if($_POST){
 				$fecha = $_POST['fecha'];
@@ -579,7 +572,6 @@
 				return render_to_response(vista::pageWhite('recordAsisSS.html',$data,'Reporte de asistencia (Servicio Social)'));
 			}
 		}
-
 		public function reporteSemaPSS(){
 			if($_POST){
 				$fecha = $_POST['fecha'];
@@ -627,7 +619,6 @@
 				return render_to_response(vista::pageWhite('recordAsisSS.html',$data,'Reporte de asistencia (Servicio Social)'));
 			}
 		}
-
 		public function reporteMesPSS(){
 			if($_POST){
 				header('location:../reporte-mensual-Servicio-Social.pdf');
@@ -678,8 +669,6 @@
 				return render_to_response(vista::pageWhite('recordAsisSS.html',$datos,'Reporte de asistencia'));
 			}
 		}
-
-
 		public function admPer(){
 			global $url_array;
 			$pers['ar'] = $this->data->ar();
@@ -757,7 +746,6 @@
 				return render_to_response(vista::page('tarjetas.html', $arr));
 			}
 		}
-
 		public function tarjetasPSS(){
 			if ($_POST['btn']){
 				$this->pdft($_POST['no'],$_POST['nom'],'',$_POST['hE'],$_POST['hS'],$_POST['cod'],true);
@@ -784,7 +772,6 @@
 				return render_to_response(vista::page('tarjetasSS.html',$arr));
 			}
 		}
-
 		public function admUser(){
 			global $url_array;
 			if ($url_array[2]){
@@ -1147,8 +1134,6 @@
 				return render_to_response(vista::pageWhite('faltantes.html',$faltantes,'Justificar faltas'));
 			}
 		}
-
-
 		public function justificarPSS(){
 			if ($_GET) {
 				$dia = $_GET['mes'] == date('m')?date('d'):null;
@@ -1158,9 +1143,6 @@
 			}
 			return render_to_response(vista::page('justificarPSSCalendar.html',$cal));
 		}
-
-
-
 		public function jufalSS(){
 			require_once 'main/templates/complementos/calendario.php';
 			if($_POST){
@@ -1249,8 +1231,6 @@
 				return render_to_response(vista::pageWhite('faltantesSS.html',$faltantes,'Justificar faltas'));
 			}
 		}
-
-
 		public function repFaltas(){
 			if ($_GET) {
 				$dia = $_GET['mes'] == date('m')?date('d'):null;
@@ -1537,7 +1517,6 @@
 				}
 			}
 		}
-
 		public function repEspecial(){
 			$datos = array();
 			$faltas = array();
@@ -1647,7 +1626,6 @@
 				return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
 			}
 		}
-
 		public function repEspecialPss(){
 			$datos = array();
 			$faltas = array();
@@ -1760,7 +1738,6 @@
 				return render_to_response(vista::pageWhite('recordAsis.html',$datos1,'Reporte de asistencia'));
 			}
 		}
-
 		public function genHorariosSS($per=""){
 			require_once 'main/templates/complementos/calendario.php';
 			$mes = mes_siguiente(date('n'));
@@ -2120,7 +2097,6 @@
 				return render_to_response(vista::page('cambiar_imagen.html'));
 			}
 		}
-
 		public function reporte_global_mes(){
 			if($_POST){
 				header('location:../reporte_global_mes.pdf');
@@ -2177,7 +2153,6 @@
 				return render_to_response("");
 			}
 		}
-
 		public function pdfRGM($data,$mes){
 			require_once 'main/templates/complementos/fpdf/udgpdf.php';
 			$pdf=new RGM('P');
@@ -2185,7 +2160,6 @@
 			$pdf->body($data,$mes);
 			$pdf->Output(__DIR__.'/../reporte_global_mes.pdf','f');
 		}
-
 		/*
 		public function consolidacion()	{
 			if($_GET){
@@ -2229,7 +2203,6 @@
 			}
 		}
 		*/
-
 		public function dias_ganados(){
 			$meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 			$mes = date('n') == 1 ? 12 : date('n')-1;
@@ -2252,7 +2225,6 @@
 			}
 			echo '<pre>';print_r($Ganadores);exit();
 		}
-
 		public function eliminar_checkin(){
 			if($_GET){
 				$sql = "SELECT fecha_check,id_check FROM check_mant WHERE codigo_check = '$_GET[personal]' AND (fecha_check BETWEEN '$_GET[de] 00:00:00' AND '$_GET[a] 23:59:59')";
@@ -2277,13 +2249,11 @@
 				return render_to_response(vista::page('eliminar_checkin.html',$personal));
 			}
 		}
-
 		public function eventos_sin_archivos(){
 			/** Seleccionar todos los registros de eventos que no tengan un archivo pdf. **/
 			$eventos = $this->data->query("SELECT nombre_eve,num_ofi_eve,fecha_eve,descripcion_eve,id_ofi FROM eventos_mant INNER JOIN oficios_mant ON num_ofi_eve = no_ofi WHERE archivo_eve = '' ");
 			return render_to_response(vista::page('eventos_sin_archivos.html',$eventos));
 		}
-
 		public function recuperar_personal(){
 			$lista['completado'] = false;
 			if(isset($_GET['id'])){
@@ -2294,7 +2264,6 @@
 			$lista['data'] = $this->data->query("SELECT cod_per,nombre_per,id_per FROM personal_mant WHERE status_per = 5");
 			return render_to_response(vista::page('recuperar_personal.html',$lista));
 		}
-
 		public function events(){
 			$save = false;
 			if($_POST){
@@ -2307,12 +2276,10 @@
 			$data['save'] = $save;
 			return render_to_response(vista::page('events.html',$data));
 		}
-
 		public function eventos_info(){
 			$eventos = json_decode($this->get_events2(),true);
 			return render_to_response(vista::pageWhite('eventos_info.html',$eventos,"Información de Eventos"));
 		}
-
 		public function get_events2(){
 			$dias = ["Domingo","Lunes","Martes","Miércoles","Juves","Viernes","Sábado"];
 			$un_dia = (60*60*24*2);
@@ -2340,11 +2307,9 @@
 			//echo '<pre>';print_r($eventos);exit();
 			return json_encode($eventos);exit();
 		}
-
 		public function get_events(){
 			echo $this->get_events2();exit();
 		}
-
 		public function appAdmin(){
 			if ($_POST) {
 				if(!isset($_POST[1]))
@@ -2534,26 +2499,18 @@
 				$sql = "Select nombre_per,cod_per,".str_replace("check", "horE", $dia)." as entrada, ".str_replace("check", "horS", $dia)." as salida from personal_mant where $dia = 1 and status_per in (0,1)";
 				$per['per'] = $this->data->query($sql);
 				return render_to_response(vista::pageWhite('marcarVaca.html',$per,'Vacaciones'));
-			}
-			
+			}			
 		}
-
 		public function getEventoData(){
 			$id = $_POST['id'];
 			$data = $this->data->getEventoData($id);
 			echo json_encode($data);exit();
 		}
-
-
 		/*public function diaRegalo(){
 			echo "Juan";
 		}*/
-
-
-
-
-		/*public function especial()
-		{
+		/*
+		public function especial(){
 			$data = $this->data->checkmaster();
 			$sql = "";
 			foreach ($data as $key => $value) {
@@ -2566,13 +2523,8 @@
 			}
 			echo '<pre>'.$sql.'</pre>';
 			exit();
-		}*/
-
-
-
-
-
-
+		}
+		*/
 		/*Funciones del sistema*/
 		public function url_p($url){
 			global $url_array;
@@ -2617,5 +2569,4 @@
 			return HttpResponse("");
 		}
 	}
-
 ?>

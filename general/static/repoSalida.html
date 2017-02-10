@@ -70,7 +70,7 @@
 			<dd><?= ($arr['aut_sali'])?></dd>
 		</dl>
 	</div>
-	<a href="index.php/salidaPro"><button class="btn btn-success">Volver</button></a>
+	<a href="index.php/salidaProd"><button class="btn btn-success">Volver</button></a>
 	<?php }else{ ?>
 			<div>
 				<dt>Status</dt>
@@ -79,7 +79,7 @@
 	<form method="POST" action="">
 	<div>
 		<input type="hidden" name='cod' value="<?=$_GET['codigoBus']?>">
-		<dt><a href="index.php/salidaPro"><button class="btn btn-success">Volver</button></a></dt>
+		<dt><a href="index.php/salidaProd"><button class="btn btn-success">Volver</button></a></dt>
 		<?php if($arr['status_sali'] == 'Baja'){ ?>
 		<dd><button class="btn btn-danger" type="submit" name="boton" value="1">[DdA]</button></dd>
 		<?php } ?>

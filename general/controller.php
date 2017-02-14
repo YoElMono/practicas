@@ -875,8 +875,7 @@
 					$sql = "SELECT * FROM directorio_mant WHERE pes_dir = ".$_POST['pestana']." AND nom_dir LIKE '%".$_POST['nombre']."%' ORDER BY nom_dir ASC";
 					$data = $this->data->query($sql);
 					echo json_encode($data);exit();
-				}
-				elseif ($_POST && !$_POST['nombre']) {
+				}elseif ($_POST && !$_POST['nombre']) {
 					if($_POST['options'] == 0){
 						$_POST['options'] = 1;
 					}
@@ -884,7 +883,7 @@
 					$dat['pes'] = $_POST['options'];
 					$dat['a'] = TRUE;
 				}
-			return render_to_response(vista::page('mdir.html',$dat));
+				return render_to_response(vista::page('mdir.html',$dat));
 			}
 		}
 		public function generar_tarjeta_directorio(){
@@ -911,10 +910,18 @@
 			//$pdf->Cell(0,$renglon,"UNIVERSIDAD DE GUADALAJARA",$borde,1,'C');
 			//$pdf->Cell(0,7,'',$borde,1);
 			//$pdf->MultiCell(20,$renglon,'U. de G.',$borde,'C');
-			$pdf->MultiCell(0,$renglon,utf8_decode($registro['nom_dir']),$borde,'C');
-			$pdf->Cell(20,$renglon,'',$borde,0);
-			$pdf->MultiCell(0,$renglon,utf8_decode($registro['calle_dir'].($registro['no_dir'] != '' ? " #".$registro['no_dir']:' S/N')." ".$registro['col_dir']),$borde,'C');
-			$pdf->MultiCell(0,$renglon,utf8_encode("Tel: ".$registro['tel_dir']),$borde,'C');
+			if($registro['pes_dir'] == 3){
+				$pdf->MultiCell(0,$renglon,utf8_decode($registro['depa_dir']),$borde,'C');
+				$pdf->Cell(20,$renglon,'',$borde,0);
+				$pdf->MultiCell(0,$renglon,utf8_encode("Ext: ".$registro['ex_dir']),$borde,'C');
+				$pdf->Cell(20,$renglon,'',$borde,0);
+				$pdf->Cell(0,$renglon,"Piso: $registro[piso_dir]",$borde,1,'C');
+			}else{
+				$pdf->MultiCell(0,$renglon,utf8_decode($registro['nom_dir']),$borde,'C');
+				$pdf->Cell(20,$renglon,'',$borde,0);
+				$pdf->MultiCell(0,$renglon,utf8_decode($registro['calle_dir'].($registro['no_dir'] != '' ? " #".$registro['no_dir']:' S/N')." ".$registro['col_dir']),$borde,'C');
+				$pdf->MultiCell(0,$renglon,utf8_encode("Tel: ".$registro['tel_dir']),$borde,'C');
+			}
 			$pdf->MultiCell(0,$renglon,utf8_decode("Página web: ").utf8_encode($registro['web_dir']),$borde,'C');
 			$pdf->Output('prueba', 'i');
 		}

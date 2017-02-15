@@ -910,7 +910,12 @@
 			//$pdf->Cell(0,$renglon,"UNIVERSIDAD DE GUADALAJARA",$borde,1,'C');
 			//$pdf->Cell(0,7,'',$borde,1);
 			//$pdf->MultiCell(20,$renglon,'U. de G.',$borde,'C');
-			if($registro['pes_dir'] == 3){
+			if($registro['pes_dir'] == 2){
+				$pdf->MultiCell(0,$renglon,utf8_decode($registro['nom_dir']),$borde,'C');
+				//$pdf->Cell(20,$renglon,'',$borde,0);
+				$pdf->MultiCell(0,$renglon,utf8_encode("Tel: ".$registro['tel_dir']),$borde,'C');
+				$pdf->MultiCell(0,$renglon,utf8_encode("Ext: ".$registro['ex_dir']),$borde,'C');
+			}elseif($registro['pes_dir'] == 3){
 				$pdf->MultiCell(0,$renglon,utf8_decode($registro['depa_dir']),$borde,'C');
 				$pdf->Cell(20,$renglon,'',$borde,0);
 				$pdf->MultiCell(0,$renglon,utf8_encode("Ext: ".$registro['ex_dir']),$borde,'C');
